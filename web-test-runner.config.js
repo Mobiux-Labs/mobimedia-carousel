@@ -1,9 +1,3 @@
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-
 import {legacyPlugin} from '@web/dev-server-legacy';
 import {playwrightLauncher} from '@web/test-runner-playwright';
 
@@ -87,7 +81,7 @@ try {
 // https://modern-web.dev/docs/test-runner/cli-and-configuration/
 export default {
   rootDir: '.',
-  files: ['./test/**/*_test.js'],
+  files: ['./src/test/**/*_test.js'],
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
   preserveSymlinks: true,
   browsers: commandLineBrowsers ?? Object.values(browsers),
