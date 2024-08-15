@@ -2,8 +2,8 @@
   "name": "@mobimedia/carousel",
   "version": "0.0.1",
   "description": "A carousel plugin for mobimedia cdn.",
-  "main": "my-element.js",
-  "module": "my-element.js",
+  "main": "dist/my-element.js",
+  "module": "dist/my-element.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
