@@ -38,6 +38,7 @@ more information.
 Tests can be run with the `test` script, which will run your tests against Lit's development mode (with more verbose errors) as well as against Lit's production mode:
 
 ```bash
+npx playwright install # only on first run, to initialize browser environments for test
 npm test
 ```
 
@@ -56,7 +57,7 @@ This sample uses modern-web.dev's [@web/dev-server](https://www.npmjs.com/packag
 To run the dev server and open the project in a new browser tab:
 
 ```bash
-npm run prepare
+npm run prepare # only on first run, to initialize local dev environment
 npm run serve
 ```
 
