@@ -1,6 +1,7 @@
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import Glide from '@glidejs/glide';
+// import Glide from '@glidejs/glide';
+import '../lib/glide/glide.min.js';
 
 import sampleResponse from '../public/sampleResponse.js';
 interface Product {
@@ -38,6 +39,7 @@ export class MyElement extends LitElement {
     css`
       :host {
       }
+      /* Glide styles */
       .glide {
         position: relative;
         width: 100%;
@@ -93,8 +95,33 @@ export class MyElement extends LitElement {
       .glide--rtl {
         direction: rtl;
       }
+      /* Overridden glide styles */
+      .glide__slides {
+        align-items: center;
+      }
+      .glide__slide {
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+        height: auto;
+        /* max-height: 25vh; */
+      }
+      .glide__arrows {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
 
-      /*# sourceMappingURL=output.css.map */
+      /* Other styles */
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     `,
   ];
 
@@ -116,32 +143,74 @@ export class MyElement extends LitElement {
   @state()
   videos: Video[] = [];
 
+  @state()
+  loading = false;
+
   protected override updated(_changedProperties: PropertyValues): void {
     console.log('_changedProperties', _changedProperties);
     if (_changedProperties.has('videos') && this.videos.length > 0) {
       const root = this.shadowRoot?.querySelector('.glide');
       new Glide(root, {
         type: 'carousel',
-        perView: 3,
+        perView: this.videos.length > 4 ? 5 : this.videos.length > 2 ? 3 : 1,
+        focusAt: 'center',
+        peek: 50,
       }).mount();
     }
   }
 
   private async getData() {
+    this.loading = true;
     const response = await fetch(
       `https://app.dietpixels.com/api/v1/public/playlists/${this.playlist}`
     );
     const res = await response.json();
     console.log('res', res);
     this.videos = sampleResponse;
+    this.loading = false;
   }
-  private getVideoElement(video) {
-    const slider = this.shadowRoot?.querySelector('.main-slider');
-    const li = document.createElement('li');
-    li.classList.add('glide__slide');
-    li.textContent = video.title;
-    slider?.appendChild(li);
-    // <li class="glide__slide">${video.title}</li>
+  private showCarouselItem(video: Video) {
+    const ratioSplit = video.aspect_ratio.split(':');
+    const aspectRatio = `${ratioSplit[0]}/${ratioSplit[1]}`;
+    return html`<li class="glide__slide" style="aspect-ratio:${aspectRatio};">
+      <img
+        src=${video.thumbnail}
+        class="slide-video"
+        style="aspect-ratio:${aspectRatio};"
+      />
+    </li>`;
+  }
+  private showCarouselSlides() {
+    return html`<ul class="glide__slides main-slider">
+      ${this.videos.length > 0
+        ? this.videos.map((video) => this.showCarouselItem(video))
+        : this.showEmptyMessage()}
+    </ul>`;
+  }
+  private showLoader() {
+    return html`<div class="loading-container"><span>Loading</span></div>`;
+  }
+  private showEmptyMessage() {
+    return html`<span>No data!</span>`;
+  }
+  private showArrows() {
+    return html`<button class="glide__arrow glide__arrow--left" data-glide-dir="<">
+              <
+            </button>
+            <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
+              >
+            </button>
+          </div>`;
+  }
+  private showCarouselComponent() {
+    return html`<div class="glide">
+      <div class="glide__track" data-glide-el="track">
+        ${this.loading ? this.showLoader() : this.showCarouselSlides()}
+      </div>
+      <div class="glide__arrows" data-glide-el="controls">
+        ${this.showArrows()}
+      </div>
+    </div>`;
   }
   override connectedCallback(): void {
     super.connectedCallback();
@@ -149,31 +218,7 @@ export class MyElement extends LitElement {
   }
   override render() {
     return html`
-      <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-          <ul class="glide__slides main-slider">
-            ${this.videos.map(
-              (video) => html`<li class="glide__slide">
-                <!-- ${video.title} -->
-                <img
-                  src="https://cdn.printshoppy.com/image/cache/catalog/product-image/mobile-cases/google-pixel-xl/google-pixel-xl-304-600x800.jpg"
-                />
-              </li>`
-            )}
-            <!-- <li class="glide__slide">0</li>
-            <li class="glide__slide">1</li>
-            <li class="glide__slide">2</li> -->
-          </ul>
-        </div>
-        <div class="glide__arrows" data-glide-el="controls">
-          <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
-            prev
-          </button>
-          <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
-            next
-          </button>
-        </div>
-      </div>
+      ${this.showCarouselComponent()}
       <slot></slot>
     `;
   }
