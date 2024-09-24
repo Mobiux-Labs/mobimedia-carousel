@@ -1,4 +1,4 @@
-import {LitElement, html, css, PropertyValues} from 'lit';
+import {LitElement, html, css, PropertyValues, render} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 // import Glide from '@glidejs/glide';
 import '../lib/glide/glide.min.js';
@@ -50,6 +50,7 @@ export class MyElement extends LitElement {
       }
       .glide__track {
         overflow: hidden;
+        height: 110%;
       }
       .glide__slides {
         position: relative;
@@ -98,14 +99,30 @@ export class MyElement extends LitElement {
       /* Overridden glide styles */
       .glide__slides {
         align-items: center;
+        opacity: 1;
       }
       .glide__slide {
-        border: 1px solid black;
         display: flex;
         justify-content: center;
+        align-items: center;
         overflow: hidden;
-        height: auto;
-        /* max-height: 25vh; */
+        /* width: 300px !important; */
+        height: 100%;
+        max-height: 75vh;
+      }
+      .glide__slide .slide-video {
+        height: 95%;
+        border: 1px solid black;
+        transition: height 0.2s;
+      }
+      .glide__slide--active {
+        z-index: 999;
+      }
+      .glide__slide--active + .glide__slide {
+        z-index: 998;
+      }
+      .glide__slide--active .slide-video {
+        height: 100%;
       }
       .glide__arrows {
         position: absolute;
@@ -115,12 +132,59 @@ export class MyElement extends LitElement {
         display: flex;
         justify-content: space-between;
       }
+      .glide__arrow {
+        background-color: black;
+        color: white;
+        padding: 20px 10px;
+        font-size: 2em;
+        border: none;
+      }
 
       /* Other styles */
       .loading-container {
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      #modal {
+        position: absolute;
+        top: 0;
+      }
+      .modal-container {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+      }
+      .modal-carousel {
+        display: flex;
+        align-items: center;
+        z-index: 99999;
+        position: absolute;
+        height: 100vh;
+        width: 75vw;
+      }
+      .modal-background {
+        position: absolute;
+        opacity: 0.8;
+        inset: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: black;
+        z-index: 99998;
+      }
+      .modal-close {
+        z-index: 999999;
+        color: white;
+        position: absolute;
+        background-color: black;
+        border: none;
+        cursor: pointer;
+        right: 0;
+        height: 20px;
+        width: 20px;
       }
     `,
   ];
@@ -135,10 +199,10 @@ export class MyElement extends LitElement {
    * The number of times the button has been clicked.
    */
   @property({type: Number})
-  count = 0;
+  count: Number = 0;
 
   @property()
-  playlist = '';
+  playlist: String = '';
 
   @state()
   videos: Video[] = [];
@@ -147,32 +211,76 @@ export class MyElement extends LitElement {
   loading = false;
 
   protected override updated(_changedProperties: PropertyValues): void {
-    console.log('_changedProperties', _changedProperties);
     if (_changedProperties.has('videos') && this.videos.length > 0) {
       const root = this.shadowRoot?.querySelector('.glide');
       new Glide(root, {
         type: 'carousel',
-        perView: this.videos.length > 4 ? 5 : this.videos.length > 2 ? 3 : 1,
+        perView: 5,
         focusAt: 'center',
         peek: 50,
+        breakpoints: {
+          768: {perView: 3, peek: 25},
+        },
       }).mount();
     }
   }
 
-  private async getData() {
+  private async getData(): Promise<void> {
     this.loading = true;
     const response = await fetch(
       `https://app.dietpixels.com/api/v1/public/playlists/${this.playlist}`
     );
     const res = await response.json();
-    console.log('res', res);
     this.videos = sampleResponse;
     this.loading = false;
   }
-  private showCarouselItem(video: Video) {
+  private onItemClick(index: Number) {
+    const modalDiv = document.createElement('div');
+    modalDiv.id = 'modal';
+    this.shadowRoot?.appendChild(modalDiv);
+    const root = this.shadowRoot?.querySelector('#modal');
+
+    const modal = html`<div class="modal-container">
+      <button
+        class="modal-close"
+        @click=${() => {
+          this.shadowRoot.removeChild(modalDiv);
+          root.classList.remove('glide--ltr');
+          root.classList.remove('glide--swipeable');
+          root.classList.remove('glide--carousel');
+        }}
+      >
+        X
+      </button>
+      <div class="modal-carousel">
+        ${this.showCarouselComponent({mode: 'modal'})}
+      </div>
+      <div class="modal-background"></div>
+    </div>`;
+    render(modal, this.shadowRoot?.querySelector('#modal'));
+    try {
+      const perView = window.innerWidth < 768 ? 1 : 3;
+      new Glide(root, {
+        type: 'carousel',
+        perView: perView,
+        focusAt: 'center',
+        // gap: -200,
+        startAt: index,
+      }).mount();
+    } catch (e) {
+      console.log(e);
+    }
+    // document.body.append(modal);
+  }
+  private showCarouselItem(video: Video, index: Number, options: object) {
     const ratioSplit = video.aspect_ratio.split(':');
     const aspectRatio = `${ratioSplit[0]}/${ratioSplit[1]}`;
-    return html`<li class="glide__slide" style="aspect-ratio:${aspectRatio};">
+    return html`<li
+      class="glide__slide"
+      style=${`aspect-ratio:${aspectRatio};`}
+      @click=${() =>
+        !options ? this.onItemClick(index) : options.mode === 'model' ? '' : ''}
+    >
       <img
         src=${video.thumbnail}
         class="slide-video"
@@ -180,10 +288,12 @@ export class MyElement extends LitElement {
       />
     </li>`;
   }
-  private showCarouselSlides() {
+  private showCarouselSlides(options: object) {
     return html`<ul class="glide__slides main-slider">
       ${this.videos.length > 0
-        ? this.videos.map((video) => this.showCarouselItem(video))
+        ? this.videos.map((video, index) =>
+            this.showCarouselItem(video, index, options)
+          )
         : this.showEmptyMessage()}
     </ul>`;
   }
@@ -202,10 +312,10 @@ export class MyElement extends LitElement {
             </button>
           </div>`;
   }
-  private showCarouselComponent() {
+  private showCarouselComponent(options: object) {
     return html`<div class="glide">
       <div class="glide__track" data-glide-el="track">
-        ${this.loading ? this.showLoader() : this.showCarouselSlides()}
+        ${this.loading ? this.showLoader() : this.showCarouselSlides(options)}
       </div>
       <div class="glide__arrows" data-glide-el="controls">
         ${this.showArrows()}
@@ -218,6 +328,7 @@ export class MyElement extends LitElement {
   }
   override render() {
     return html`
+      <!-- <div id="modal"></div> -->
       ${this.showCarouselComponent()}
       <slot></slot>
     `;
