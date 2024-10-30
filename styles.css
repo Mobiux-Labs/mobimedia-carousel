@@ -1,0 +1,299 @@
+:root {
+  --mobimedia-slide-height: 1000px;
+  --mobimedia-slide-height-mobile: calc(var(--mobimedia-slide-height));
+  /* --image-aspect-ratio: calc(9 / 16); */
+  --image-aspect-ratio: calc(1080 / 1920);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: black;
+  background-color: white;
+  height: 100vh;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.5rem;
+  gap: 0.5rem;
+  border-bottom: solid 1px #aaa;
+  background-color: #eee;
+}
+
+nav a {
+  display: inline-block;
+  min-width: 9rem;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  border: solid 1px #aaa;
+  text-align: center;
+  text-decoration: none;
+  color: #555;
+}
+
+nav a[aria-current="page"] {
+  color: #000;
+  background-color: #d4d4d4;
+}
+
+main {
+  padding: 1rem 0;
+  height: 100vh;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.main-carousal-wrapper {
+  /* height: 500px;
+  width: 100vw; */
+}
+
+/* Brgin */
+
+.swiper {
+  /* height: 300px; */
+}
+.main-swiper-slide {
+  width: fit-content;
+  height: 100%;
+  aspect-ratio: 1920/1080;
+}
+.main-swiper-slide video {
+  width: 100% !important;
+  object-fit: fill;
+}
+.video-player-wrapper {
+  position: relative;
+}
+.swiper-button-wrapper {
+  padding: 10px !important;
+  background-color: rgba(0, 0, 0, 0.95);
+  color: white;
+}
+#muteButton {
+  height: 25px;
+  width: auto;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+  opacity: 0;
+}
+.swiper-slide-active #muteButton {
+  opacity: 1;
+}
+
+/* Mobiel view: Tested on SE */
+@media screen and (max-width: 640px) {
+  .swiper-mobimedia-container {
+    /* height: var(--mobimedia-slide-height-mobile); */
+    height: auto;
+  }
+  .swiper-mobimedia-container .swiper-wrapper {
+    /* height: var(--mobimedia-slide-height-mobile); */
+  }
+
+  .main-swiper-slide {
+    transform: translateZ(0) scale(90%) !important;
+  }
+
+  .main-swiper-slide.swiper-slide-active {
+    transform: translateZ(0) scale(100%) !important;
+    /* position: relative; */
+    /* transform: translate3d(-0.0912958px, 0px, -0.0518726px) rotateX(0deg) rotateY(0.00414981deg) scale(0.999844) !important; */
+    /* top: 6%;
+    right: -11%; */
+  }
+  .main-swiper-slide video {
+    width: calc(var(--image-aspect-ratio) * 200px);
+  }
+  .swiper-modal-container {
+    /* height: 100vh; */
+  }
+  .modal-swiper-slide .video-player-wrapper {
+    width: calc(var(--image-aspect-ratio) * 100vh);
+    height: 100vh;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+
+  .video-player {
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    border-color: transparent;
+    /* overflow: hidden; */
+  }
+  #muteButton {
+    right: 50px;
+    top: 28px;
+  }
+  .modal-prev,
+  .modal-next {
+    display: none;
+  }
+}
+
+/* Tab to Desktop view */
+@media screen and (min-width: 640px) {
+  .swiper-mobimedia-container {
+    /* height: var(--mobimedia-slide-height); */
+    height: auto;
+    padding: 0 30px;
+  }
+
+  .main-swiper-slide video {
+    width: calc(var(--image-aspect-ratio) * var(--mobimedia-slide-height));
+  }
+
+  .swiper-modal-container {
+    /* height: 100vh; */
+  }
+
+  .modal .modal-swiper-slide {
+    transform: translateZ(0) scale(90%) !important;
+  }
+
+  .modal .modal-swiper-slide.swiper-slide-active {
+    transform: translateZ(0) scale(100%) !important;
+    /* position: relative; */
+    /* transform: translate3d(-0.0912958px, 0px, -0.0518726px) rotateX(0deg) rotateY(0.00414981deg) scale(0.999844) !important; */
+    /* top: 6%;
+    right: -11%; */
+  }
+
+  .modal-swiper-slide.swiper-slide-prev {
+    /* position: relative;
+    left: 20%; */
+    /* transform: translate3d(55%, 0px, -99.9101px) rotateX(0deg) rotateY(-7.99281deg) scale(0.70027) !important; */
+  }
+  .modal-swiper-slide.swiper-slide-next {
+    /* transform: translate3d(-56%, 0px, -100.052px) rotateX(0deg) rotateY(8.00415deg) scale(0.699844) !important; */
+    /* z-index: -1; */
+    /* position: relative;
+    right: 20%; */
+  }
+
+  .modal-swiper-slide .video-player-wrapper {
+    aspect-ratio: 1080/1920;
+    /* width: calc(var(--image-aspect-ratio)) !important; */
+    /* height: 85vh; */
+  }
+
+  .video-player {
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    border-color: transparent;
+    overflow: hidden;
+  }
+}
+
+/* override swiper */
+.main-swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: fit-content !important; */
+  height: max-content;
+}
+.main-swiper-slide video {
+  flex-shrink: 0;
+  aspect-ratio: 1080/1920;
+  object-fit: cover;
+}
+
+.modal-swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-modal-container {
+  /* sets height for entire slide or else have to override*/
+  height: 100vh;
+}
+
+.model .main-swiper-slide {
+  transform: translateZ(0) scale(90%) !important;
+}
+
+.main-swiper-slide.swiper-slide-active {
+  transform: translateZ(0) scale(100%) !important;
+}
+
+/* -------Modal container--------- */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Ensure it appears above other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent background */
+}
+
+.modal-overlay {
+  /* background-color: rgba(0, 0, 0, 0.95); */
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.modal-content {
+  /* background-color: rgba(0, 0, 0, 0.95); */
+  /* height: 100%; */
+  /* left: 0; */
+  position: absolute;
+  /* top: 0; */
+  width: min(100vw, 1080px);
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1000;
+}
+
+/* Modal image */
+.modal-content video {
+  width: 100%;
+  height: auto;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.progressbar {
+  width: 0%;
+  height: 5px;
+  background: white;
+  transition: all 1s;
+  transition-timing-function: linear;
+}

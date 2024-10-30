@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://video.dietpixels.net/dist/global.css" rel="stylesheet" />
+    <script defer="" src="https://video.dietpixels.net/dist/player.js" type="module"></script>
+    <script>
+      window.profile = {
+        vid: "uuid1234",
+        videoUrl: "https://video.dietpixels.net/media/uuid1234/hls/main.m3u8",
+        title: "First Vid Title",
+        description: "Sample first video description",
+        uploadDate:
+          "Wed Jan 24 2024 09:32:00 GMT+0000 (Coordinated Universal Time)",
+        poster: "https://video.dietpixels.net/media/uuid1234/thumbnail.png",
+        autoplay: false,
+        preload: "metadata",
+        controls: true,
+        loop: true,
+        height: 400,
+        width: 960,
+        aspectRatio: "960:400",
+        brand: {
+          color: "#ffffff",
+          logo: "https://mobiuxwebsite.s3.ap-south-1.amazonaws.com/mobiux-logo-white.png",
+        },
+        captions: [
+          {
+            src: "/assets/captions.vtt",
+            kind: "captions",
+            srclang: "en",
+            label: "English",
+            default: false,
+          },
+          {
+            src: "/assets/captions.vtt",
+            kind: "subtitles  ",
+            srclang: "fr",
+            label: "French",
+            default: false,
+          },
+        ],
+        chapters: [
+          { name: "Chapter 1: Intro", startTime: 0 },
+          { name: "Chapter 2: Hello", startTime: 45 },
+          { name: "Chapter 3: Signing off", startTime: 75 },
+        ],
+      };
+    </script></head
+  ><video class="video-js" id="mobimedia-video-player"></video>
+</html>

@@ -1,0 +1,36 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mobimedia Carousal Sample</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="page.css" />
+  </head>
+  <body>
+    <div
+      style="position: relative; padding-top: 56.25%; width: 50%; height: 250px"
+    >
+      <iframe
+        id="vid1"
+        title="mobimedia-video-player"
+        src="https://video.dietpixels.net/media/066fb8a9-7796-778f-8000-d0171cd946c3/"
+        style="
+          border: none;
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: 100%;
+        "
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowfullscreen="true"
+      ></iframe>
+    </div>
+    <button id="muteButton">Unmute</button>
+  </body>
+  <script src="./page.js"></script>
+</html>

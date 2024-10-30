@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mobimedia Carousal Sample</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- <link
+      href="https://video.dietpixels.net/dist/global.css"
+      rel="stylesheet"
+    /> -->
+    <!-- <script defer="" src="https://video.dietpixels.net/dist/player.js" type="module"></script> -->
+    <!-- <script defer="" src="https://video.dietpixels.net/dist/player.js" type="module"></script> -->
+    <!-- <script>
+      window.profile = {
+        vid: "uuid1234",
+        videoUrl: "https://video.dietpixels.net/media/uuid1234/hls/main.m3u8",
+        title: "First Vid Title",
+        description: "Sample first video description",
+        uploadDate:
+          "Wed Jan 24 2024 09:32:00 GMT+0000 (Coordinated Universal Time)",
+        poster: "https://video.dietpixels.net/media/uuid1234/thumbnail.png",
+        autoplay: false,
+        preload: "metadata",
+        controls: true,
+        loop: true,
+        height: 400,
+        width: 960,
+        aspectRatio: "960:400",
+        brand: {
+          color: "#ffffff",
+          logo: "https://mobiuxwebsite.s3.ap-south-1.amazonaws.com/mobiux-logo-white.png",
+        },
+        captions: [
+          {
+            src: "https://video.dietpixels.net/assets/captions.vtt",
+            kind: "captions",
+            srclang: "en",
+            label: "English",
+            default: false,
+          },
+          {
+            src: "https://video.dietpixels.net/assets/captions.vtt",
+            kind: "subtitles  ",
+            srclang: "fr",
+            label: "French",
+            default: false,
+          },
+        ],
+        chapters: [
+          { name: "Chapter 1: Intro", startTime: 0 },
+          { name: "Chapter 2: Hello", startTime: 45 },
+          { name: "Chapter 3: Signing off", startTime: 75 },
+        ],
+      };
+    </script> -->
+  </head>
+
+  <body>
+    <main>
+      <div class="main-carousal-wrapper">
+        <!-- Main Swiper -->
+        <div class="swiper swiper-mobimedia-container">
+          <div class="swiper-wrapper" id="mobimedia-slides">
+            <!-- Slides will be added dynamically -->
+          </div>
+          <!-- Swiper controls -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+
+      <!-- Modal for Swiper -->
+      <div id="myModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+          <div class="swiper swiper-modal-container">
+            <div class="swiper-wrapper" id="modal-slides">
+              <!-- Slides will be added dynamically -->
+            </div>
+          </div>
+          <span class="close">&times;</span>
+
+          <!-- Swiper controls -->
+          <div class="swiper-button-prev modal-prev"></div>
+          <div class="swiper-button-next modal-next"></div>
+        </div>
+      </div>
+      <!-- <video class="video-js" id="mobimedia-video-player"></video> -->
+    </main>
+
+    <!-- Swiper JS -->
+
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
+      integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" src="./script.js"></script>
+    <!-- <script type="module" src="./player.js"></script> -->
+  </body>
+</html>
