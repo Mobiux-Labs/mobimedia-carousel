@@ -36,7 +36,7 @@ addEventListener("message", (e) => {
   ) {
     // console.log("Current Duration", e.data.currentDurationMs);
     // console.log("Total Duration", e.data.totalDurationMs);
-    // console.log('e.data', Math.round((e.data.currentDurationMs / e.data.totalDurationMs) * 100), window.activeReelSlide.querySelector("#progressbar"))
+    console.log('e.data', window.activeReelSlide)
     window.activeReelSlide.querySelector("#progressbar").style.width = Math.round((e.data.currentDurationMs / e.data.totalDurationMs) * 100) + "%"
     // document.getElementById('')
   }

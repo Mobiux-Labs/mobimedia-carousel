@@ -1,22 +1,10 @@
-import { playPauseToggle } from "./swiperFunctions.js";
+import { muteVideo, playPauseToggle } from "./swiperFunctions.js";
 
 // other funcs
 export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, slides) {
   const modal = document.getElementById("myModal");
   modal.style.display = "block"; // Show modal
   let swiperInitialized = false
-  const iframes = Array.from(document.querySelectorAll(".swiper-modal-container .video-player"))
-  console.log('slides', slides, iframes[initial_slide_index])
-  iframes[initial_slide_index].src = `${slides.videos[initial_slide_index].url}?autoplay=false&controls=false`
-  iframes[Number(initial_slide_index) + 1].src = `${slides.videos[Number(initial_slide_index) + 1].url}?autoplay=false&controls=false`
-  iframes[Number(initial_slide_index) - 1].src = `${slides.videos[Number(initial_slide_index) - 1].url}?autoplay=false&controls=false`
-
-  // slides.videos.forEach((slide, i) => iframes[i].src = `${slide.url}?autoplay=false&controls=false`)
-
-
-  // Initialize the modal Swiper carousel with the clicked index as starting slide
-
-  // iframes[initial_slide_index].addEventListener("DOMContentLoaded", () => {
 
   modalSwiper = new Swiper(".swiper-modal-container", {
     slidesPerView: 1,
@@ -36,7 +24,8 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
         spaceBetween: 0,
         direction: "horizontal",
         rewind: true,
-        loop: false
+        loop: false,
+        allowTouchMove: false,
       },
     },
     on: {
@@ -54,7 +43,6 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
         }
       },
       activeIndexChange: function (swiper) {
-        console.log('swiper', swiper)
         if (swiperInitialized)
           playActiveSlideVideo(this, slides); // Play video on slide change
 
@@ -62,41 +50,69 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
     },
   });
   window.modalSwiper = modalSwiper
-  // window.activeReelSlide = activeReelSlide
-  // return { modalSwiper, activeReelSlide }
-
-  // })
 
 }
 
 // Function to play video on the active slide
 export function playActiveSlideVideo(swiper, slides) {
+  // This function plays the active video and pauses the next and prev videos
 
   let prevReelSlide = swiper.slides[swiper.activeIndex <= 0 ? swiper.slides.length - 1 : swiper.activeIndex - 1];
   let nextReelSlide = swiper.slides[swiper.activeIndex >= swiper.slides.length - 1 ? 0 : swiper.activeIndex + 1];
-  window.activeReelSlide = swiper.slides[swiper.activeIndex];
+  let reelSlide = swiper.slides[swiper.activeIndex];
+
+  // Setting global active reel slide reference 
+  window.activeReelSlide = reelSlide;
+
   const prevVideo = prevReelSlide.querySelector(".video-player");
   const nextVideo = nextReelSlide.querySelector(".video-player");
-  const video = window.activeReelSlide.querySelector(".video-player");
+  const video = reelSlide.querySelector(".video-player");
 
-  setTimeout(() => {
-
-    console.log('prevVideo,video,nextVideo', prevVideo, video, nextVideo, swiper.activeIndex >= swiper.slides.length - 1)
-  }, 1000);
   const isNextAvailable = swiper.slides.length - 1 > swiper.activeIndex
   const isPrevAvailable = swiper.activeIndex >= 1
-  if (!nextVideo.src && (swiper.previousIndex < swiper.activeIndex || swiper.activeIndex == 0))
+
+  // Providing src to the video
+  if (!video.src) {
+    video.src = slides.videos[swiper.activeIndex].url
+  }
+
+  // Providing src to the next video
+  if (!nextVideo.src && (swiper.previousIndex < swiper.activeIndex || swiper.activeIndex == 0)) {
     nextVideo.src = slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url
-  if (!prevVideo.src && (swiper.previousIndex > swiper.activeIndex || swiper.activeIndex == swiper.slides.length - 1))
+  }
+  // Providing src to the prev video
+  if (!prevVideo.src && (swiper.previousIndex > swiper.activeIndex || swiper.previousIndex == 0 || swiper.activeIndex == swiper.slides.length - 1)) {
     prevVideo.src = slides.videos[isPrevAvailable ? swiper.activeIndex - 1 : slides.videos.length - 1].url
-  // console.log('prevVideo,ne', prevVideo, slides.videos[swiper.activeIndex])
+  }
+
+  // If prev video iframe is not loaded then pause after load
+  prevVideo.addEventListener("load", (e) => {
+    setTimeout(() => {
+      playPauseToggle(prevVideo, true)
+      playPauseToggle(nextVideo, true)
+    }, 100);
+  })
+
+  // If next video iframe is not loaded then pause after load
+  nextVideo.addEventListener("load", () => {
+    setTimeout(() => {
+      playPauseToggle(prevVideo, true)
+      playPauseToggle(nextVideo, true)
+
+    }, 100);
+  })
+
+  // If the iframes are loaded this will work to pause the next and prev videos
+  // and play the current active video
+  // TODO: need to fix this with some event to check when the iframe is loaded instead of timeout
   if (prevVideo) {
     playPauseToggle(prevVideo, true)
   } if (nextVideo) {
     playPauseToggle(nextVideo, true)
   }
   if (video) {
-    playPauseToggle(video, false)
-    // video.play(); // Play the video on the new active slide
+    setTimeout(() => {
+      playPauseToggle(video, false)
+    }, 300);
   }
 }

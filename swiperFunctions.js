@@ -70,6 +70,9 @@ const loadIFrame = () => {
 };
 
 const mountIFrameTo = (parent, vidObj) => {
+
+  const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
+
   // iFrame element
   const ModalSlideItemWrapperEl = document.createElement("div");
   ModalSlideItemWrapperEl.className = "video-player-wrapper";
@@ -113,13 +116,43 @@ const mountIFrameTo = (parent, vidObj) => {
   ModelSlideItemVidProgressbar.style.position = "absolute";
   ModelSlideItemVidProgressbar.style.top = "0";
 
+  // Like button
+  const ModelSlideItemVidLike = document.createElement("img");
+  ModelSlideItemVidLike.id = "Like";
+  ModelSlideItemVidLike.className = "like";
+  ModelSlideItemVidLike.src = likedList.includes(vidObj.uuid) ? "/assets/images/heart-filled.png" : "/assets/images/heart-outlined.png"
+
+  // Share button
+  const ModelSlideItemVidShare = document.createElement("img");
+  ModelSlideItemVidShare.id = "Share";
+  ModelSlideItemVidShare.className = "share";
+  ModelSlideItemVidShare.src = "/assets/images/send.png"
+
+
   ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionMute);
   // ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionPlayToggle);
   // ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionDuration);
   ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidProgressbar);
+  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidLike);
+  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidShare);
   ModalSlideItemWrapperEl.appendChild(ModalSlideItemVidEl);
 
   parent.appendChild(ModalSlideItemWrapperEl);
+
+  ModelSlideItemVidLike.addEventListener("click", (e) => {
+    const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
+
+    e.stopPropagation()
+    if (!likedList.includes(vidObj.uuid)) {
+
+      localStorage.setItem("likedVideos", JSON.stringify([...likedList, vidObj.uuid]))
+      ModelSlideItemVidLike.src = "/assets/images/heart-filled.png";
+    }
+    else {
+      localStorage.setItem("likedVideos", JSON.stringify([...likedList.filter(uuid => uuid !== vidObj.uuid)]))
+      ModelSlideItemVidLike.src = "/assets/images/heart-outlined.png";
+    }
+  })
 
   ModalSlideItemWrapperEl.addEventListener("click", () =>
     toggleMute(ModalSlideItemVidEl)
@@ -135,7 +168,6 @@ const mountIFrameTo = (parent, vidObj) => {
 };
 
 const toggleMute = (ModalSlideItemVidEl) => {
-  console.log("toggling mute");
 
   if (window.mute == false || window.mute === undefined) {
     ModalSlideItemVidEl.contentWindow.postMessage(
@@ -152,9 +184,9 @@ const toggleMute = (ModalSlideItemVidEl) => {
   }
   const muteBtn = ModalSlideItemVidEl.parentElement.querySelector("#muteButton")
   muteBtn.src = window.mute ? "/assets/images/mute.png" : "/assets/images/unmute.png"
-  console.log('muteBtn', muteBtn.src, window.mute)
+
 };
-const muteVideo = (ModalSlideItemVidEl, mute = false) => {
+export const muteVideo = (ModalSlideItemVidEl, mute = false) => {
   // console.log("muting video");
   const muteBtn = ModalSlideItemVidEl.parentElement.querySelector("#muteButton")
   if (mute) {
@@ -176,7 +208,7 @@ const muteVideo = (ModalSlideItemVidEl, mute = false) => {
   }
   muteBtn.src = window.mute ? "/assets/images/mute.png" : "/assets/images/unmute.png"
 };
-let flag = null
+
 export const playPauseToggle = (
   ModalSlideItemVidEl,
   pause = false,
@@ -184,13 +216,12 @@ export const playPauseToggle = (
   // Toggle play state . TODO should relay on data-[state]
 
   if (ModalSlideItemVidEl.dataset.play === "true" || pause === true) {
-
     ModalSlideItemVidEl.contentWindow.postMessage(
       "pause",
       "https://video.dietpixels.net"
     );
     ModalSlideItemVidEl.dataset.play = "false";
-    clearInterval(flag);
+    clearInterval(ModalSlideItemVidEl.dataset.intervalID);
   } else if (ModalSlideItemVidEl.dataset.play === "false") {
     ModalSlideItemVidEl.contentWindow.postMessage(
       "play",
@@ -203,12 +234,13 @@ export const playPauseToggle = (
       "duration",
       "https://video.dietpixels.net"
     );
-    flag = setInterval(() => {
+    let flag = setInterval(() => {
       ModalSlideItemVidEl.contentWindow.postMessage(
         "duration",
         "https://video.dietpixels.net"
       );
     }, 1000);
+    ModalSlideItemVidEl.dataset.intervalID = flag
   }
   if (window.mute)
     muteVideo(ModalSlideItemVidEl, true)
