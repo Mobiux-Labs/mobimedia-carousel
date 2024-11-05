@@ -1,49 +1,62 @@
 import { itemOnClick } from "./slidesFunctions.js";
-import { createSlides, playPauseToggle, registerSwiper } from "./swiperFunctions.js";
+import { createSlides, registerSwiper } from "./swiperFunctions.js";
+import { removedURLParameter } from "./utils.js";
 
-// min_width = 380px
-let activeReelSlide;
+/**
+ * All the global states are stored in the window object
+ * Like mute, current active reel.
+ * LocalStorage is used to store the list of liked videos
+ */
 
 // Modal functionality
 const modal = document.getElementById("myModal");
 const span = document.getElementsByClassName("close")[0];
-let modalSwiper; // Declare variable for modal Swiper instance
-let swiperRef;
+
+// Closing modal
 function closeModal() {
   // playPauseToggle(modalSwiper.slides[modalSwiper.activeIndex])
   modal.style.display = "none";
   if (window.modalSwiper) {
     window.modalSwiper.destroy(false, true); // Destroy the modal Swiper instance
     window.modalSwiper = null; // Reset the reference
+
+    // Removing the query param of current active video on closing of modal
+    const url = removedURLParameter(window.location.href, "carouselVid")
+    history.replaceState(null, '', url)
   }
 }
 
 // Close the modal when clicking the close button
 span.onclick = closeModal;
 
-// Close the modal when clicking outside the modal content
-window.onclick = function (event) {
-  if (event.target == modal) {
-    closeModal();
+// Opens the modal container with the specific video on 
+// page load if there is "carouselVid" param found in the URL.
+// Also, creates the slides for the main carousel
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search)
+  const videoID = params.get("carouselVid")
+  const slides = await createSlides();
+  if (videoID) {
+    itemOnClick(slides.videos.findIndex(video => video.uuid === videoID), window.modalSwiper, window.activeReelSlide, slides);
   }
-};
+  attachEventsToSlides(slides);
+})
 
+// This event is triggered when we request for the current 
+// progress of the active video by sending a post message 
+// from the playPauseToggle function in the swiperFunctions.js
 addEventListener("message", (e) => {
-
   if (
     typeof e.data.currentDurationMs != "undefined" &&
     typeof e.data.totalDurationMs != "undefined"
   ) {
-    // console.log("Current Duration", e.data.currentDurationMs);
-    // console.log("Total Duration", e.data.totalDurationMs);
-    console.log('e.data', window.activeReelSlide)
+
+    // Setting the width of the progressbar
     window.activeReelSlide.querySelector("#progressbar").style.width = Math.round((e.data.currentDurationMs / e.data.totalDurationMs) * 100) + "%"
-    // document.getElementById('')
   }
 });
 
-//  Create Slides
-
+//  Fetches Slides
 export const getSlides = async () => {
   const response = await fetch(
     "https://mocx.mobiux.in/api/ae6a402d-a9ab-429f-b1c9-531ef3744e52/api/v1/public/playlists/0669e1c0-0bd8-75ab-8000-c31e231d8b81"
@@ -52,17 +65,12 @@ export const getSlides = async () => {
   return res;
 };
 
-async function createSlidesAndAttachEvents() {
-  const slides = await createSlides();
+// Attaches onClick event to all the slides to open the modal popup. 
+async function attachEventsToSlides(slides) {
   document.querySelectorAll(".main-swiper-slide").forEach(function (el) {
     el.onclick = function () {
-      // const { modalSwiper: swiper, activeReelSlide: activeReel } = 
       itemOnClick(el.dataset.index, window.modalSwiper, window.activeReelSlide, slides);
-      // modalSwiper = swiper;
-      // activeReelSlide = activeReel
     };
   });
-  swiperRef = registerSwiper(slides);
+  registerSwiper(slides);
 }
-createSlidesAndAttachEvents();
-// Swiper

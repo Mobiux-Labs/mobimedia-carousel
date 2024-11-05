@@ -1,13 +1,15 @@
 import { getSlides } from "./script.js";
 
-// import "https://video.dietpixels.net/dist/player.js"
-// const getSlides = require("./script.js")
+// Creates a new swiper object and attaches the give slides to
+// the parent container.
 export const registerSwiper = (slides) => {
   const swiperRef = new Swiper(".swiper-mobimedia-container", {
+    // Small screens
     slidesPerView: 1.5,
     loop: true,
     centeredSlides: true,
     breakpoints: {
+      // Big screens
       768: {
         spaceBetween: 30,
         slidesPerView: 5.5,
@@ -28,6 +30,7 @@ export const registerSwiper = (slides) => {
   return swiperRef;
 };
 
+// This function creates DOM elements for slides and appends it to the modal
 export async function createSlides() {
   const mobimediaSlides = document.getElementById("mobimedia-slides");
   const modalSlides = document.getElementById("modal-slides");
@@ -55,22 +58,12 @@ export async function createSlides() {
 
     mountIFrameTo(ModelSlideEl, img)
     modalSlides.appendChild(ModelSlideEl);
-
-    // TODO.This is not working. Connect with Rishab on how to implement this.
-
   });
   return slides
 }
 
-const loadIFrame = () => {
-  const nextBtn = document.getElementsByClassName("swiper-button-next");
-  const prevBtn = document.getElementsByClassName("swiper-button-prev");
-
-  mountIFrameTo(ModelSlideEl, img);
-};
-
+// Converts the video object to iframe and appends it to the given parent
 const mountIFrameTo = (parent, vidObj) => {
-
   const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
 
   // iFrame element
@@ -79,6 +72,9 @@ const mountIFrameTo = (parent, vidObj) => {
 
   const ModalSlideItemVidEl = document.createElement("iframe");
   ModalSlideItemVidEl.className = "video-player";
+
+  // Commented this code as we need to load the iframe on the 
+  // next / prev action. So moved this logic to playActiveSlideVideo function
   // ModalSlideItemVidEl.src = `${vidObj.url}?autoplay=false&controls=false`;
 
   ModalSlideItemVidEl.setAttribute(
@@ -92,8 +88,6 @@ const mountIFrameTo = (parent, vidObj) => {
   // Mute button
   const ModelSlideItemVidActionMute = document.createElement("img");
   ModelSlideItemVidActionMute.id = "muteButton";
-  // ModelSlideItemVidActionMute.style.position = "absolute";
-  // ModelSlideItemVidActionMute.style.right = "0";
   ModelSlideItemVidActionMute.src = "/assets/images/unmute.png"
 
   // Play pause button
@@ -139,36 +133,19 @@ const mountIFrameTo = (parent, vidObj) => {
 
   parent.appendChild(ModalSlideItemWrapperEl);
 
-  ModelSlideItemVidLike.addEventListener("click", (e) => {
-    const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
-
-    e.stopPropagation()
-    if (!likedList.includes(vidObj.uuid)) {
-
-      localStorage.setItem("likedVideos", JSON.stringify([...likedList, vidObj.uuid]))
-      ModelSlideItemVidLike.src = "/assets/images/heart-filled.png";
-    }
-    else {
-      localStorage.setItem("likedVideos", JSON.stringify([...likedList.filter(uuid => uuid !== vidObj.uuid)]))
-      ModelSlideItemVidLike.src = "/assets/images/heart-outlined.png";
-    }
-  })
+  ModelSlideItemVidLike.addEventListener("click", handleVideoLike)
 
   ModalSlideItemWrapperEl.addEventListener("click", () =>
     toggleMute(ModalSlideItemVidEl)
   );
 
-  // track duration
-  ModelSlideItemVidActionDuration.addEventListener("click", () => {
-    ModalSlideItemVidEl.contentWindow.postMessage(
-      "duration",
-      "https://video.dietpixels.net"
-    );
-  });
+  ModelSlideItemVidShare.addEventListener("click", handleVideoShare)
 };
 
+// Toggles mute state
 const toggleMute = (ModalSlideItemVidEl) => {
 
+  // Storing the mute state in the window object
   if (window.mute == false || window.mute === undefined) {
     ModalSlideItemVidEl.contentWindow.postMessage(
       "mute",
@@ -186,6 +163,8 @@ const toggleMute = (ModalSlideItemVidEl) => {
   muteBtn.src = window.mute ? "/assets/images/mute.png" : "/assets/images/unmute.png"
 
 };
+
+// Changes the mute state with given state
 export const muteVideo = (ModalSlideItemVidEl, mute = false) => {
   // console.log("muting video");
   const muteBtn = ModalSlideItemVidEl.parentElement.querySelector("#muteButton")
@@ -196,6 +175,7 @@ export const muteVideo = (ModalSlideItemVidEl, mute = false) => {
       "mute",
       "https://video.dietpixels.net"
     );
+    // Storing the mute state to window object to use it globally.
     window.mute = true
   } else {
     // console.log("unmuting");
@@ -248,3 +228,35 @@ export const playPauseToggle = (
     muteVideo(ModalSlideItemVidEl, false)
 
 };
+
+const handleVideoLike = (e) => {
+  const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
+
+  e.stopPropagation()
+  if (!likedList.includes(vidObj.uuid)) {
+
+    localStorage.setItem("likedVideos", JSON.stringify([...likedList, vidObj.uuid]))
+    ModelSlideItemVidLike.src = "/assets/images/heart-filled.png";
+  }
+  else {
+    localStorage.setItem("likedVideos", JSON.stringify([...likedList.filter(uuid => uuid !== vidObj.uuid)]))
+    ModelSlideItemVidLike.src = "/assets/images/heart-outlined.png";
+  }
+}
+
+const handleVideoShare = async (e) => {
+  e.stopPropagation()
+
+  if (window.innerWidth < 1200)
+    navigator
+      .share({
+        title: document.title,
+        text: "Have a look at this product!",
+        url: window.location.href
+      })
+      .then(() => { })
+      .catch(err => console.log("Error while sharing", err));
+  else {
+    navigator.clipboard.writeText(window.location.href);
+  }
+}

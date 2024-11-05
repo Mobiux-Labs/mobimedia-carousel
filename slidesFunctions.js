@@ -1,4 +1,5 @@
-import { muteVideo, playPauseToggle } from "./swiperFunctions.js";
+import { playPauseToggle } from "./swiperFunctions.js";
+import { changeActiveReelParam } from "./utils.js";
 
 // other funcs
 export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, slides) {
@@ -43,9 +44,10 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
         }
       },
       activeIndexChange: function (swiper) {
-        if (swiperInitialized)
+        if (swiperInitialized) {
           playActiveSlideVideo(this, slides); // Play video on slide change
-
+        }
+        changeActiveReelParam("carouselVid", slides.videos[swiper.activeIndex].uuid)
       },
     },
   });
@@ -63,6 +65,7 @@ export function playActiveSlideVideo(swiper, slides) {
 
   // Setting global active reel slide reference 
   window.activeReelSlide = reelSlide;
+  console.log('reelSlide', slides.videos[swiper.activeIndex].uuid)
 
   const prevVideo = prevReelSlide.querySelector(".video-player");
   const nextVideo = nextReelSlide.querySelector(".video-player");
