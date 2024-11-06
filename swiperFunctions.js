@@ -79,6 +79,7 @@ export async function createSlides() {
 const mountIFrameTo = (parent, vidObj) => {
 
   // Fetching liked videos from the localStorage else an empty array
+  // TODO: this works for the single carousel. Need the handle if multiple carousels are there
   const likedList = JSON.parse(localStorage.getItem("likedVideos")) ?? [];
 
   // iFrame element
