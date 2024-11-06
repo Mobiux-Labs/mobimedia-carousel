@@ -1,13 +1,16 @@
 import { playPauseToggle } from "./swiperFunctions.js";
 import { changeActiveReelParam } from "./utils.js";
 
-// other funcs
+// Registering new swiper object and opening the modal with the clicked video playing.
 export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, slides) {
+  // Fetching the modal DOM element and making it visible
   const modal = document.getElementById("myModal");
   modal.style.display = "block"; // Show modal
   let swiperInitialized = false
 
+  // Registering new swiper object
   modalSwiper = new Swiper(".swiper-modal-container", {
+    // Config for smaller screens
     slidesPerView: 1,
     centeredSlides: true,
     direction: "vertical",
@@ -19,6 +22,7 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
     },
     loop: false,
     breakpoints: {
+      // Config for bigger screens
       640: {
         // autoHeight: true,
         slidesPerView: 3,
@@ -29,13 +33,18 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
         allowTouchMove: false,
       },
     },
+    // Events
     on: {
       init: function (swiper) {
+        // Playing the clicked video on initialization
         swiperInitialized = true
         playActiveSlideVideo(this, slides); // Play video on initial active slide
 
       },
       destroy: function () {
+        // Pausing the video when we close the modal
+
+        // Getting the current playing video using activeIndex
         const currentVideo =
           this.slides[this.activeIndex].querySelector(".video-player");
         if (currentVideo) {
@@ -44,15 +53,18 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
         }
       },
       activeIndexChange: function (swiper) {
+        // Pause next and prev videos and play the active one when next/prev is pressed. 
         if (swiperInitialized) {
           playActiveSlideVideo(this, slides); // Play video on slide change
         }
+        // Changes the query param in the URL to make it sharable
+        // TODO: move the carouselVid param name to constants
         changeActiveReelParam("carouselVid", slides.videos[swiper.activeIndex].uuid)
       },
     },
   });
+  // Global modalSwiper instance
   window.modalSwiper = modalSwiper
-
 }
 
 // Function to play video on the active slide
@@ -65,7 +77,6 @@ export function playActiveSlideVideo(swiper, slides) {
 
   // Setting global active reel slide reference 
   window.activeReelSlide = reelSlide;
-  console.log('reelSlide', slides.videos[swiper.activeIndex].uuid)
 
   const prevVideo = prevReelSlide.querySelector(".video-player");
   const nextVideo = nextReelSlide.querySelector(".video-player");
