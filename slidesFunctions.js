@@ -2,7 +2,7 @@ import { playPauseToggle } from "./swiperFunctions.js";
 import { changeActiveReelParam } from "./utils.js";
 
 // Registering new swiper object and opening the modal with the clicked video playing.
-export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, slides) {
+export const itemOnClick = (initial_slide_index, modalSwiper, activeReelSlide, slides) => {
   // Fetching the modal DOM element and making it visible
   const modal = document.getElementById("myModal");
   modal.style.display = "block"; // Show modal
@@ -35,27 +35,27 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
     },
     // Events
     on: {
-      init: function (swiper) {
+      init: (swiper) => {
         // Playing the clicked video on initialization
         swiperInitialized = true
-        playActiveSlideVideo(this, slides); // Play video on initial active slide
+        playActiveSlideVideo(swiper, slides); // Play video on initial active slide
 
       },
-      destroy: function () {
+      destroy: (swiper) => {
         // Pausing the video when we close the modal
 
         // Getting the current playing video using activeIndex
         const currentVideo =
-          this.slides[this.activeIndex].querySelector(".video-player");
+          swiper.slides[swiper.activeIndex].querySelector(".video-player");
         if (currentVideo) {
           playPauseToggle(currentVideo, true)
           // currentVideo.pause(); // Pause the video on the current slide
         }
       },
-      activeIndexChange: function (swiper) {
+      activeIndexChange: (swiper) => {
         // Pause next and prev videos and play the active one when next/prev is pressed. 
         if (swiperInitialized) {
-          playActiveSlideVideo(this, slides); // Play video on slide change
+          playActiveSlideVideo(swiper, slides); // Play video on slide change
         }
         // Changes the query param in the URL to make it sharable
         // TODO: move the carouselVid param name to constants
@@ -68,7 +68,7 @@ export function itemOnClick(initial_slide_index, modalSwiper, activeReelSlide, s
 }
 
 // Function to play video on the active slide
-export function playActiveSlideVideo(swiper, slides) {
+export const playActiveSlideVideo = (swiper, slides) => {
   // This function plays the active video and pauses the next and prev videos
 
   let prevReelSlide = swiper.slides[swiper.activeIndex <= 0 ? swiper.slides.length - 1 : swiper.activeIndex - 1];

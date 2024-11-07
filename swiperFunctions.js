@@ -31,7 +31,7 @@ export const registerSwiper = (slides) => {
 };
 
 // This function creates DOM elements for slides and appends it to the modal
-export async function createSlides() {
+export const createSlides = async () => {
   // Main slider container
   const mobimediaSlides = document.getElementById("mobimedia-slides");
   // Modal slider container
@@ -158,7 +158,7 @@ const mountIFrameTo = (parent, vidObj) => {
   parent.appendChild(ModalSlideItemWrapperEl);
 
   // ------------------------------- Events for the buttons ------------------------------------
-  ModelSlideItemVidLike.addEventListener("click", handleVideoLike)
+  ModelSlideItemVidLike.addEventListener("click", (e) => handleVideoLike(e, vidObj, ModelSlideItemVidLike))
   ModalSlideItemWrapperEl.addEventListener("click", () =>
     toggleMute(ModalSlideItemVidEl)
   );
@@ -252,11 +252,15 @@ export const playPauseToggle = (
     ModalSlideItemVidEl.dataset.intervalID = flag
   }
   // Unmuting the video when we play it.
-  muteVideo(ModalSlideItemVidEl, false)
+  if (window.mute)
+    muteVideo(ModalSlideItemVidEl, true)
+  else
+    muteVideo(ModalSlideItemVidEl, false)
+
 };
 
 // Like function
-const handleVideoLike = (e) => {
+const handleVideoLike = (e, vidObj, ModelSlideItemVidLike) => {
   e.stopPropagation()
 
   // Fetching liked videos from the localStorage

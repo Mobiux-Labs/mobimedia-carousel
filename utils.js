@@ -1,14 +1,14 @@
 // Removes the parameter from the URL and returns the new URL
-export function removedURLParameter(url, parameter) {
+export const removedURLParameter = (url, parameter) => {
     //prefer to use l.search if you have a location/link object
-    var urlparts = url.split('?');
+    let urlparts = url.split('?');
     if (urlparts.length >= 2) {
 
-        var prefix = encodeURIComponent(parameter) + '=';
-        var pars = urlparts[1].split(/[&;]/g);
+        let prefix = encodeURIComponent(parameter) + '=';
+        let pars = urlparts[1].split(/[&;]/g);
 
         //reverse iteration as may be destructive
-        for (var i = pars.length; i-- > 0;) {
+        for (let i = pars.length; i-- > 0;) {
             //idiom for string.startsWith
             if (pars[i].lastIndexOf(prefix, 0) !== -1) {
                 pars.splice(i, 1);
@@ -21,7 +21,7 @@ export function removedURLParameter(url, parameter) {
 }
 
 // Changes the query param with the new uuid of the new active reel 
-export function changeActiveReelParam(param, value) {
+export const changeActiveReelParam = (param, value) => {
     const url = removedURLParameter(window.location.href, param)
     let newUrl = new URL(url);
     newUrl.searchParams.append(param, value)
