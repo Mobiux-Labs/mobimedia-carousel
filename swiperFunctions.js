@@ -51,15 +51,33 @@ export const createSlides = async () => {
     // Appending the wrapper to parent element
     mobimediaSlides.appendChild(SlideEl);
 
-    // Creating video element
-    const SlideItemImgEl = document.createElement("video");
-    SlideItemImgEl.src = img.thumbnail;
-    SlideItemImgEl.autoplay = true
-    SlideItemImgEl.muted = true
-    SlideItemImgEl.loop = true
-    SlideItemImgEl.alt = img.alt;
+    // Creating thumbnail element
+    const splitURL = img.thumbnail.split(".")
+    const extensionWithOptions = splitURL[splitURL.length - 1]
+    const extension = extensionWithOptions.split("?")[0]
+    const isImg = ["png", "jpg", "jpeg", "gif"].includes(extension)
+    // console.log('img.thumbnail.match(/[^/]+(jpg|png|gif)$/)', isImg)
+    const SlideItemImgEl = img.thumbnail ? isImg ? document.createElement("img") : document.createElement("video") : document.createElement("div");
+    if (SlideItemImgEl.tagName === "DIV") {
+      SlideItemImgEl.className = "emptyBox"
+      SlideItemImgEl.textContent = "Thumbnail not available!"
+    } else {
+      SlideItemImgEl.src = img.thumbnail;
+      if (!img.thumbnail.match(/[^/]+(jpg|png|gif)$/)) {
+        SlideItemImgEl.autoplay = true
+        SlideItemImgEl.muted = true
+        SlideItemImgEl.loop = true
+        SlideItemImgEl.alt = img.alt;
+      }
+    }
+
+    // Creating title
+    const SlideItemTitleEl = document.createElement("p");
+    SlideItemTitleEl.className = "thumbnail-title"
+    SlideItemTitleEl.textContent = img.title
 
     // Appending the video element to the wrapper
+    SlideEl.appendChild(SlideItemTitleEl);
     SlideEl.appendChild(SlideItemImgEl);
 
     // Creating parent slide element for modal 
@@ -85,6 +103,7 @@ const mountIFrameTo = (parent, vidObj) => {
   // iFrame element
   const ModalSlideItemWrapperEl = document.createElement("div");
   ModalSlideItemWrapperEl.className = "video-player-wrapper";
+  ModalSlideItemWrapperEl.style.aspectRatio = vidObj.aspect_ratio.split(":")[0] + " / " + vidObj.aspect_ratio.split(":")[1];
 
   // Creating an iframe element
   const ModalSlideItemVidEl = document.createElement("iframe");

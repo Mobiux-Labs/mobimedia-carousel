@@ -69,6 +69,7 @@ export const itemOnClick = (initial_slide_index, modalSwiper, activeReelSlide, s
 
 // Function to play video on the active slide
 export const playActiveSlideVideo = (swiper, slides) => {
+  const videoOptions = "?controls=false&loop=true"
   // This function plays the active video and pauses the next and prev videos
 
   let prevReelSlide = swiper.slides[swiper.activeIndex <= 0 ? swiper.slides.length - 1 : swiper.activeIndex - 1];
@@ -87,16 +88,16 @@ export const playActiveSlideVideo = (swiper, slides) => {
 
   // Providing src to the video
   if (!video.src) {
-    video.src = slides.videos[swiper.activeIndex].url
+    video.src = slides.videos[swiper.activeIndex].url + videoOptions
   }
 
   // Providing src to the next video
   if (!nextVideo.src && (swiper.previousIndex < swiper.activeIndex || swiper.activeIndex == 0)) {
-    nextVideo.src = slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url
+    nextVideo.src = slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url + videoOptions
   }
   // Providing src to the prev video
   if (!prevVideo.src && (swiper.previousIndex > swiper.activeIndex || swiper.previousIndex == 0 || swiper.activeIndex == swiper.slides.length - 1)) {
-    prevVideo.src = slides.videos[isPrevAvailable ? swiper.activeIndex - 1 : slides.videos.length - 1].url
+    prevVideo.src = slides.videos[isPrevAvailable ? swiper.activeIndex - 1 : slides.videos.length - 1].url + videoOptions
   }
 
   // If prev video iframe is not loaded then pause after load

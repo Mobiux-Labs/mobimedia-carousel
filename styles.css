@@ -68,9 +68,10 @@ h1 {
 .main-swiper-slide {
   width: fit-content;
   height: 100%;
-  aspect-ratio: 1920/1080;
+  aspect-ratio: 1080/1920;
 }
-.main-swiper-slide video {
+.main-swiper-slide video,
+.main-swiper-slide img {
   width: 100% !important;
   object-fit: fill;
 }
@@ -111,12 +112,14 @@ h1 {
 
   .main-swiper-slide.swiper-slide-active {
     transform: translateZ(0) scale(100%) !important;
+
     /* position: relative; */
     /* transform: translate3d(-0.0912958px, 0px, -0.0518726px) rotateX(0deg) rotateY(0.00414981deg) scale(0.999844) !important; */
     /* top: 6%;
     right: -11%; */
   }
-  .main-swiper-slide video {
+  .main-swiper-slide video,
+  .main-swiper-slide img {
     width: calc(var(--image-aspect-ratio) * 200px);
   }
   .swiper-modal-container {
@@ -156,7 +159,8 @@ h1 {
     padding: 0 30px;
   }
 
-  .main-swiper-slide video {
+  .main-swiper-slide video,
+  .main-swiper-slide img {
     width: calc(var(--image-aspect-ratio) * var(--mobimedia-slide-height));
   }
 
@@ -170,6 +174,9 @@ h1 {
 
   .modal .modal-swiper-slide.swiper-slide-active {
     transform: translateZ(0) scale(100%) !important;
+    height: 100%;
+    flex-grow: 1;
+    aspect-ratio: unset;
     /* position: relative; */
     /* transform: translate3d(-0.0912958px, 0px, -0.0518726px) rotateX(0deg) rotateY(0.00414981deg) scale(0.999844) !important; */
     /* top: 6%;
@@ -211,7 +218,8 @@ h1 {
   /* width: fit-content !important; */
   height: max-content;
 }
-.main-swiper-slide video {
+.main-swiper-slide video,
+.main-swiper-slide img {
   flex-shrink: 0;
   aspect-ratio: 1080/1920;
   object-fit: cover;
@@ -234,6 +242,7 @@ h1 {
 
 .main-swiper-slide.swiper-slide-active {
   transform: translateZ(0) scale(100%) !important;
+  height: 100%;
 }
 
 /* -------Modal container--------- */
@@ -273,7 +282,8 @@ h1 {
 }
 
 /* Modal image */
-.modal-content video {
+.modal-content video,
+.main-swiper-slide img {
   width: 100%;
   height: auto;
 }
@@ -309,4 +319,24 @@ h1 {
 }
 .share {
   bottom: 160px;
+}
+
+.emptyBox {
+  background-color: rgb(230, 230, 230);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(147, 147, 147);
+}
+.thumbnail-title {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: x-small;
+  margin: 0;
+  padding: 10px 10px 5px;
 }
