@@ -17,7 +17,7 @@ const span = document.getElementsByClassName("close")[0];
 // Fetches Slides
 export const getSlides = async () => {
   const response = await fetch(
-    "https://app.dietpixels.com/api/v1/public/playlists/0669e1c0-0bd8-75ab-8000-c31e231d8b81/"
+    "https://app.dietpixels.com/api/v1/public/playlists/0671b779-d33a-7098-8000-66572f67cfc1/"
   );
   const res = await response.json();
   return res;

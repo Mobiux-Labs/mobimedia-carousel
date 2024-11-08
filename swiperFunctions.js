@@ -103,11 +103,13 @@ const mountIFrameTo = (parent, vidObj) => {
   // iFrame element
   const ModalSlideItemWrapperEl = document.createElement("div");
   ModalSlideItemWrapperEl.className = "video-player-wrapper";
-  ModalSlideItemWrapperEl.style.aspectRatio = vidObj.aspect_ratio.split(":")[0] + " / " + vidObj.aspect_ratio.split(":")[1];
+  const ModalSlideItemWrapperEl2 = document.createElement("div");
+  ModalSlideItemWrapperEl2.className = "video-player-wrapper2";
 
   // Creating an iframe element
   const ModalSlideItemVidEl = document.createElement("iframe");
   ModalSlideItemVidEl.className = "video-player";
+  ModalSlideItemVidEl.style.aspectRatio = vidObj.aspect_ratio.split(":")[0] + " / " + vidObj.aspect_ratio.split(":")[1];
 
   // Commented this code as we need to load the iframe on the 
   // next / prev action. So moved this logic to playActiveSlideVideo function
@@ -165,13 +167,14 @@ const mountIFrameTo = (parent, vidObj) => {
 
 
   //---------- Appending the actions and progressbar to the slide's wrapper element ------------
-  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionMute);
+  ModalSlideItemWrapperEl2.appendChild(ModelSlideItemVidActionMute);
   // ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionPlayToggle);
   // ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidActionDuration);
-  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidProgressbar);
-  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidLike);
-  ModalSlideItemWrapperEl.appendChild(ModelSlideItemVidShare);
-  ModalSlideItemWrapperEl.appendChild(ModalSlideItemVidEl);
+  ModalSlideItemWrapperEl2.appendChild(ModelSlideItemVidProgressbar);
+  ModalSlideItemWrapperEl2.appendChild(ModelSlideItemVidLike);
+  ModalSlideItemWrapperEl2.appendChild(ModelSlideItemVidShare);
+  ModalSlideItemWrapperEl2.appendChild(ModalSlideItemVidEl);
+  ModalSlideItemWrapperEl.appendChild(ModalSlideItemWrapperEl2);
 
   // Appending wrapper element to the parent
   parent.appendChild(ModalSlideItemWrapperEl);
