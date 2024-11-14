@@ -157,13 +157,13 @@ const mountIFrameTo = (parent, vidObj) => {
   const ModelSlideItemVidLike = document.createElement("img");
   ModelSlideItemVidLike.id = "Like";
   ModelSlideItemVidLike.className = "like";
-  ModelSlideItemVidLike.src = likedList.includes(vidObj.uuid) ? "/assets/images/heart-filled.png" : "/assets/images/heart-outlined.png"
+  ModelSlideItemVidLike.src = likedList.includes(vidObj.uuid) ? "/assets/images/heart-filled.svg" : "/assets/images/heart-outlined.svg"
 
   // Share button
   const ModelSlideItemVidShare = document.createElement("img");
   ModelSlideItemVidShare.id = "Share";
   ModelSlideItemVidShare.className = "share";
-  ModelSlideItemVidShare.src = "/assets/images/send.png"
+  ModelSlideItemVidShare.src = "/assets/images/send.svg"
 
 
   //---------- Appending the actions and progressbar to the slide's wrapper element ------------
@@ -290,12 +290,12 @@ const handleVideoLike = (e, vidObj, ModelSlideItemVidLike) => {
   // If not liked, they are stored in the liked array in the localstorage
   if (!likedList.includes(vidObj.uuid)) {
     localStorage.setItem("likedVideos", JSON.stringify([...likedList, vidObj.uuid]))
-    ModelSlideItemVidLike.src = "/assets/images/heart-filled.png";
+    ModelSlideItemVidLike.src = "/assets/images/heart-filled.svg";
   }
   // If liked, they are removed from the liked array in the localstorage
   else {
     localStorage.setItem("likedVideos", JSON.stringify([...likedList.filter(uuid => uuid !== vidObj.uuid)]))
-    ModelSlideItemVidLike.src = "/assets/images/heart-outlined.png";
+    ModelSlideItemVidLike.src = "/assets/images/heart-outlined.svg";
   }
 }
 
