@@ -2,15 +2,22 @@
   "name": "html-css",
   "version": "1.0.0",
   "description": "A template for HTML and CSS",
-  "main": "index.html",
+  "main": "index.js",
   "scripts": {
     "start": "serve"
   },
-  "keywords": ["html", "css"],
+  "keywords": [
+    "html",
+    "css"
+  ],
   "author": "Ives van Hoorne",
   "license": "MIT",
   "devDependencies": {
     "serve": "11.2.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "lit": "^3.2.1",
+    "swiper": "^11.1.14"
+  }
 }
