@@ -31,7 +31,7 @@ export class Carousel extends LitElement {
   override render() {
     // If list is empty
     if (this.data.videos.length === 0) {
-      return html` <p>No items found</p> `;
+      return html``;
     }
 
     return html`
@@ -40,7 +40,9 @@ export class Carousel extends LitElement {
         <div class="swiper swiper-mobimedia-container">
           <div class="swiper-wrapper" id="mobimedia-slides">
             <!-- Slides will be added dynamically -->
-            ${this.data.videos.map((item) => html` <p>${item.url}</p> `)}
+            ${this.data.videos.map(
+              (item, _idx) => html` <p>${_idx}. ${item.url}</p> `
+            )}
           </div>
           <!-- Swiper controls -->
           <div class="swiper-button-prev"></div>
