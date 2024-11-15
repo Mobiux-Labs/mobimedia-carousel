@@ -1,0 +1,6 @@
+:root {
+  --mobimedia-slide-height: 1000px;
+  --mobimedia-slide-height-mobile: calc(var(--mobimedia-slide-height));
+  /* --image-aspect-ratio: calc(9 / 16); */
+  --image-aspect-ratio: calc(1080 / 1920);
+}
