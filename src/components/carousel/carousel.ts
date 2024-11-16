@@ -1,6 +1,5 @@
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import {getSlides} from '../../helpers/data';
 import {SlideResponse, Video} from '../../types';
 
 import Swiper from 'swiper';
@@ -40,18 +39,15 @@ export class Carousel extends LitElement {
     // };
   }
 
-  override async connectedCallback() {
-    this.data = await getSlides();
-    super.connectedCallback();
-  }
-
   override disconnectedCallback() {
     this.swiper?.destroy();
   }
 
   override async firstUpdated() {
     // this.data = await getSlides();
-    this.initSwiper();
+    setTimeout(() => {
+      this.initSwiper();
+    }, 0);
   }
 
   initSwiper() {
@@ -91,19 +87,15 @@ export class Carousel extends LitElement {
   }
 
   override render() {
-    // If list is empty
-    if (this.data.videos.length === 0) {
-      return html``;
-    }
-
     return html`
       <div class="main-carousel-wrapper">
         <!-- Main Swiper -->
         <div class="swiper swiper-mobimedia-container">
           <div class="swiper-wrapper" id="mobimedia-slides">
             <!-- Slides will be added dynamically -->
-            ${this.data.videos.map((item, _idx) =>
-              this.render_slide(item, _idx)
+            ${this.data.videos.map(
+              (item, _idx) => this.render_slide(item, _idx)
+              // html` <carousel-slide .item=${item} .idx=${_idx} class="swiper-slide main-swiper-slide"></carousel-slide> `
             )}
           </div>
           <!-- Swiper controls -->
