@@ -1,31 +1,89 @@
-import {LitElement, css, html, CSSResultGroup} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators.js';
 import {getSlides} from '../../helpers/data';
-import {SlideResponse} from '../../types';
+import {SlideResponse, Video} from '../../types';
 
-// eslint-disable-next-line prefer-const
-let styleSheet: CSSResultGroup;
+import Swiper from 'swiper';
+import {Navigation} from 'swiper/modules';
+
+import {styleSheet} from './carousel-styles';
+import {styleSheet as swiperStyleSheet} from './swiper-styles';
+
+import '../slide';
 
 @customElement('carousel-root')
 export class Carousel extends LitElement {
-  static override styles = styleSheet;
+  static override styles = [swiperStyleSheet, styleSheet];
+
+  private swiper?: Swiper;
+
+  @query('.swiper-mobimedia-container')
+  _ref_swiper_mobimedia_container!: HTMLElement;
+
+  @query('.swiper-button-next')
+  _ref_swiper_button_next!: HTMLElement;
+
+  @query('.swiper-button-prev')
+  _ref_swiper_button_prev!: HTMLElement;
 
   @property({type: Object})
-  data: SlideResponse;
+  data!: SlideResponse;
 
   constructor() {
     super();
-    this.data = {
-      uuid: '',
-      display_title: '',
-      description: '',
-      thumbnail: '',
-      videos: [],
-    };
+    // this.data = {
+    //   uuid: '',
+    //   display_title: '',
+    //   description: '',
+    //   thumbnail: '',
+    //   videos: [],
+    // };
+  }
+
+  override async connectedCallback() {
+    this.data = await getSlides();
+    super.connectedCallback();
   }
 
   override async firstUpdated() {
-    this.data = await getSlides();
+    // this.data = await getSlides();
+    this.initSwiper();
+  }
+
+  initSwiper() {
+    this.swiper = new Swiper(this._ref_swiper_mobimedia_container, {
+      modules: [Navigation],
+      // Small screens
+      slidesPerView: 1.5,
+      loop: true,
+      centeredSlides: true,
+      breakpoints: {
+        // Big screens
+        768: {
+          spaceBetween: 30,
+          slidesPerView: 5.5,
+          centeredSlides: this.data.videos.length <= 5 ? true : false,
+          rewind: true,
+          loop: false,
+          initialSlide:
+            this.data.videos.length <= 5 ? this.data.videos.length / 2 : 0,
+          enabled: this.data.videos.length <= 5 ? false : true,
+        },
+      },
+      // Navigation arrows
+      navigation: {
+        nextEl: this._ref_swiper_button_next,
+        prevEl: this._ref_swiper_button_prev,
+      },
+    });
+  }
+
+  render_slide(item: Video, idx: Number) {
+    return html`
+      <div class="swiper-slide main-swiper-slide" data-index=${idx}>
+        <video src="${item.thumbnail}" autoplay muted loop></video>
+      </div>
+    `;
   }
 
   override render() {
@@ -40,8 +98,8 @@ export class Carousel extends LitElement {
         <div class="swiper swiper-mobimedia-container">
           <div class="swiper-wrapper" id="mobimedia-slides">
             <!-- Slides will be added dynamically -->
-            ${this.data.videos.map(
-              (item, _idx) => html` <p>${_idx}. ${item.url}</p> `
+            ${this.data.videos.map((item, _idx) =>
+              this.render_slide(item, _idx)
             )}
           </div>
           <!-- Swiper controls -->
@@ -52,24 +110,3 @@ export class Carousel extends LitElement {
     `;
   }
 }
-
-styleSheet = css`
-  @media screen and (max-width: 640px) {
-    .swiper-mobimedia-container {
-      /* height: var(--mobimedia-slide-height-mobile); */
-      height: auto;
-    }
-    .swiper-button-next,
-    .swiper-button-prev {
-      display: none;
-    }
-  }
-
-  @media screen and (min-width: 640px) {
-    .swiper-mobimedia-container {
-      /* height: var(--mobimedia-slide-height); */
-      height: auto;
-      padding: 0 30px;
-    }
-  }
-`;
