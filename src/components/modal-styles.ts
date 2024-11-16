@@ -3,7 +3,7 @@ import {css} from 'lit';
 export const styleSheet = css`
   .modal {
     /* Hidden by default */
-    /* display: none;  */
+    display: none;
     position: fixed;
     z-index: 1000; /* Ensure it appears above other elements */
     left: 0;

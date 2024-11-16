@@ -1,5 +1,5 @@
 import {LitElement, css, html} from 'lit';
-import {customElement, query} from 'lit/decorators.js';
+import {customElement, query, property} from 'lit/decorators.js';
 
 import {styleSheet} from './modal-styles';
 
@@ -15,13 +15,25 @@ export class Modal extends LitElement {
     styleSheet,
   ];
 
-  @query('.modal')
-  _ref_modal!: HTMLElement;
+  @property({type: Boolean}) visible: boolean | undefined;
+
+  @query('.modal') _ref_modal!: HTMLElement;
+
+  constructor() {
+    super();
+  }
+
+  override updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('visible')) {
+      this._ref_modal.style.display = this.visible ? 'block' : 'none';
+    }
+  }
 
   _closeModal() {
-    this.dispatchEvent(
-      new Event('modal-closed', {bubbles: true, composed: true})
-    );
+    this.visible = false;
+    // this.dispatchEvent(
+    //   new Event('modal-closed', {bubbles: true, composed: true})
+    // );
   }
 
   override render() {

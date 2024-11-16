@@ -9,6 +9,7 @@ import './components/modal';
 import {Carousel} from './components/carousel/carousel';
 
 import {SlideClickEvent} from './helpers/events';
+import {Modal} from './components/modal';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
@@ -44,6 +45,8 @@ export class MobiCarousel extends LitElement {
 
   _handleSlideClick(e: SlideClickEvent) {
     this._isModalOpen = true;
+    const modal = this.shadowRoot?.querySelector('#modalView') as Modal;
+    if (modal) modal.visible = true;
   }
 
   override async firstUpdated() {
@@ -66,7 +69,7 @@ export class MobiCarousel extends LitElement {
         @onSlideClick=${this._handleSlideClick}
       >
         <carousel-root .data=${this.data}></carousel-root>
-        ${this.render_modal()}
+        <carousel-modal id="modalView"></carousel-modal>
       </div>
     `;
   }
