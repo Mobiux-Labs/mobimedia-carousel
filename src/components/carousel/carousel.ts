@@ -9,6 +9,7 @@ import {styleSheet} from './carousel-styles';
 import {styleSheet as swiperStyleSheet} from './swiper-styles';
 
 import '../slide';
+import {SlideClickEvent} from '../../helpers/events';
 
 @customElement('carousel-root')
 export class Carousel extends LitElement {
@@ -78,10 +79,24 @@ export class Carousel extends LitElement {
     });
   }
 
+  _slideOnClick(e: Event) {
+    const slide_id = Number(
+      (e.target as HTMLElement).getAttribute('data-index')
+    );
+    this.dispatchEvent(SlideClickEvent(slide_id));
+  }
+
   render_slide(item: Video, idx: Number) {
     return html`
-      <div class="swiper-slide main-swiper-slide" data-index=${idx}>
-        <video src="${item.thumbnail}" autoplay muted loop></video>
+      <div class="swiper-slide main-swiper-slide">
+        <video
+          src="${item.thumbnail}"
+          autoplay
+          muted
+          loop
+          data-index=${idx}
+          @click=${this._slideOnClick}
+        ></video>
       </div>
     `;
   }

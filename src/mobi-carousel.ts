@@ -1,10 +1,14 @@
 import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 
 import {getSlides} from './helpers/data';
 import {SlideResponse} from './types';
 
 import './components/carousel/carousel';
+import './components/modal';
+import {Carousel} from './components/carousel/carousel';
+
+import {SlideClickEvent} from './helpers/events';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
@@ -20,6 +24,9 @@ export class MobiCarousel extends LitElement {
   @property({type: Object})
   data!: SlideResponse;
 
+  @state()
+  _isModalOpen = false;
+
   constructor() {
     super();
     this.data = {
@@ -31,8 +38,21 @@ export class MobiCarousel extends LitElement {
     };
   }
 
+  _handleModalClosed() {
+    this._isModalOpen = false;
+  }
+
+  _handleSlideClick(e: SlideClickEvent) {
+    this._isModalOpen = true;
+  }
+
   override async firstUpdated() {
     this.data = await getSlides();
+  }
+
+  render_modal() {
+    if (this._isModalOpen) return html` <carousel-modal></carousel-modal> `;
+    else return;
   }
 
   override render() {
@@ -40,12 +60,21 @@ export class MobiCarousel extends LitElement {
       return html``;
     }
 
-    return html` <carousel-root .data=${this.data}></carousel-root> `;
+    return html`
+      <div
+        @modal-closed=${this._handleModalClosed}
+        @onSlideClick=${this._handleSlideClick}
+      >
+        <carousel-root .data=${this.data}></carousel-root>
+        ${this.render_modal()}
+      </div>
+    `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'mobi-carousel': MobiCarousel;
+    'carousel-root': Carousel;
   }
 }
