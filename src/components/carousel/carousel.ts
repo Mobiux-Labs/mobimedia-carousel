@@ -45,6 +45,10 @@ export class Carousel extends LitElement {
     super.connectedCallback();
   }
 
+  override disconnectedCallback() {
+    this.swiper?.destroy();
+  }
+
   override async firstUpdated() {
     // this.data = await getSlides();
     this.initSwiper();
