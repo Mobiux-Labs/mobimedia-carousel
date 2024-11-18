@@ -1,63 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Mobimedia Carousal</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Link Swiper's CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lit Hello World</title>
+</head>
+<body>
+  <hello-world></hello-world>
 
-  <body>
-    <main>
-      <!-- Wrapper for the main slider -->
-      <div class="main-carousal-wrapper">
-        <!-- Main Swiper -->
-        <div class="swiper swiper-mobimedia-container">
-          <div class="swiper-wrapper" id="mobimedia-slides">
-            <!-- Slides will be added dynamically -->
-          </div>
-          <!-- Swiper controls -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
-      </div>
-
-      <!-- Wrapper for the modal slider -->
-      <div id="myModal" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-          <div class="swiper swiper-modal-container">
-            <div class="swiper-wrapper" id="modal-slides">
-              <!-- Slides will be added dynamically -->
-            </div>
-          </div>
-          <span class="close">&times;</span>
-
-          <!-- Swiper controls -->
-          <div class="swiper-button-prev modal-prev"></div>
-          <div class="swiper-button-next modal-next"></div>
-        </div>
-      </div>
-      <!-- <video class="video-js" id="mobimedia-video-player"></video> -->
-    </main>
-
-    <!-- Swiper JS -->
-
-    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
-    <!-- Importing swiper js -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
-      integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script type="module" src="./script.js"></script>
-    <!-- <script type="module" src="./player.js"></script> -->
-  </body>
+  <!-- Load your JavaScript -->
+  <script type="module" src="./src/hello-world.js"></script>
+</body>
 </html>
