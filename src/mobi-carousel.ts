@@ -5,11 +5,11 @@ import {getSlides} from './helpers/data';
 import {SlideResponse} from './types';
 
 import './components/carousel/carousel';
-import './components/modal';
+import './components/modal/modal';
 import {Carousel} from './components/carousel/carousel';
 
 import {SlideClickEvent} from './helpers/events';
-import {Modal} from './components/modal';
+import {Modal} from './components/modal/modal';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
@@ -66,5 +66,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'mobi-carousel': MobiCarousel;
     'carousel-root': Carousel;
+    'carousel-modal': Modal;
   }
 }
