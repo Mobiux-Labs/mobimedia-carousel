@@ -1,22 +1,56 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
+    "target": "es2021",
+    "module": "es2020",
+    "lib": ["es2021", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
     "allowJs": true,
+    // "noUnusedLocals": true,  // TODO: Fix this
+    // "noUnusedParameters": true,  // TODO: Fix this
+    // "noImplicitOverride": true,  // TODO: Fix this
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": false,
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true
+      }
+    ]
+  },
+  // "compilerOptions": {
+  //   "target": "ES2020",
+  //   "module": "ES2020",
+  //   "moduleResolution": "node",
+  //   "rootDir": "./src",
+  //   "outDir": "./dist",
+  //   "strict": true,
+  //   "allowJs": true,
+  //   "experimentalDecorators": true,
+  //   "emitDecoratorMetadata": true,
+  //   "useDefineForClassFields": false,
+  //   "esModuleInterop": true,
+  //   "skipLibCheck": true
+  // },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**"],
+  "compileOnSave": true
 }
-
-
-
-
 
 // {
 //   "compilerOptions": {
