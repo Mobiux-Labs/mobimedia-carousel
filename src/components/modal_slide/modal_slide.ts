@@ -1,13 +1,19 @@
-import {LitElement, css, html} from 'lit';
+import {LitElement, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 
-import {playActiveSlideVideo} from './modal_slide_helpers';
+import {
+  playActiveSlideVideo,
+  toggleMute,
+  playPauseToggle,
+} from './modal_slide_helpers';
 import {styleSheet} from './modal_slide-style';
 import {styleSheet as swiperStyleSheet} from '../shared_styles/swiper-styles';
 import {SlideResponse} from '../../types';
 
 import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
+
+import {changeActiveReelParam} from '../../helpers/utils';
 
 @customElement('carousel-modal-slide')
 export class ModalSlide extends LitElement {
@@ -33,9 +39,13 @@ export class ModalSlide extends LitElement {
   @state()
   swiperInitialized: boolean;
 
+  @state()
+  private mute: boolean;
+
   constructor() {
     super();
     this.swiperInitialized = false;
+    this.mute = false || window.mute;
   }
 
   override firstUpdated() {
@@ -86,19 +96,51 @@ export class ModalSlide extends LitElement {
           this.swiperInitialized = true;
           playActiveSlideVideo(swiper, this.data);
         },
-        destroy: () => {
+        destroy: (swiper) => {
           this.swiperInitialized = false;
           console.log('Swiper Destroyed');
+          const currentVideo = swiper.slides[swiper.activeIndex].querySelector(
+            '.video-player'
+          ) as HTMLIFrameElement;
+          if (currentVideo) {
+            playPauseToggle(currentVideo, true);
+            // currentVideo.pause(); // Pause the video on the current slide
+          }
         },
         update: () => {
           console.log('Swiper Updated');
+        },
+        activeIndexChange: (swiper) => {
+          // Pause next and prev videos and play the active one when next/prev is pressed.
+          if (this.swiperInitialized) {
+            playActiveSlideVideo(swiper, this.data); // Play video on slide change
+          }
+          // Changes the query param in the URL to make it sharable
+          // TODO: move the carouselVid param name to constants
+          changeActiveReelParam(
+            'carouselVid',
+            this.data.videos[swiper.activeIndex].uuid
+          );
         },
       },
     });
   }
 
   _handleVideoLike() {}
-  _toggleMute() {}
+  _toggleMute(e: PointerEvent) {
+    const muteButton = e.target as HTMLImageElement;
+    const videoPlayer = (e.target as HTMLElement)?.parentElement?.querySelector(
+      '.video-player'
+    ) as HTMLIFrameElement;
+    toggleMute(
+      videoPlayer,
+      this.mute,
+      (currentState: boolean) => (this.mute = !currentState)
+    );
+    muteButton.src = this.mute
+      ? '/assets/images/mute.png'
+      : '/assets/images/unmute.png';
+  }
   _handleVideoShare() {}
 
   render_slide() {
@@ -107,7 +149,9 @@ export class ModalSlide extends LitElement {
         <div class="video-player-wrapper">
           <img
             id="muteButton"
-            src="/assets/images/mute.png"
+            src=${this.mute
+              ? '/assets/images/mute.png'
+              : '/assets/images/unmute.png'}
             @click=${this._toggleMute}
           />
           <div

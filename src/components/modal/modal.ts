@@ -1,4 +1,4 @@
-import {LitElement, css, html} from 'lit';
+import {LitElement, html} from 'lit';
 import {customElement, query, property} from 'lit/decorators.js';
 
 import {styleSheet} from './modal-styles';
