@@ -6,7 +6,7 @@ import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
 
 import {styleSheet} from './carousel-styles';
-import {styleSheet as swiperStyleSheet} from './swiper-styles';
+import {styleSheet as swiperStyleSheet} from '../shared_styles/swiper-styles';
 
 import '../slide';
 import {SlideClickEvent} from '../../helpers/events';
