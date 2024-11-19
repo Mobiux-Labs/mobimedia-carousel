@@ -59,7 +59,7 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
   }
 
   // If prev video iframe is not loaded then pause after load
-  prevVideo.addEventListener('load', (e) => {
+  prevVideo.addEventListener('load', () => {
     setTimeout(() => {
       playPauseToggle(prevVideo, true);
       playPauseToggle(nextVideo, true);
