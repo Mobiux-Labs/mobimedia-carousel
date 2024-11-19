@@ -12,6 +12,7 @@ import {Modal} from './components/modal/modal';
 import {ModalSlide} from './components/modal_slide/modal_slide';
 
 import {SlideClickEvent} from './helpers/events';
+import {removedURLParameter} from './helpers/utils';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
@@ -39,6 +40,10 @@ export class MobiCarousel extends LitElement {
       thumbnail: '',
       videos: [],
     };
+  }
+
+  override async firstUpdated() {
+    this.data = await getSlides();
   }
 
   _handleSlideClick(e: SlideClickEvent) {
@@ -70,17 +75,15 @@ export class MobiCarousel extends LitElement {
     }
   }
 
-  override async firstUpdated() {
-    this.data = await getSlides();
-  }
-
   _handleModalClose() {
     console.log('Modal Close recognised');
     const modalSlideElement = this.shadowRoot?.querySelector(
       'carousel-modal-slide'
     ) as ModalSlide;
     if (!modalSlideElement) return;
-    modalSlideElement.swiper?.destroy();
+    modalSlideElement.swiper?.destroy(false, true);
+    const url = removedURLParameter(window.location.href, 'carouselVid');
+    history.replaceState(null, '', url);
   }
 
   override render() {
