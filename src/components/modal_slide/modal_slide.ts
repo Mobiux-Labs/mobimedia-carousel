@@ -36,7 +36,7 @@ export class ModalSlide extends LitElement {
   @property({type: Number})
   initial_slide_index!: Number;
 
-  @state()
+  // @state()
   swiperInitialized: boolean;
 
   @state()
@@ -52,11 +52,9 @@ export class ModalSlide extends LitElement {
     this.initSwiper();
   }
 
-  override updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has('initial_slide_index')) {
-      if (this.swiper) {
-        this.initSwiper();
-      }
+  override updated() {
+    if (!this.swiperInitialized && this.swiper?.destroyed) {
+      this.initSwiper();
     }
   }
 

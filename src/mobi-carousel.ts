@@ -71,6 +71,7 @@ export class MobiCarousel extends LitElement {
         // Update the existing slide element's data and initial slide index
         slideElement.data = this.data;
         slideElement.initial_slide_index = e.detail.slide_index;
+        slideElement.requestUpdate();
       }
     }
   }
@@ -81,7 +82,7 @@ export class MobiCarousel extends LitElement {
       'carousel-modal-slide'
     ) as ModalSlide;
     if (!modalSlideElement) return;
-    modalSlideElement.swiper?.destroy(false, true);
+    modalSlideElement.swiper?.destroy();
     const url = removedURLParameter(window.location.href, 'carouselVid');
     history.replaceState(null, '', url);
   }
