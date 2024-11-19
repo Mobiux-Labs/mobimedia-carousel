@@ -6,10 +6,12 @@ import {SlideResponse} from './types';
 
 import './components/carousel/carousel';
 import './components/modal/modal';
+import './components/modal_slide/modal_slide';
 import {Carousel} from './components/carousel/carousel';
+import {Modal} from './components/modal/modal';
+import {ModalSlide} from './components/modal_slide/modal_slide';
 
 import {SlideClickEvent} from './helpers/events';
-import {Modal} from './components/modal/modal';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
@@ -38,11 +40,43 @@ export class MobiCarousel extends LitElement {
 
   _handleSlideClick(e: SlideClickEvent) {
     const modal = this.shadowRoot?.querySelector('#modalView') as Modal;
-    if (modal) modal.visible = true;
+
+    if (modal) {
+      modal.visible = true;
+
+      // Create a new carousel-modal-slide element
+      let slideElement = modal.querySelector(
+        'carousel-modal-slide'
+      ) as ModalSlide;
+      if (!slideElement) {
+        // Create a new carousel-modal-slide element if it doesn't exist
+        slideElement = document.createElement(
+          'carousel-modal-slide'
+        ) as ModalSlide;
+        slideElement.data = this.data;
+        slideElement.initial_slide_index = e.detail.slide_index; // Set the initial slide index
+
+        // Append the new slide element to the modal
+        modal.appendChild(slideElement);
+      } else {
+        // Update the existing slide element's data and initial slide index
+        slideElement.data = this.data;
+        slideElement.initial_slide_index = e.detail.slide_index;
+      }
+    }
   }
 
   override async firstUpdated() {
     this.data = await getSlides();
+  }
+
+  _handleModalClose() {
+    console.log('Modal Close recognised');
+    const modalSlideElement = this.shadowRoot?.querySelector(
+      'carousel-modal-slide'
+    ) as ModalSlide;
+    if (!modalSlideElement) return;
+    modalSlideElement.swiper?.destroy();
   }
 
   override render() {
@@ -56,7 +90,10 @@ export class MobiCarousel extends LitElement {
           .data=${this.data}
           @onSlideClick=${this._handleSlideClick}
         ></carousel-root>
-        <carousel-modal id="modalView"></carousel-modal>
+        <carousel-modal
+          id="modalView"
+          @modal-closed=${this._handleModalClose}
+        ></carousel-modal>
       </div>
     `;
   }
@@ -67,5 +104,6 @@ declare global {
     'mobi-carousel': MobiCarousel;
     'carousel-root': Carousel;
     'carousel-modal': Modal;
+    'carousel-modal-slide': ModalSlide;
   }
 }

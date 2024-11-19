@@ -31,9 +31,9 @@ export class Modal extends LitElement {
 
   _closeModal() {
     this.visible = false;
-    // this.dispatchEvent(
-    //   new Event('modal-closed', {bubbles: true, composed: true})
-    // );
+    this.dispatchEvent(
+      new Event('modal-closed', {bubbles: true, composed: true})
+    );
   }
 
   override render() {

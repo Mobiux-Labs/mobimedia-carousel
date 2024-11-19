@@ -13,7 +13,7 @@ import {Navigation} from 'swiper/modules';
 export class ModalSlide extends LitElement {
   static override styles = [swiperStyleSheet, styleSheet];
 
-  private swiper?: Swiper;
+  public swiper?: Swiper;
 
   @query('.swiper-modal-container')
   _ref_swiper_modal_container!: HTMLElement;
@@ -45,14 +45,13 @@ export class ModalSlide extends LitElement {
   override updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has('initial_slide_index')) {
       if (this.swiper) {
-        // this.swiper.slideTo(Number(this.initial_slide_index), 500);
-        this.swiper.destroy();
         this.initSwiper();
       }
     }
   }
 
   initSwiper() {
+    if (this.swiperInitialized) return; // Prevent re-initialization
     this.swiper = new Swiper(this._ref_swiper_modal_container, {
       modules: [Navigation],
       // Config for smaller screens
@@ -84,10 +83,11 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           console.log('Swiper Init');
-          this.swiperInitialized = false;
+          this.swiperInitialized = true;
           playActiveSlideVideo(swiper, this.data);
         },
         destroy: () => {
+          this.swiperInitialized = false;
           console.log('Swiper Destroyed');
         },
         update: () => {
