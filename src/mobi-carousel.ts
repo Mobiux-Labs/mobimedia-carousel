@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit';
+import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 
 import {getSlides} from './helpers/data';
@@ -46,34 +46,43 @@ export class MobiCarousel extends LitElement {
     this.data = await getSlides();
   }
 
-  _handleSlideClick(e: SlideClickEvent) {
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('data')) {
+      const params = new URLSearchParams(window.location.search);
+      const videoID = params.get('carouselVid');
+      const slide_index_of_video = this.data.videos.findIndex(
+        (video) => video.uuid === videoID
+      );
+      if (videoID && slide_index_of_video >= 0)
+        this._showModalWithSlide(slide_index_of_video);
+    }
+  }
+
+  private _showModalWithSlide(slide_index: number) {
     const modal = this.shadowRoot?.querySelector('#modalView') as Modal;
 
     if (modal) {
       modal.visible = true;
 
-      // Create a new carousel-modal-slide element
       let slideElement = modal.querySelector(
         'carousel-modal-slide'
       ) as ModalSlide;
       if (!slideElement) {
-        // Create a new carousel-modal-slide element if it doesn't exist
         slideElement = document.createElement(
           'carousel-modal-slide'
         ) as ModalSlide;
         slideElement.className = 'modal-carousal';
-        slideElement.data = this.data;
-        slideElement.initial_slide_index = e.detail.slide_index; // Set the initial slide index
-
-        // Append the new slide element to the modal
         modal.appendChild(slideElement);
-      } else {
-        // Update the existing slide element's data and initial slide index
-        slideElement.data = this.data;
-        slideElement.initial_slide_index = e.detail.slide_index;
-        slideElement.requestUpdate();
       }
+
+      slideElement.data = this.data;
+      slideElement.initial_slide_index = slide_index;
+      slideElement.requestUpdate();
     }
+  }
+
+  _handleSlideClick(e: SlideClickEvent) {
+    this._showModalWithSlide(e.detail.slide_index);
   }
 
   _handleModalClose() {
