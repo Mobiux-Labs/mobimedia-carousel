@@ -58,6 +58,16 @@ export class ModalSlide extends LitElement {
     }
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('message', this._handleMessageFromPlayer);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('message', this._handleMessageFromPlayer);
+  }
+
   initSwiper() {
     if (this.swiperInitialized) return; // Prevent re-initialization
     this.swiper = new Swiper(this._ref_swiper_modal_container, {
@@ -124,6 +134,24 @@ export class ModalSlide extends LitElement {
     });
   }
 
+  _handleMessageFromPlayer(e: MessageEvent) {
+    if (
+      typeof e.data.currentDurationMs != 'undefined' &&
+      typeof e.data.totalDurationMs != 'undefined'
+    ) {
+      // Setting the width of the progressbar
+      if (window.activeReelSlide) {
+        const progressBar = window.activeReelSlide.querySelector(
+          '#progressbar'
+        ) as HTMLElement;
+        const progressWidth = Math.round(
+          (e.data.currentDurationMs / e.data.totalDurationMs) * 100
+        );
+        progressBar.style.width = progressWidth + '%';
+      }
+    }
+  }
+
   _handleVideoLike() {}
   _toggleMute(e: PointerEvent) {
     const muteButton = e.target as HTMLImageElement;
@@ -155,7 +183,7 @@ export class ModalSlide extends LitElement {
           <div
             id="progressbar"
             class="progressbar"
-            style="position:absolute;top:0"
+            style="position:absolute;top:0;left:2px;"
           ></div>
           <img
             id="Like"

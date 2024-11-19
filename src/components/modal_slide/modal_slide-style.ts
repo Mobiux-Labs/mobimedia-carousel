@@ -69,6 +69,9 @@ export const styleSheet = css`
     transition: all 1s;
     transition-timing-function: linear;
   }
+  .progressbar.no-transition {
+    transition: none;
+  }
 
   .like,
   .share {
