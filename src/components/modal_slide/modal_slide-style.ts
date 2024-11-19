@@ -1,6 +1,9 @@
 import {css} from 'lit';
 
 export const styleSheet = css`
+  .video-player-wrapper {
+    position: relative;
+  }
   @media screen and (max-width: 640px) {
     .swiper-button-next,
     .swiper-button-prev {
@@ -9,6 +12,12 @@ export const styleSheet = css`
     .video-player-wrapper {
       width: calc(var(--image-aspect-ratio) * 100vh);
       height: 100vh;
+    }
+    .video-player {
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      border-color: transparent;
     }
     #muteButton {
       right: 55px;
@@ -24,6 +33,13 @@ export const styleSheet = css`
     }
     .video-player-wrapper {
       aspect-ratio: 1080/1920;
+    }
+    .video-player {
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      border-color: transparent;
+      overflow: hidden;
     }
   }
   .swiper-modal-container {
