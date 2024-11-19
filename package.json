@@ -1,13 +1,17 @@
 {
   "name": "mobimedia-carousel",
   "version": "0.0.1",
-  "description": "",
+  "description": "A carousel component for displaying Dietpixels playlist in reels view.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/index.js",
   "repository": "https://github.com/Mobiux-Labs/mobimedia-carousel",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "carousel",
+    "mobimedia-carousel",
+    "dietpixels-carousel"
+  ],
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
