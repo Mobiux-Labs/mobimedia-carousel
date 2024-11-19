@@ -40,10 +40,10 @@ export const styleSheet = css`
   .close {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 11px;
     color: white;
-    font-size: 35px;
-    font-weight: bold;
+    font-size: 41px;
+    font-weight: lighter;
     cursor: pointer;
     z-index: 1000;
   }

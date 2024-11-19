@@ -40,8 +40,10 @@ export class Modal extends LitElement {
     return html`
       <div id="myModal" class="modal">
         <div class="modal-overlay"></div>
-        <slot class="modal-content"> </slot>
-        <span class="close" @click="${this._closeModal}">&times;</span>
+        <div class="modal-content">
+          <slot></slot>
+          <span class="close" @click="${this._closeModal}">&times;</span>
+        </div>
       </div>
     `;
   }

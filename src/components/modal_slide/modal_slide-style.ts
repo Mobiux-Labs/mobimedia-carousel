@@ -4,6 +4,15 @@ export const styleSheet = css`
   .video-player-wrapper {
     position: relative;
   }
+  #muteButton {
+    height: 25px;
+    width: auto;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    opacity: 0;
+  }
   @media screen and (max-width: 640px) {
     .swiper-button-next,
     .swiper-button-prev {
@@ -21,8 +30,8 @@ export const styleSheet = css`
       border: 0;
     }
     #muteButton {
-      right: 55px;
-      top: 35px;
+      right: 45px;
+      top: 32px;
     }
   }
   @media screen and (min-width: 640px) {
@@ -72,15 +81,6 @@ export const styleSheet = css`
   }
   .share {
     bottom: 160px;
-  }
-  #muteButton {
-    height: 25px;
-    width: auto;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    cursor: pointer;
-    opacity: 0;
   }
   .swiper-slide-active #muteButton {
     opacity: 1;

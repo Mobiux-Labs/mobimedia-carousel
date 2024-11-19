@@ -21,6 +21,9 @@ export class MobiCarousel extends LitElement {
         box-sizing: border-box;
         padding: 1rem 0;
       }
+      .modal-carousal {
+        width: min(100vw, 1080px);
+      }
     `,
   ];
 
@@ -53,6 +56,7 @@ export class MobiCarousel extends LitElement {
         slideElement = document.createElement(
           'carousel-modal-slide'
         ) as ModalSlide;
+        slideElement.className = 'modal-carousal';
         slideElement.data = this.data;
         slideElement.initial_slide_index = e.detail.slide_index; // Set the initial slide index
 
