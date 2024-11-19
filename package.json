@@ -119,7 +119,7 @@
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,js,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],
