@@ -6,12 +6,12 @@ import {styleSheet} from './modal-styles';
 @customElement('carousel-modal')
 export class Modal extends LitElement {
   static override styles = [
-    css`
-      :host {
-        box-sizing: border-box;
-        padding: 1rem 0;
-      }
-    `,
+    // css`
+    //   :host {
+    //     box-sizing: border-box;
+    //     padding: 1rem 0;
+    //   }
+    // `,
     styleSheet,
   ];
 
