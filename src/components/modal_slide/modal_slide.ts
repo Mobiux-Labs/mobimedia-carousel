@@ -11,16 +11,7 @@ import {Navigation} from 'swiper/modules';
 
 @customElement('carousel-modal-slide')
 export class ModalSlide extends LitElement {
-  static override styles = [
-    // css`
-    //   :host {
-    //     box-sizing: border-box;
-    //     padding: 1rem 0;
-    //   }
-    // `,
-    swiperStyleSheet,
-    styleSheet,
-  ];
+  static override styles = [swiperStyleSheet, styleSheet];
 
   private swiper?: Swiper;
 

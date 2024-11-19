@@ -17,7 +17,8 @@ export const styleSheet = css`
       height: 100%;
       width: 100%;
       pointer-events: none;
-      border-color: transparent;
+      border-color: black;
+      border: 0;
     }
     #muteButton {
       right: 55px;
