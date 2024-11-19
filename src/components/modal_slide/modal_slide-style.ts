@@ -28,6 +28,7 @@ export const styleSheet = css`
       pointer-events: none;
       border-color: black;
       border: 0;
+      box-sizing: border-box;
     }
     #muteButton {
       right: 45px;
@@ -50,6 +51,7 @@ export const styleSheet = css`
       pointer-events: none;
       border-color: transparent;
       overflow: hidden;
+      box-sizing: border-box;
     }
   }
   .swiper-modal-container {
