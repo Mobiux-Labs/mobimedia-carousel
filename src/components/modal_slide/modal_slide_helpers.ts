@@ -86,7 +86,7 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
   if (video) {
     setTimeout(() => {
       playPauseToggle(video, false);
-    }, 300);
+    }, 100);
   }
 }
 
@@ -132,7 +132,9 @@ export const playPauseToggle = (
     ModalSlideItemVidEl.dataset.intervalID = flag.toString();
   }
   // Unmuting the video when we play it.
-  muteVideo(ModalSlideItemVidEl, false);
+  setTimeout(() => {
+    muteVideo(ModalSlideItemVidEl, false);
+  }, 800);
 };
 
 // Changes the mute state with given state
