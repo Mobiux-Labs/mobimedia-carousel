@@ -2,8 +2,8 @@
   "name": "@mobimedia/carousel",
   "version": "0.0.1",
   "description": "A carousel plugin for mobimedia cdn.",
-  "main": "dist/my-element.js",
-  "module": "dist/my-element.js",
+  "main": "dist/mobi-carousel.js",
+  "module": "dist/mobi-carousel.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -44,7 +44,6 @@
   "author": "Mobiux Labs",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "lit": "^3.2.0",
     "swiper": "^11.1.14"
   },
   "devDependencies": {
@@ -69,6 +68,7 @@
     "eslint": "^8.15.0",
     "husky": "^9.1.4",
     "lint-staged": "^15.2.9",
+    "lit": "^3.2.1",
     "lit-analyzer": "^1.2.1",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
