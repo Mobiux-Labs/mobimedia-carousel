@@ -153,6 +153,8 @@ export class ModalSlide extends LitElement {
   }
 
   _handleVideoLike() {}
+  _handleVideoShare() {}
+
   _toggleMute(e: PointerEvent) {
     const muteButton = e.target as HTMLImageElement;
     const videoPlayer = (e.target as HTMLElement)?.parentElement?.querySelector(
@@ -167,7 +169,6 @@ export class ModalSlide extends LitElement {
       ? '/assets/images/mute.png'
       : '/assets/images/unmute.png';
   }
-  _handleVideoShare() {}
 
   render_slide() {
     return html`
