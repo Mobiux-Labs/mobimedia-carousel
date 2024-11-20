@@ -152,8 +152,71 @@ export class ModalSlide extends LitElement {
     }
   }
 
-  _handleVideoLike() {}
-  _handleVideoShare() {}
+  _handleVideoLike(e: PointerEvent) {
+    e.stopPropagation();
+    const likeButton = e.target as HTMLImageElement;
+    // Fetching liked videos from the localStorage
+    const likedList =
+      JSON.parse(localStorage.getItem('likedVideos') || '[]') ?? [];
+    const activeIndex = this.swiper?.activeIndex;
+    const vidObj =
+      activeIndex !== undefined ? this.data.videos[activeIndex] : null;
+    // If not liked, they are stored in the liked array in the localstorage
+    if (vidObj && !likedList.includes(vidObj.uuid)) {
+      localStorage.setItem(
+        'likedVideos',
+        JSON.stringify([...likedList, vidObj.uuid])
+      );
+      likeButton.src = '/assets/images/heart-filled.png';
+    }
+    // If liked, they are removed from the liked array in the localstorage
+    else if (vidObj) {
+      localStorage.setItem(
+        'likedVideos',
+        JSON.stringify([
+          ...likedList.filter((uuid: string) => uuid !== vidObj.uuid),
+        ])
+      );
+      likeButton.src = '/assets/images/heart-outlined.png';
+    }
+  }
+  _handleVideoShare(e: Event) {
+    e.stopPropagation();
+
+    // TODO: Need to detect the device instead of relying on the screen width
+    // Open the native share popup in android/ios devices
+    if (window.innerWidth < 1200)
+      navigator
+        .share({
+          title: document.title,
+          text: 'Have a look at this product!',
+          url: window.location.href,
+        })
+        .then(() => {})
+        .catch((err) => console.log('Error while sharing', err));
+    // Or copy the link to the clipboard in computers
+    else {
+      navigator.clipboard.writeText(window.location.href);
+      this._showNotification('Link copied to clipboard!');
+    }
+  }
+
+  _showNotification(message: string) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    notification.style.color = 'white';
+    notification.style.padding = '10px';
+    notification.style.borderRadius = '5px';
+    this.shadowRoot?.appendChild(notification);
+
+    setTimeout(() => {
+      this.shadowRoot?.removeChild(notification);
+    }, 3000);
+  }
 
   _toggleMute(e: PointerEvent) {
     const muteButton = e.target as HTMLImageElement;
