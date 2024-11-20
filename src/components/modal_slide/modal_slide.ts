@@ -45,7 +45,7 @@ export class ModalSlide extends LitElement {
   constructor() {
     super();
     this.swiperInitialized = false;
-    this.mute = false || window.mute;
+    this.mute = false;
   }
 
   override firstUpdated() {
@@ -100,7 +100,6 @@ export class ModalSlide extends LitElement {
         init: (swiper) => {
           // Playing the clicked video on initialization
           // Play video on initial active slide
-          console.log('Swiper Init');
           this.swiperInitialized = true;
           playActiveSlideVideo(swiper, this.data);
         },
@@ -223,17 +222,17 @@ export class ModalSlide extends LitElement {
     const videoPlayer = (e.target as HTMLElement)?.parentElement?.querySelector(
       '.video-player'
     ) as HTMLIFrameElement;
-    toggleMute(
-      videoPlayer,
-      this.mute,
-      (currentState: boolean) => (this.mute = !currentState)
-    );
+    toggleMute(videoPlayer, this.mute, (currentState: boolean) => {
+      this.mute = !currentState; // Update local state
+      window.mute = this.mute; // Update global state
+    });
     muteButton.src = this.mute
       ? '/assets/images/mute.png'
       : '/assets/images/unmute.png';
   }
 
   render_slide() {
+    console.log('we', this.mute);
     return html`
       <div class="swiper-slide modal-swiper-slide">
         <div class="video-player-wrapper">

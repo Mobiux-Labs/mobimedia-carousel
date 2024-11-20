@@ -131,10 +131,16 @@ export const playPauseToggle = (
     // video pauses.
     ModalSlideItemVidEl.dataset.intervalID = flag.toString();
   }
-  // Unmuting the video when we play it.
-  setTimeout(() => {
-    muteVideo(ModalSlideItemVidEl, false);
-  }, 800);
+  // Un-muting the video when we play it.
+  // setTimeout(() => {
+  //   muteVideo(ModalSlideItemVidEl, false);
+  // }, 800);
+  // if (window.mute === undefined) {
+  //   muteVideo(ModalSlideItemVidEl, true);
+  // }
+  // if (window.mute) muteVideo(ModalSlideItemVidEl, true);
+  // else muteVideo(ModalSlideItemVidEl, false);
+  muteVideo(ModalSlideItemVidEl, window.mute === undefined || window.mute);
 };
 
 // Changes the mute state with given state
@@ -160,6 +166,7 @@ export const muteVideo = (
     window.mute = false;
   }
   // Toggling between mute and unmute icons
+  console.log('window.mute', window.mute);
   muteBtn.src = window.mute
     ? '/assets/images/mute.png'
     : '/assets/images/unmute.png';

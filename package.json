@@ -1,7 +1,7 @@
 {
   "name": "@mobimedia/carousel",
   "version": "0.0.1",
-  "description": "A carousel plugin for mobimedia cdn.",
+  "description": "A carousel component for displaying Dietpixels playlist in reels view.",
   "main": "dist/mobi-carousel.js",
   "module": "dist/mobi-carousel.js",
   "type": "module",
@@ -34,6 +34,9 @@
     "commit": "commit"
   },
   "keywords": [
+    "carousel",
+    "mobimedia-carousel",
+    "dietpixels-carousel",
     "mobimedia",
     "carousel",
     "web-components",
@@ -76,5 +79,13 @@
     "rollup-plugin-summary": "^2.0.1",
     "typescript": "~5.5.0"
   },
+  "files": [
+    "dist",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
   "customElements": "custom-elements.json"
 }

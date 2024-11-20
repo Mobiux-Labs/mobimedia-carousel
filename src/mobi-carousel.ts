@@ -86,7 +86,7 @@ export class MobiCarousel extends LitElement {
   }
 
   _handleModalClose() {
-    console.log('Modal Close recognised');
+    console.log('Modal Close recognized');
     const modalSlideElement = this.shadowRoot?.querySelector(
       'carousel-modal-slide'
     ) as ModalSlide;
