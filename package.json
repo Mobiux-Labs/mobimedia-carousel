@@ -37,12 +37,7 @@
     "carousel",
     "mobimedia-carousel",
     "dietpixels-carousel",
-    "mobimedia",
-    "carousel",
-    "web-components",
-    "lit-element",
-    "typescript",
-    "lit"
+    "mobimedia"
   ],
   "author": "Mobiux Labs",
   "license": "BSD-3-Clause",

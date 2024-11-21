@@ -10,5 +10,13 @@ A carousel component for displaying Dietpixels playlist in reels view.
 npm install @mobimedia/carousel
 ```
 
-#WIP
+## Usage
 
+```html
+<body>
+  <mobi-carousel></mobi-carousel>
+  <script type="module" src="./node_modules/@mobimedia/carousel/dist/mobi-carousel.js"></script>
+</body>
+```
+
+#WIP
