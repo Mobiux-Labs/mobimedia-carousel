@@ -1,4 +1,4 @@
-@import 'node_modules/swiper/swiper-bundle.min.css';
+@import '../node_modules/swiper/swiper-bundle.min.css';
 
 :root {
   --mobimedia-slide-height: 1000px;

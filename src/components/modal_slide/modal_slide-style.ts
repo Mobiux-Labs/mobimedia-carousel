@@ -66,10 +66,9 @@ export const styleSheet = css`
 
   .progressbar {
     width: 0%;
-    height: 5px;
+    height: 2px;
     background: white;
-    transition: all 1s;
-    transition-timing-function: linear;
+    transition: progress 0.1s linear infinite;
   }
   .progressbar.no-transition {
     transition: none;
@@ -80,7 +79,7 @@ export const styleSheet = css`
     position: absolute;
     height: 25px;
     width: auto;
-    right: 10px;
+    right: 14px;
     bottom: 200px;
     cursor: pointer;
   }

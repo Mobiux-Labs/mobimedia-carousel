@@ -16,6 +16,9 @@ import {removedURLParameter} from './helpers/utils';
 
 @customElement('mobi-carousel')
 export class MobiCarousel extends LitElement {
+  @property({type: String})
+  playlistId = '';
+
   static override styles = [
     css`
       :host {
@@ -43,7 +46,7 @@ export class MobiCarousel extends LitElement {
   }
 
   override async firstUpdated() {
-    this.data = await getSlides();
+    this.data = await getSlides(this.playlistId);
   }
 
   override updated(changedProperties: PropertyValues) {

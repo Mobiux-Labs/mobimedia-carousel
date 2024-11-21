@@ -81,7 +81,9 @@
     "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "assets",
+    "styles"
   ],
   "customElements": "custom-elements.json"
 }

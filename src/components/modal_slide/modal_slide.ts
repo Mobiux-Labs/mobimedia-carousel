@@ -166,7 +166,7 @@ export class ModalSlide extends LitElement {
         'likedVideos',
         JSON.stringify([...likedList, vidObj.uuid])
       );
-      likeButton.src = '/assets/images/heart-filled.png';
+      likeButton.src = '/assets/images/heart-filled.svg';
     }
     // If liked, they are removed from the liked array in the localstorage
     else if (vidObj) {
@@ -176,7 +176,7 @@ export class ModalSlide extends LitElement {
           ...likedList.filter((uuid: string) => uuid !== vidObj.uuid),
         ])
       );
-      likeButton.src = '/assets/images/heart-outlined.png';
+      likeButton.src = '/assets/images/heart-outlined.svg';
     }
   }
   _handleVideoShare(e: Event) {
@@ -251,13 +251,13 @@ export class ModalSlide extends LitElement {
           <img
             id="Like"
             class="like"
-            src="/assets/images/heart-outlined.png"
+            src="/assets/images/heart-outlined.svg"
             @click=${this._handleVideoLike}
           />
           <img
             id="Share"
             class="share"
-            src="/assets/images/send.png"
+            src="/assets/images/send.svg"
             @click=${this._handleVideoShare}
           />
           <iframe
