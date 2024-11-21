@@ -105,6 +105,10 @@ export class ModalSlide extends LitElement {
           console.log('Swiper Init');
           this.swiperInitialized = true;
           playActiveSlideVideo(swiper, this.data);
+          changeActiveReelParam(
+            'carouselVid',
+            this.data.videos[swiper.activeIndex].uuid
+          );
         },
         destroy: (swiper) => {
           this.swiperInitialized = false;
