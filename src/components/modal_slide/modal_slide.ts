@@ -38,6 +38,7 @@ export class ModalSlide extends LitElement {
 
   // @state()
   swiperInitialized: boolean;
+  currentProgress: number;
 
   @state()
   private mute: boolean;
@@ -46,6 +47,7 @@ export class ModalSlide extends LitElement {
     super();
     this.swiperInitialized = false;
     this.mute = false || window.mute;
+    this.currentProgress = 0;
   }
 
   override firstUpdated() {
@@ -147,6 +149,11 @@ export class ModalSlide extends LitElement {
         const progressWidth = Math.round(
           (e.data.currentDurationMs / e.data.totalDurationMs) * 100
         );
+        if (progressWidth < this.currentProgress)
+          progressBar.classList.add('no-transition');
+        else progressBar.classList.remove('no-transition');
+
+        this.currentProgress = progressWidth;
         progressBar.style.width = progressWidth + '%';
       }
     }
