@@ -1,7 +1,11 @@
 import Swiper from 'swiper';
 import {SlideResponse} from '../../types';
 
-export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
+export function playActiveSlideVideo(
+  swiper: Swiper,
+  slides: SlideResponse,
+  loadFromUrl = false
+) {
   // This function plays the active video and pauses the next and prev videos
 
   const prevReelSlide =
@@ -34,7 +38,8 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
 
   // Providing src to the video
   if (!video.src) {
-    video.src = slides.videos[swiper.activeIndex].url;
+    const videoUrl = slides.videos[swiper.activeIndex].url;
+    video.src = videoUrl;
   }
 
   // Providing src to the next video
@@ -42,8 +47,9 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
     !nextVideo.src &&
     (swiper.previousIndex < swiper.activeIndex || swiper.activeIndex == 0)
   ) {
-    nextVideo.src =
+    const nextVideoUrl =
       slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url;
+    nextVideo.src = nextVideoUrl;
   }
   // Providing src to the prev video
   if (
@@ -52,24 +58,25 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
       swiper.previousIndex == 0 ||
       swiper.activeIndex == swiper.slides.length - 1)
   ) {
-    prevVideo.src =
+    const prevVideoUrl =
       slides.videos[
         isPrevAvailable ? swiper.activeIndex - 1 : slides.videos.length - 1
       ].url;
+    prevVideo.src = prevVideoUrl;
   }
 
   // If prev video iframe is not loaded then pause after load
   prevVideo.addEventListener('load', () => {
     setTimeout(() => {
       playPauseToggle(prevVideo, true);
-      playPauseToggle(nextVideo, true);
+      // playPauseToggle(nextVideo, true, "Load Prev - Next");
     }, 100);
   });
 
   // If next video iframe is not loaded then pause after load
   nextVideo.addEventListener('load', () => {
     setTimeout(() => {
-      playPauseToggle(prevVideo, true);
+      // playPauseToggle(prevVideo, true, "Load Next - Prev");
       playPauseToggle(nextVideo, true);
     }, 100);
   });
@@ -85,34 +92,36 @@ export function playActiveSlideVideo(swiper: Swiper, slides: SlideResponse) {
   }
   if (video) {
     setTimeout(() => {
-      playPauseToggle(video, false);
+      const unmute = loadFromUrl ? false : true;
+      playPauseToggle(video, false, unmute);
     }, 100);
   }
 }
 
 export const playPauseToggle = (
   ModalSlideItemVidEl: HTMLIFrameElement,
-  pause = false
+  pause = false,
+  unmute = false
 ) => {
   // Toggle play state . TODO should relay on data-[state] - DONE
   // Storing the play/pause state in the data attribute of the DOM element
-  if (ModalSlideItemVidEl.dataset.play === 'true' || pause === true) {
+  if (pause === true) {
     // Sending the pause event to the player through iframe
     ModalSlideItemVidEl.contentWindow?.postMessage(
       'pause',
       'https://video.dietpixels.net'
     );
-    ModalSlideItemVidEl.dataset.play = 'false';
+    // ModalSlideItemVidEl.dataset.play = 'false';
     // Clearing the fetching of the played duration when video pauses.
     // We have started it using setInterval below.
     clearInterval(Number(ModalSlideItemVidEl.dataset.intervalID));
-  } else if (ModalSlideItemVidEl.dataset.play === 'false') {
+  } else if (pause === false) {
     // Sending the play event to the player through iframe
     ModalSlideItemVidEl.contentWindow?.postMessage(
       'play',
       'https://video.dietpixels.net'
     );
-    ModalSlideItemVidEl.dataset.play = 'true';
+    // ModalSlideItemVidEl.dataset.play = 'true';
 
     // Fetching played duration
     ModalSlideItemVidEl.contentWindow?.postMessage(
@@ -133,7 +142,7 @@ export const playPauseToggle = (
   }
   // Unmuting the video when we play it.
   setTimeout(() => {
-    muteVideo(ModalSlideItemVidEl, false);
+    if (unmute) muteVideo(ModalSlideItemVidEl, false);
   }, 800);
 };
 
@@ -150,6 +159,7 @@ export const muteVideo = (
       'mute',
       'https://video.dietpixels.net'
     );
+
     // Storing the mute state to window object to use it globally.
     window.mute = true;
   } else {
@@ -160,9 +170,7 @@ export const muteVideo = (
     window.mute = false;
   }
   // Toggling between mute and unmute icons
-  muteBtn.src = window.mute
-    ? '/assets/images/mute.png'
-    : '/assets/images/unmute.png';
+  muteBtn.src = mute ? '/assets/images/mute.png' : '/assets/images/unmute.png';
 };
 
 // Toggles mute state
@@ -189,7 +197,7 @@ export const toggleMute = (
     '#muteButton'
   ) as HTMLImageElement;
   // Toggling between mute and unmute icons
-  muteBtn.src = window.mute
+  muteBtn.src = muteState
     ? '/assets/images/mute.png'
     : '/assets/images/unmute.png';
 };
