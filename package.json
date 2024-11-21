@@ -2,8 +2,9 @@
   "name": "@mobimedia/carousel",
   "version": "0.0.1",
   "description": "A carousel component for displaying Dietpixels playlist in reels view.",
-  "main": "dist/mobi-carousel.js",
-  "module": "dist/mobi-carousel.js",
+  "main": "./dist/mobi-carousel.js",
+  "module": "./dist/mobi-carousel.js",
+  "types": "./dist/types/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
