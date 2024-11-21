@@ -1,4 +1,5 @@
 import { getSlides } from './script.js';
+// import 'swiper/swiper-bundle.min.css';
 
 // Creates a new swiper object and attaches the give slides to
 // the parent container.
@@ -27,17 +28,22 @@ export const registerSwiper = (slides) => {
       prevEl: '.swiper-button-prev',
     },
   });
+  console.log('swiperRef', swiperRef);
   return swiperRef;
 };
 
 // This function creates DOM elements for slides and appends it to the modal
 export const createSlides = async () => {
   // Main slider container
-  const mobimediaSlides = document.getElementById('mobimedia-slides');
-  console.log('mobimediaSlides', mobimediaSlides);
-  // Modal slider container
-  const modalSlides = document.getElementById('modal-slides');
+  const mobimediaCarousel = document.querySelector('mobimedia-carousel');
+  const mobimediaSlides =
+    mobimediaCarousel.shadowRoot.querySelector('#mobimedia-slides');
 
+  // Modal slider container
+  const modalSlides =
+    mobimediaCarousel.shadowRoot.querySelector('#modal-slides');
+
+  // Modal slider container
   // Fetches slides from the API
   const slides = await getSlides();
 
@@ -50,8 +56,6 @@ export const createSlides = async () => {
     SlideEl.dataset.index = index;
 
     // Appending the wrapper to parent element
-
-    console.log('SlideEl', SlideEl);
     mobimediaSlides.appendChild(SlideEl);
 
     // Creating thumbnail element

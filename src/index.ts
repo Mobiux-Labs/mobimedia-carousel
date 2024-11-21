@@ -1,3 +1,3 @@
-import { SimpleGreeting } from './simple-greeting';
+import { MobimediaCarousel } from './mobimedia-carousel';
 
-export default SimpleGreeting;
+export default MobimediaCarousel;

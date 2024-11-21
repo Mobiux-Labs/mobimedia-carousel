@@ -10,6 +10,7 @@ export const itemOnClick = (
 ) => {
   // Fetching the modal DOM element and making it visible
   const modal = document.getElementById('myModal');
+  console.log('modal', modal);
   modal.style.display = 'block'; // Show modal
   let swiperInitialized = false;
 

@@ -1,20 +1,17 @@
-:root {
+@import "../node_modules/swiper/swiper.css";
+
+
+* {
   --mobimedia-slide-height: 1000px;
   --mobimedia-slide-height-mobile: calc(var(--mobimedia-slide-height));
   /* --image-aspect-ratio: calc(9 / 16); */
   --image-aspect-ratio: calc(1080 / 1920);
-}
-
-* {
   box-sizing: border-box;
-}
-
-body {
   margin: 0;
   font-family: system-ui, sans-serif;
   color: black;
   background-color: white;
-  height: 100vh;
+  
 }
 
 nav {

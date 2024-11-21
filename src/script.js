@@ -11,13 +11,14 @@ import { removedURLParameter } from './utils.js';
 // ------------------------------------------- Getting elements --------------------------------------------
 
 const modal = document.getElementById('myModal');
+console.log('modal', modal);
 const span = document.getElementsByClassName('close')[0];
 
 // ----------------------------------------------- Functions ------------------------------------------------
 // Fetches Slides
 export const getSlides = async () => {
   const response = await fetch(
-    'https://app.dietpixels.com/api/v1/public/playlists/0671b779-d33a-7098-8000-66572f67cfc1/'
+    'https://app.dietpixels.com/api/v1/public/playlists/0672e049-1c44-7417-8000-b3388443aa2c/'
   );
   const res = await response.json();
   return res;
@@ -47,7 +48,6 @@ const registerOnClick = (el, slides) => {
 export const playSharedVideo = async () => {
   const params = new URLSearchParams(window.location.search);
   const videoID = params.get('carouselVid');
-  console.log('slides called');
   const slides = await createSlides();
 
   if (videoID) {
