@@ -1,6 +1,6 @@
 {
   "name": "@mobimedia/carousel",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A carousel component for displaying Dietpixels playlist in reels view.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -9,12 +9,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.cjs.js"
     },
     "./*": "./*"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
+    "build-old": "tsc",
     "build:watch": "tsc --watch",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -65,9 +66,11 @@
     "@commitlint/prompt-cli": "^19.4.0",
     "@custom-elements-manifest/analyzer": "^0.6.3",
     "@open-wc/testing": "^4.0.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.1",
     "@types/mocha": "^10.0.7",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
@@ -82,20 +85,21 @@
     "lit-analyzer": "^1.2.1",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "rollup": "^4.18.0",
+    "rollup": "^4.27.3",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-summary": "^2.0.1",
     "standard-version": "^9.0.0",
     "typescript": "~5.5.0"
   },
   "files": [
-    "dist/",
+    "dist",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
-    "assets",
-    "styles"
+    "assets"
   ],
   "customElements": "custom-elements.json"
 }
