@@ -1,9 +1,9 @@
 {
   "name": "@mobimedia/carousel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A carousel component for displaying Dietpixels playlist in reels view.",
-  "main": "./dist/mobi-carousel.js",
-  "module": "./dist/mobi-carousel.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "type": "module",
   "scripts": {
@@ -32,6 +32,10 @@
     "test:prod:watch": "MODE=prod wtr --watch",
     "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js",
     "prepare": "husky",
+    "prepare-release": "run-s reset-hard test cov:check doc:html doc:publish",
+    "prepare-release:patch": "run-s prepare-release version",
+    "prepare-release:minor": "run-s \"version --dry-run --release-as minor\"",
+    "prepare-release:major": "run-s prepare-release version -- --dry-run --release-as major",
     "commit": "commit"
   },
   "keywords": [
@@ -73,10 +77,11 @@
     "rimraf": "^3.0.2",
     "rollup": "^4.18.0",
     "rollup-plugin-summary": "^2.0.1",
+    "standard-version": "^9.0.0",
     "typescript": "~5.5.0"
   },
   "files": [
-    "dist",
+    "dist/",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
