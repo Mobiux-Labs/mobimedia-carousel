@@ -28,6 +28,8 @@ export class Carousel extends LitElement {
   @property({type: Object})
   data!: SlideResponse;
 
+  private observer?: IntersectionObserver;
+
   constructor() {
     super();
     // this.data = {
@@ -37,10 +39,28 @@ export class Carousel extends LitElement {
     //   thumbnail: '',
     //   videos: [],
     // };
+    this.observer = new IntersectionObserver(this.handleIntersection, {
+      root: this._ref_swiper_mobimedia_container,
+      threshold: 0.1, // Adjust threshold as needed
+    });
+  }
+
+  // Callback for Intersection Observer
+  private handleIntersection(entries: IntersectionObserverEntry[]) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const video = entry.target as HTMLVideoElement;
+        if (!video.src) {
+          video.src = video.dataset.src || '';
+          video.load();
+        }
+      }
+    });
   }
 
   override disconnectedCallback() {
     this.swiper?.destroy();
+    this.observer?.disconnect();
   }
 
   override async firstUpdated() {
@@ -48,6 +68,16 @@ export class Carousel extends LitElement {
     setTimeout(() => {
       this.initSwiper();
     }, 0);
+  }
+
+  override updated() {
+    const videos = this.renderRoot.querySelectorAll('.swiper-preview-slide');
+    videos.forEach((video) => {
+      const videoElement = video as HTMLVideoElement;
+      if (!videoElement.src) {
+        this.observer?.observe(video);
+      }
+    });
   }
 
   initSwiper() {
@@ -89,7 +119,8 @@ export class Carousel extends LitElement {
     return html`
       <div class="swiper-slide main-swiper-slide">
         <video
-          src="${item.thumbnail}"
+          class="swiper-preview-slide"
+          data-src="${item.thumbnail}"
           autoplay
           muted
           loop

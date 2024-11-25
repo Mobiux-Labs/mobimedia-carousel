@@ -36,20 +36,38 @@ export class ModalSlide extends LitElement {
   @property({type: Number})
   initial_slide_index!: Number;
 
+  @property({type: Boolean})
+  loadFromUrl!: boolean;
+
   // @state()
   swiperInitialized: boolean;
+  currentProgress: number;
 
   @state()
-  private mute: boolean;
+  private _mute: boolean;
+
+  set mute(value: boolean) {
+    this._mute = value;
+    window.mute = value; // Update window.mute whenever mute changes
+  }
+
+  get mute() {
+    return this._mute;
+  }
 
   constructor() {
     super();
     this.swiperInitialized = false;
-    this.mute = false;
+    this._mute = true;
+    window.mute = this._mute;
+    this.currentProgress = 0;
   }
 
   override firstUpdated() {
     this.initSwiper();
+    setTimeout(() => {
+      this.loadFromUrl = false;
+    }, 0);
   }
 
   override updated() {
@@ -101,7 +119,11 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          playActiveSlideVideo(swiper, this.data);
+          playActiveSlideVideo(swiper, this.data, this.loadFromUrl);
+          changeActiveReelParam(
+            'carouselVid',
+            this.data.videos[swiper.activeIndex].uuid
+          );
         },
         destroy: (swiper) => {
           this.swiperInitialized = false;
@@ -120,7 +142,7 @@ export class ModalSlide extends LitElement {
         activeIndexChange: (swiper) => {
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
-            playActiveSlideVideo(swiper, this.data); // Play video on slide change
+            playActiveSlideVideo(swiper, this.data, this.loadFromUrl); // Play video on slide change
           }
           // Changes the query param in the URL to make it sharable
           // TODO: move the carouselVid param name to constants
@@ -146,6 +168,11 @@ export class ModalSlide extends LitElement {
         const progressWidth = Math.round(
           (e.data.currentDurationMs / e.data.totalDurationMs) * 100
         );
+        if (progressWidth < this.currentProgress)
+          progressBar.classList.add('no-transition');
+        else progressBar.classList.remove('no-transition');
+
+        this.currentProgress = progressWidth;
         progressBar.style.width = progressWidth + '%';
       }
     }
@@ -222,10 +249,11 @@ export class ModalSlide extends LitElement {
     const videoPlayer = (e.target as HTMLElement)?.parentElement?.querySelector(
       '.video-player'
     ) as HTMLIFrameElement;
-    toggleMute(videoPlayer, this.mute, (currentState: boolean) => {
-      this.mute = !currentState; // Update local state
-      window.mute = this.mute; // Update global state
-    });
+    toggleMute(
+      videoPlayer,
+      window.mute,
+      (currentState: boolean) => (this.mute = !currentState)
+    );
     muteButton.src = this.mute
       ? '/assets/images/mute.png'
       : '/assets/images/unmute.png';

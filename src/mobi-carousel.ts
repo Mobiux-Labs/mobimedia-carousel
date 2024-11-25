@@ -57,11 +57,11 @@ export class MobiCarousel extends LitElement {
         (video) => video.uuid === videoID
       );
       if (videoID && slide_index_of_video >= 0)
-        this._showModalWithSlide(slide_index_of_video);
+        this._showModalWithSlide(slide_index_of_video, true);
     }
   }
 
-  private _showModalWithSlide(slide_index: number) {
+  private _showModalWithSlide(slide_index: number, loadFromUrl = false) {
     const modal = this.shadowRoot?.querySelector('#modalView') as Modal;
 
     if (modal) {
@@ -80,6 +80,7 @@ export class MobiCarousel extends LitElement {
 
       slideElement.data = this.data;
       slideElement.initial_slide_index = slide_index;
+      slideElement.loadFromUrl = loadFromUrl;
       slideElement.requestUpdate();
     }
   }
