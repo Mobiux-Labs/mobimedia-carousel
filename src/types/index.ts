@@ -42,9 +42,3 @@ declare class MobiCarousel extends LitElement {
 }
 
 export default MobiCarousel;
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'mobi-carousel': MobiCarousel;
-  }
-}
