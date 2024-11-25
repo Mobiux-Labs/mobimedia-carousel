@@ -39,6 +39,7 @@
     "wip-test:prod:watch": "MODE=prod wtr --watch",
     "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
+    "version": "standard-version",
     "prepare": "husky",
     "prepare-release": "run-s reset-hard test doc:html doc:publish",
     "prepare-release:patch": "run-s prepare-release version",
