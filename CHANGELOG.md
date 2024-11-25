@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.6...v0.0.7) (2024-11-25)
+
+
+### Bug Fixes
+
+* exported types for default export ([3ce4654](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/3ce46542aefd4c40294104d6b7d47534a8bda7ae))
+* removed duplicate type definitions ([59f17b8](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/59f17b8b4a0926f6415a1b4d2b8c7bb57fa20bf3))
+
 ### 0.0.6 (2024-11-25)
 
 
