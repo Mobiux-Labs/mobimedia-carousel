@@ -16,7 +16,8 @@
   "scripts": {
     "build": "rollup -c",
     "build-old": "tsc",
-    "build:watch": "tsc --watch",
+    "build:watch-old": "tsc --watch",
+    "build:watch": "rollup -c --watch",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
