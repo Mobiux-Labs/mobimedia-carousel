@@ -1,3 +1,5 @@
+import {LitElement} from 'lit';
+
 export interface Video {
   uuid: string;
   url: string;
@@ -32,5 +34,17 @@ declare global {
     modalSwiper: SwiperInstance | null;
     activeReelSlide: HTMLElement | null;
     mute: boolean;
+  }
+}
+
+declare class MobiCarousel extends LitElement {
+  playlistId: string;
+}
+
+export default MobiCarousel;
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'mobi-carousel': MobiCarousel;
   }
 }
