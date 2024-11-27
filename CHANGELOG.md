@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.7...v0.0.8) (2024-11-27)
+
+
+### Features
+
+* implement intersection observer for root carousel ([0fbab7c](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/0fbab7c5b74bf5c2937da724a92c032c552cb08f))
+* on reset of video progressbar remove transition ([f9ba40d](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f9ba40d76e611dc0b367613e7b55e3769608cb7b))
+
+
+### Bug Fixes
+
+* append carousalid to first video slide on init ([2328464](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/2328464e1e1ab2596a4b7de07ec5d1fd2084913b))
+* **audio:** play audio on first load, add SVGs, and fix styles ([f77b160](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f77b1606cc54b7cae93ae33442332196965fc2e0))
+* multiple audio play, mute toggle ([dd651a0](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/dd651a04351da3ec5daaba9446d203d7bf726045))
+* remove unused imports ([d5991b7](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/d5991b7ee54867f97180389ab32f401454de7aa5))
+
 ### [0.0.7](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.6...v0.0.7) (2024-11-25)
 
 
