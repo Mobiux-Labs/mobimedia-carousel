@@ -1,36 +1,33 @@
-import summary from 'rollup-plugin-summary';
-import terser from '@rollup/plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
+import url from '@rollup/plugin-url';
 
-export default {
-  input: 'my-element.js',
-  output: {
-    file: 'my-element.bundled.js',
-    format: 'esm',
-  },
-  onwarn(warning) {
-    if (warning.code !== 'THIS_IS_UNDEFINED') {
-      console.error(`(!) ${warning.message}`);
-    }
-  },
-  plugins: [
-    replace({preventAssignment: false, 'Reflect.decorate': 'undefined'}),
-    resolve(),
-    /**
-     * This minification setup serves the static site generation.
-     * For bundling and minification, check the README.md file.
-     */
-    terser({
-      ecma: 2021,
-      module: true,
-      warnings: true,
-      mangle: {
-        properties: {
-          regex: /^__/,
-        },
+export default [
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'dist/index.js',
+        format: 'esm',
+        sourcemap: 'inline',
       },
-    }),
-    summary(),
-  ],
-};
+      {
+        file: 'dist/index.cjs.js',
+        format: 'cjs',
+        exports: 'auto',
+      },
+    ],
+    plugins: [
+      resolve(),
+      commonjs(),
+      typescript(),
+      postcss({inject: true}), // Inject CSS directly into JS
+      url({
+        include: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.svg'], // Specify image file extension
+        emitFiles: true, // Ensure files are emitted to output directory
+      }),
+    ],
+  },
+];
