@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
+import {customElement, query, property} from 'lit/decorators.js';
 
 import {
   playActiveSlideVideo,
@@ -14,6 +14,12 @@ import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
 
 import {changeActiveReelParam} from '../../helpers/utils';
+
+import muteIcon from '../../../assets/images/mute.svg';
+import unmuteIcon from '../../../assets/images/unmute.svg';
+import sendIcon from '../../../assets/images/send.svg';
+import heartOutlinedIcon from '../../../assets/images/heart-outlined.svg';
+import heartFilledIcon from '../../../assets/images/heart-filled.svg';
 
 @customElement('carousel-modal-slide')
 export class ModalSlide extends LitElement {
@@ -43,12 +49,10 @@ export class ModalSlide extends LitElement {
   swiperInitialized: boolean;
   currentProgress: number;
 
-  @state()
   private _mute: boolean;
 
   set mute(value: boolean) {
     this._mute = value;
-    window.mute = value; // Update window.mute whenever mute changes
   }
 
   get mute() {
@@ -58,8 +62,7 @@ export class ModalSlide extends LitElement {
   constructor() {
     super();
     this.swiperInitialized = false;
-    this._mute = true;
-    window.mute = this._mute;
+    this._mute = false;
     this.currentProgress = 0;
   }
 
@@ -119,9 +122,9 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          playActiveSlideVideo(swiper, this.data, this.loadFromUrl);
+          playActiveSlideVideo(swiper, this.data, this.mute);
           changeActiveReelParam(
-            'carouselVid',
+            'video_id',
             this.data.videos[swiper.activeIndex].uuid
           );
         },
@@ -142,12 +145,12 @@ export class ModalSlide extends LitElement {
         activeIndexChange: (swiper) => {
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
-            playActiveSlideVideo(swiper, this.data, this.loadFromUrl); // Play video on slide change
+            playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
           }
           // Changes the query param in the URL to make it sharable
           // TODO: move the carouselVid param name to constants
           changeActiveReelParam(
-            'carouselVid',
+            'video_id',
             this.data.videos[swiper.activeIndex].uuid
           );
         },
@@ -193,7 +196,7 @@ export class ModalSlide extends LitElement {
         'likedVideos',
         JSON.stringify([...likedList, vidObj.uuid])
       );
-      likeButton.src = '/assets/images/heart-filled.svg';
+      likeButton.src = heartFilledIcon;
     }
     // If liked, they are removed from the liked array in the localstorage
     else if (vidObj) {
@@ -203,7 +206,7 @@ export class ModalSlide extends LitElement {
           ...likedList.filter((uuid: string) => uuid !== vidObj.uuid),
         ])
       );
-      likeButton.src = '/assets/images/heart-outlined.svg';
+      likeButton.src = heartOutlinedIcon;
     }
   }
   _handleVideoShare(e: Event) {
@@ -251,24 +254,19 @@ export class ModalSlide extends LitElement {
     ) as HTMLIFrameElement;
     toggleMute(
       videoPlayer,
-      window.mute,
+      this.mute,
       (currentState: boolean) => (this.mute = !currentState)
     );
-    muteButton.src = this.mute
-      ? '/assets/images/mute.png'
-      : '/assets/images/unmute.png';
+    muteButton.src = this.mute ? muteIcon : unmuteIcon;
   }
 
   render_slide() {
-    console.log('we', this.mute);
     return html`
       <div class="swiper-slide modal-swiper-slide">
         <div class="video-player-wrapper">
           <img
             id="muteButton"
-            src=${this.mute
-              ? '/assets/images/mute.png'
-              : '/assets/images/unmute.png'}
+            src=${this.mute ? muteIcon : unmuteIcon}
             @click=${this._toggleMute}
           />
           <div
@@ -279,13 +277,13 @@ export class ModalSlide extends LitElement {
           <img
             id="Like"
             class="like"
-            src="/assets/images/heart-outlined.svg"
+            src=${heartOutlinedIcon}
             @click=${this._handleVideoLike}
           />
           <img
             id="Share"
             class="share"
-            src="/assets/images/send.svg"
+            src=${sendIcon}
             @click=${this._handleVideoShare}
           />
           <iframe

@@ -1,10 +1,14 @@
 import Swiper from 'swiper';
 import {SlideResponse} from '../../types';
+import muteIcon from '../../../assets/images/mute.svg';
+import unmuteIcon from '../../../assets/images/unmute.svg';
+
+let isFirstRun = true;
 
 export function playActiveSlideVideo(
   swiper: Swiper,
   slides: SlideResponse,
-  loadFromUrl = false
+  mute = false
 ) {
   // This function plays the active video and pauses the next and prev videos
 
@@ -36,9 +40,15 @@ export function playActiveSlideVideo(
   const isNextAvailable = swiper.slides.length - 1 > swiper.activeIndex;
   const isPrevAvailable = swiper.activeIndex >= 1;
 
+  const params = new URLSearchParams({
+    autoplay: String(true),
+    controls: String(false),
+  });
+
   // Providing src to the video
   if (!video.src) {
-    const videoUrl = slides.videos[swiper.activeIndex].url;
+    const videoUrl =
+      slides.videos[swiper.activeIndex].url + '?' + params.toString();
     video.src = videoUrl;
   }
 
@@ -48,7 +58,9 @@ export function playActiveSlideVideo(
     (swiper.previousIndex < swiper.activeIndex || swiper.activeIndex == 0)
   ) {
     const nextVideoUrl =
-      slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url;
+      slides.videos[isNextAvailable ? swiper.activeIndex + 1 : 0].url +
+      '?' +
+      params.toString();
     nextVideo.src = nextVideoUrl;
   }
   // Providing src to the prev video
@@ -61,14 +73,16 @@ export function playActiveSlideVideo(
     const prevVideoUrl =
       slides.videos[
         isPrevAvailable ? swiper.activeIndex - 1 : slides.videos.length - 1
-      ].url;
+      ].url +
+      '?' +
+      params.toString();
     prevVideo.src = prevVideoUrl;
   }
 
   // If prev video iframe is not loaded then pause after load
   prevVideo.addEventListener('load', () => {
     setTimeout(() => {
-      playPauseToggle(prevVideo, true);
+      playPauseToggle(prevVideo, true, mute);
       // playPauseToggle(nextVideo, true, "Load Prev - Next");
     }, 100);
   });
@@ -77,7 +91,7 @@ export function playActiveSlideVideo(
   nextVideo.addEventListener('load', () => {
     setTimeout(() => {
       // playPauseToggle(prevVideo, true, "Load Next - Prev");
-      playPauseToggle(nextVideo, true);
+      playPauseToggle(nextVideo, true, mute);
     }, 100);
   });
 
@@ -85,15 +99,14 @@ export function playActiveSlideVideo(
   // and play the current active video
   // TODO: need to fix this with some event to check when the iframe is loaded instead of timeout
   if (prevVideo) {
-    playPauseToggle(prevVideo, true);
+    playPauseToggle(prevVideo, true, mute);
   }
   if (nextVideo) {
-    playPauseToggle(nextVideo, true);
+    playPauseToggle(nextVideo, true, mute);
   }
   if (video) {
     setTimeout(() => {
-      const unmute = loadFromUrl ? false : true;
-      playPauseToggle(video, false, unmute);
+      playPauseToggle(video, false, mute);
     }, 100);
   }
 }
@@ -101,7 +114,7 @@ export function playActiveSlideVideo(
 export const playPauseToggle = (
   ModalSlideItemVidEl: HTMLIFrameElement,
   pause = false,
-  unmute = false
+  mute = false
 ) => {
   // Toggle play state . TODO should relay on data-[state] - DONE
   // Storing the play/pause state in the data attribute of the DOM element
@@ -140,16 +153,15 @@ export const playPauseToggle = (
     // video pauses.
     ModalSlideItemVidEl.dataset.intervalID = flag.toString();
   }
-  // Un-muting the video when we play it.
-  // setTimeout(() => {
-  //   muteVideo(ModalSlideItemVidEl, false);
-  // }, 800);
-  // if (window.mute === undefined) {
-  //   muteVideo(ModalSlideItemVidEl, true);
-  // }
-  // if (window.mute) muteVideo(ModalSlideItemVidEl, true);
-  // else muteVideo(ModalSlideItemVidEl, false);
-  muteVideo(ModalSlideItemVidEl, window.mute === undefined || window.mute);
+
+  if (isFirstRun) {
+    setTimeout(() => {
+      muteVideo(ModalSlideItemVidEl, mute); // Execute logic with delay
+      isFirstRun = false; // Mark first run as completed
+    }, 800);
+  } else {
+    muteVideo(ModalSlideItemVidEl, mute); // Execute logic immediately
+  }
 };
 
 // Changes the mute state with given state
@@ -165,18 +177,14 @@ export const muteVideo = (
       'mute',
       'https://video.dietpixels.net'
     );
-
-    // Storing the mute state to window object to use it globally.
-    window.mute = true;
   } else {
     ModalSlideItemVidEl.contentWindow?.postMessage(
       'unmute',
       'https://video.dietpixels.net'
     );
-    window.mute = false;
   }
   // Toggling between mute and unmute icons
-  muteBtn.src = mute ? '/assets/images/mute.png' : '/assets/images/unmute.png';
+  muteBtn.src = mute ? muteIcon : unmuteIcon;
 };
 
 // Toggles mute state
@@ -203,7 +211,5 @@ export const toggleMute = (
     '#muteButton'
   ) as HTMLImageElement;
   // Toggling between mute and unmute icons
-  muteBtn.src = muteState
-    ? '/assets/images/mute.png'
-    : '/assets/images/unmute.png';
+  muteBtn.src = muteState ? muteIcon : unmuteIcon;
 };

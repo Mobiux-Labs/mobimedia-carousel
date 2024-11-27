@@ -52,7 +52,7 @@ export class MobiCarousel extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('data')) {
       const params = new URLSearchParams(window.location.search);
-      const videoID = params.get('carouselVid');
+      const videoID = params.get('video_id');
       const slide_index_of_video = this.data.videos.findIndex(
         (video) => video.uuid === videoID
       );
@@ -96,7 +96,7 @@ export class MobiCarousel extends LitElement {
     ) as ModalSlide;
     if (!modalSlideElement) return;
     modalSlideElement.swiper?.destroy();
-    const url = removedURLParameter(window.location.href, 'carouselVid');
+    const url = removedURLParameter(window.location.href, 'video_id');
     history.replaceState(null, '', url);
   }
 
@@ -107,6 +107,8 @@ export class MobiCarousel extends LitElement {
 
     return html`
       <div>
+        <h1>${this.data.display_title}</h1>
+        <p>${this.data.description}</p>
         <carousel-root
           .data=${this.data}
           @onSlideClick=${this._handleSlideClick}

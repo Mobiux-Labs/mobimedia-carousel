@@ -1,5 +1,3 @@
-@import '../node_modules/swiper/swiper-bundle.min.css';
-
 :root {
   --mobimedia-slide-height: 1000px;
   --mobimedia-slide-height-mobile: calc(var(--mobimedia-slide-height));
