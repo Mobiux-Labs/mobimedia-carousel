@@ -1,3 +1,5 @@
+import {LitElement} from 'lit';
+
 export interface Video {
   uuid: string;
   url: string;
@@ -34,3 +36,9 @@ declare global {
     mute: boolean;
   }
 }
+
+declare class MobiCarousel extends LitElement {
+  playlistId: string;
+}
+
+export default MobiCarousel;
