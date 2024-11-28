@@ -2,6 +2,7 @@ import {LitElement, html} from 'lit';
 import {customElement, query, property} from 'lit/decorators.js';
 
 import {styleSheet} from './modal-styles';
+import closeIcon from '../../../assets/images/close.svg';
 
 @customElement('carousel-modal')
 export class Modal extends LitElement {
@@ -42,7 +43,12 @@ export class Modal extends LitElement {
         <div class="modal-overlay"></div>
         <div class="modal-content">
           <slot></slot>
-          <span class="close" @click="${this._closeModal}">&times;</span>
+          <img
+            class="close"
+            id="muteButton"
+            src=${closeIcon}
+            @click=${this._closeModal}
+          />
         </div>
       </div>
     `;

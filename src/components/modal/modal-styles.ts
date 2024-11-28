@@ -39,12 +39,14 @@ export const styleSheet = css`
 
   .close {
     position: absolute;
-    top: 20px;
-    right: 11px;
+    top: 30px;
+    right: 6px;
     color: white;
-    font-size: 41px;
+    font-size: 60px;
     font-weight: lighter;
     cursor: pointer;
     z-index: 1000;
+    width: 50px;
+    height: 50px;
   }
 `;

@@ -43,6 +43,7 @@ export function playActiveSlideVideo(
   const params = new URLSearchParams({
     autoplay: String(true),
     controls: String(false),
+    loop: String(true),
   });
 
   // Providing src to the video

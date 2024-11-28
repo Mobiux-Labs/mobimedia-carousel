@@ -31,8 +31,10 @@ export const styleSheet = css`
       box-sizing: border-box;
     }
     #muteButton {
-      right: 45px;
-      top: 32px;
+      right: 50px;
+      top: 40px;
+      width: 30px;
+      height: 30px;
     }
   }
   @media screen and (min-width: 640px) {
@@ -79,12 +81,12 @@ export const styleSheet = css`
     position: absolute;
     height: 25px;
     width: auto;
-    right: 14px;
-    bottom: 200px;
+    right: 19px;
+    bottom: 340px;
     cursor: pointer;
   }
   .share {
-    bottom: 160px;
+    bottom: 300px;
   }
   .swiper-slide-active #muteButton {
     opacity: 1;
