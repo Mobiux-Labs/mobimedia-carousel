@@ -44,6 +44,7 @@ export function playActiveSlideVideo(
     autoplay: String(true),
     controls: String(false),
     loop: String(true),
+    aspectRatio: '9:16',
   });
 
   // Providing src to the video
@@ -84,7 +85,6 @@ export function playActiveSlideVideo(
   prevVideo.addEventListener('load', () => {
     setTimeout(() => {
       playPauseToggle(prevVideo, true, mute);
-      // playPauseToggle(nextVideo, true, "Load Prev - Next");
     }, 100);
   });
 

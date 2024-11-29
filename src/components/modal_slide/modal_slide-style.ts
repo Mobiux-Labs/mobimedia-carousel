@@ -8,8 +8,8 @@ export const styleSheet = css`
     height: 25px;
     width: auto;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 15px;
+    top: 25px;
     cursor: pointer;
     opacity: 0;
   }
@@ -87,6 +87,14 @@ export const styleSheet = css`
   }
   .share {
     bottom: 300px;
+  }
+  @media screen and (min-width: 640px) {
+    .like {
+      bottom: 180px;
+    }
+    .share {
+      bottom: 135px;
+    }
   }
   .swiper-slide-active #muteButton {
     opacity: 1;
