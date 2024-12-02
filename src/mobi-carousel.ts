@@ -27,6 +27,7 @@ export class MobiCarousel extends LitElement {
       }
       .modal-carousal {
         width: min(100vw, 1080px);
+        user-select: none;
       }
     `,
   ];
