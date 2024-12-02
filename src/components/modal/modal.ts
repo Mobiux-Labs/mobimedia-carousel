@@ -43,12 +43,7 @@ export class Modal extends LitElement {
         <div class="modal-overlay"></div>
         <div class="modal-content">
           <slot></slot>
-          <img
-            class="close"
-            id="muteButton"
-            src=${closeIcon}
-            @click=${this._closeModal}
-          />
+          <img class="close" src=${closeIcon} @click=${this._closeModal} />
         </div>
       </div>
     `;
