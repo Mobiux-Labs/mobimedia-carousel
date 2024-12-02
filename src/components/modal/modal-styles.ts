@@ -39,7 +39,7 @@ export const styleSheet = css`
 
   .close {
     position: absolute;
-    top: 30px;
+    top: 18px;
     right: 6px;
     color: white;
     font-size: 60px;

@@ -31,8 +31,8 @@ export const styleSheet = css`
       box-sizing: border-box;
     }
     #muteButton {
-      right: 50px;
-      top: 40px;
+      right: 58px;
+      top: 28px;
       width: 30px;
       height: 30px;
     }
@@ -93,7 +93,7 @@ export const styleSheet = css`
       bottom: 180px;
     }
     .share {
-      bottom: 135px;
+      bottom: 125px;
     }
   }
   .swiper-slide-active #muteButton {
