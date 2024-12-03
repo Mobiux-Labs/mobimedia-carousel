@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.10...v0.1.0) (2024-12-03)
+
+
+### Bug Fixes
+
+* **release:** updated version commands ([16f8ac1](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/16f8ac137c8e51d6815ad9589051bb7894f04856))
+
 ### [0.0.10](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.9...v0.0.10) (2024-12-03)
 
 ### [0.0.9](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.8...v0.0.9) (2024-12-03)
