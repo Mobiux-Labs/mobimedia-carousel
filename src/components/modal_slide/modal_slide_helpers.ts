@@ -43,6 +43,8 @@ export function playActiveSlideVideo(
   const params = new URLSearchParams({
     autoplay: String(true),
     controls: String(false),
+    loop: String(true),
+    aspectRatio: '9:16',
   });
 
   // Providing src to the video
@@ -82,15 +84,13 @@ export function playActiveSlideVideo(
   // If prev video iframe is not loaded then pause after load
   prevVideo.addEventListener('load', () => {
     setTimeout(() => {
-      playPauseToggle(prevVideo, true, mute);
-      // playPauseToggle(nextVideo, true, "Load Prev - Next");
+      playPauseToggle(prevVideo, true, true);
     }, 100);
   });
 
   // If next video iframe is not loaded then pause after load
   nextVideo.addEventListener('load', () => {
     setTimeout(() => {
-      // playPauseToggle(prevVideo, true, "Load Next - Prev");
       playPauseToggle(nextVideo, true, mute);
     }, 100);
   });
@@ -193,6 +193,7 @@ export const toggleMute = (
   muteState: boolean,
   toggle: (state: boolean) => void
 ) => {
+  console.log('Came here');
   // Here we are storing the mute state in the window object
   if (muteState == false || muteState === undefined) {
     ModalSlideItemVidEl.contentWindow?.postMessage(

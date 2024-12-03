@@ -18,5 +18,4 @@ npm install @mobimedia/carousel
   <script type="module" src="./node_modules/@mobimedia/carousel/index.js"></script>
 </body>
 ```
-
 #WIP

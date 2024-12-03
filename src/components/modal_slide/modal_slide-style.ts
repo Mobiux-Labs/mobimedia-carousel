@@ -8,8 +8,8 @@ export const styleSheet = css`
     height: 25px;
     width: auto;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 15px;
+    top: 25px;
     cursor: pointer;
     opacity: 0;
   }
@@ -31,8 +31,10 @@ export const styleSheet = css`
       box-sizing: border-box;
     }
     #muteButton {
-      right: 45px;
-      top: 32px;
+      right: 58px;
+      top: 28px;
+      width: 30px;
+      height: 30px;
     }
   }
   @media screen and (min-width: 640px) {
@@ -79,12 +81,20 @@ export const styleSheet = css`
     position: absolute;
     height: 25px;
     width: auto;
-    right: 14px;
-    bottom: 200px;
+    right: 19px;
+    bottom: 340px;
     cursor: pointer;
   }
   .share {
-    bottom: 160px;
+    bottom: 300px;
+  }
+  @media screen and (min-width: 640px) {
+    .like {
+      bottom: 180px;
+    }
+    .share {
+      bottom: 125px;
+    }
   }
   .swiper-slide-active #muteButton {
     opacity: 1;
