@@ -44,8 +44,8 @@
     "prepare": "husky",
     "prepare-release": "run-s reset-hard test doc:html doc:publish",
     "prepare-release:patch": "run-s prepare-release version",
-    "prepare-release:minor": "run-s \"version --dry-run --release-as minor\"",
-    "prepare-release:major": "run-s prepare-release version -- --dry-run --release-as major",
+    "prepare-release:minor": "run-s prepare-release version -- --release-as minor",
+    "prepare-release:major": "run-s prepare-release version -- --release-as major",
     "commit": "commit"
   },
   "keywords": [
