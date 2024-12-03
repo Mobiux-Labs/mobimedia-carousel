@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.8...v0.0.9) (2024-12-03)
+
+
+### Bug Fixes
+
+* **audio:** fixed audio issue on mobile ([7c0d51a](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/7c0d51a692e9c74987e446b1c1b6220551843cb0))
+* **icon:** update icon style ([a84ce6b](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a84ce6be6ac99aad49aad813628936cf400bec0d))
+* **readme:** icon style and added readme ([18203fe](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/18203febd642f7b41caaa717eca1f39a2b2fab5a))
+* **style:** fixed style and icon changes ([06ffcc0](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/06ffcc052759cb68078fe35071f845d8cfc69d9a))
+* **svg:** added svg and fixed icon style ([d62fa6a](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/d62fa6a72069db30c48ce0704df0ef1aa80ccb79))
+
 ### [0.0.8](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.7...v0.0.8) (2024-11-27)
 
 
