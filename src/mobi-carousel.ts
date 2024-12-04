@@ -71,6 +71,7 @@ export class MobiCarousel extends LitElement {
       let slideElement = modal.querySelector(
         'carousel-modal-slide'
       ) as ModalSlide;
+      console.log('slideElement', slideElement);
       if (!slideElement) {
         slideElement = document.createElement(
           'carousel-modal-slide'

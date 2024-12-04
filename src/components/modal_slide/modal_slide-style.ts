@@ -99,4 +99,15 @@ export const styleSheet = css`
   .swiper-slide-active #muteButton {
     opacity: 1;
   }
+  .card-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    overflow-x: scroll;
+    margin-top: -140px;
+    max-width: 304px;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 `;
