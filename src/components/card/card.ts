@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {customElement, property, query} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
 import {cardStyles} from './card-styles';
 import {ProductData} from '../../types';
 import {formatPrice} from '../../helpers/utils';
