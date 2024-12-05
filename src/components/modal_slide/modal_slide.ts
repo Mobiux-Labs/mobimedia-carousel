@@ -8,7 +8,7 @@ import {
 } from './modal_slide_helpers';
 import {styleSheet} from './modal_slide-style';
 import {styleSheet as swiperStyleSheet} from '../shared_styles/swiper-styles';
-import {SlideResponse} from '../../types';
+import {SlideResponse, Video} from '../../types';
 
 import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
@@ -265,12 +265,11 @@ export class ModalSlide extends LitElement {
     muteButton.src = this.mute ? muteIcon : unmuteIcon;
   }
 
-  render_slide() {
-    console.log('this.uuid99', this.uuid);
+  render_slide(videoItem: Video) {
     const filteredItem = this.data.videos.filter(
-      (item) => item.uuid === this.uuid
+      (item) => item.uuid === videoItem.uuid
     )[0];
-    console.log('filteredItem', filteredItem);
+    console.log('filteredItem');
     return html`
       <div class="swiper-slide modal-swiper-slide">
         <div class="video-player-wrapper">
@@ -303,16 +302,14 @@ export class ModalSlide extends LitElement {
             data-play="false"
           ></iframe>
           <div class="card-container">
-            <card-slide .product=""></card-slide>
+            ${filteredItem?.products.map(
+              (item) => html` <card-slide .product="${item}"></card-slide> `
+            )}
           </div>
         </div>
       </div>
     `;
   }
-
-  //  ${filteredItem?.products.map(
-  //             (item) => html` <card-slide .product="${item}"></card-slide> `
-  //           )}
 
   override render() {
     console.log('this.uuid996', this.uuid);
@@ -320,10 +317,7 @@ export class ModalSlide extends LitElement {
       <div class="swiper swiper-modal-container">
         <div class="swiper-wrapper" id="modal-slides">
           <!-- Slides will be added dynamically -->
-          ${this.data.videos.map(
-            (_item, _idx) => this.render_slide()
-            // html` <carousel-slide .item=${item} .idx=${_idx} class="swiper-slide main-swiper-slide"></carousel-slide> `
-          )}
+          ${this.data.videos.map((_item, _idx) => this.render_slide(_item))}
         </div>
       </div>
 

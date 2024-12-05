@@ -82,26 +82,27 @@ export const styleSheet = css`
     height: 25px;
     width: auto;
     right: 19px;
-    bottom: 340px;
+    bottom: 390px;
     cursor: pointer;
   }
   .share {
-    bottom: 300px;
+    bottom: 340px;
   }
   @media screen and (min-width: 640px) {
     .like {
-      bottom: 180px;
+      bottom: 210px;
     }
     .share {
-      bottom: 125px;
+      bottom: 155px;
     }
   }
   .swiper-slide-active #muteButton {
     opacity: 1;
   }
+
   .card-container {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 4px;
+    margin-left: 4px;
     display: flex;
     overflow-x: scroll;
     margin-top: -140px;
@@ -109,5 +110,15 @@ export const styleSheet = css`
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    gap: 12px;
+  }
+
+  @media screen and (max-width: 640px) {
+    .card-container {
+      margin-left: 3%;
+      margin-right: 1%;
+      margin-top: -260px;
+      max-width: 360px;
+    }
   }
 `;

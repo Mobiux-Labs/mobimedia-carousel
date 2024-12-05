@@ -26,3 +26,11 @@ export function changeActiveReelParam(param: string, value: string) {
   newUrl.searchParams.append(param, value);
   history.replaceState(null, '', newUrl);
 }
+
+export function formatPrice(price: Number) {
+  const formatter = new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formatter.format(price);
+}

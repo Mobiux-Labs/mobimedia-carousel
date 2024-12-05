@@ -1,6 +1,7 @@
 import {LitElement} from 'lit';
 
 export interface Video {
+  products: ProductData[];
   uuid: string;
   url: string;
   thumbnail: string;
@@ -31,8 +32,9 @@ export interface SwiperInstance {
 
 export interface ProductData {
   uuid: string;
-  link: string;
+  link: URL;
   display_title: string;
+  description: string;
   duration: string;
   thumbnail: string;
   display_price: number;
