@@ -93,7 +93,7 @@ export const styleSheet = css`
       bottom: 210px;
     }
     .share {
-      bottom: 155px;
+      bottom: 170px;
     }
   }
   .swiper-slide-active #muteButton {

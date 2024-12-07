@@ -8,6 +8,7 @@ import redirectIcon from '../../../assets/images/redirect.svg';
 @customElement('card-slide')
 export class Card extends LitElement {
   @property({type: Object}) product: ProductData | undefined;
+  @property({type: Boolean}) isSingleProduct = false;
 
   static override styles = [
     css`
@@ -22,29 +23,35 @@ export class Card extends LitElement {
   }
 
   override render() {
-    console.log('this.product', this.product);
     return html`
-      <div id="product-card" style="display: flex;">
+      <div
+        id="product-card"
+        class="${this.isSingleProduct ? 'single-product' : ''}"
+      >
         <img id="product-thumbnail" src=${this.product?.thumbnail} />
         <div class="product-info">
           <img class="redirectIcon" src=${redirectIcon} @click="" />
           <div class="product-title">${this.product?.display_title}</div>
-
-          <div class="product-description">${this.product?.description}</div>
           <div class="product-pricing">
-            &#8377;&nbsp;${formatPrice(this.product?.display_price ?? 0)}
-            ${this.product?.display_price !== this.product?.compare_price
-              ? html`
-                  <span
-                    class="line-through"
-                    style="margin-left: 4px; color: grey; text-decoration: line-through;"
-                  >
-                    &#8377;&nbsp;${formatPrice(
-                      this.product?.compare_price ?? 0
-                    )}
+            ${Number(this.product?.display_price) === 0.0
+              ? html`<span class="free-text">Free</span>`
+              : html`
+                  <span class="">
+                    &#8377;${formatPrice(this.product?.display_price ?? 0)}
                   </span>
-                `
-              : ''}
+                  ${this.product?.display_price !== this.product?.compare_price
+                    ? html`
+                        <span
+                          class="line-through"
+                          style="margin-left: 4px; color: grey; text-decoration: line-through;"
+                        >
+                          &#8377;${formatPrice(
+                            this.product?.compare_price ?? 0
+                          )}
+                        </span>
+                      `
+                    : ''}
+                `}
           </div>
           <div>
             <button

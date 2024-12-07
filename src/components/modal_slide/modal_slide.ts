@@ -147,7 +147,6 @@ export class ModalSlide extends LitElement {
         },
         activeIndexChange: (swiper) => {
           this.uuid = this.data.videos[swiper.activeIndex].uuid;
-          console.log('this.uuid11', this.uuid);
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
             playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
@@ -269,7 +268,6 @@ export class ModalSlide extends LitElement {
     const filteredItem = this.data.videos.filter(
       (item) => item.uuid === videoItem.uuid
     )[0];
-    console.log('filteredItem');
     return html`
       <div class="swiper-slide modal-swiper-slide">
         <div class="video-player-wrapper">
@@ -303,7 +301,13 @@ export class ModalSlide extends LitElement {
           ></iframe>
           <div class="card-container">
             ${filteredItem?.products.map(
-              (item) => html` <card-slide .product="${item}"></card-slide> `
+              (item, index, array) => html`
+                <card-slide
+                  .product="${item}"
+                  .isSingleProduct="${array.length === 1}"
+                  >></card-slide
+                >
+              `
             )}
           </div>
         </div>
@@ -312,7 +316,6 @@ export class ModalSlide extends LitElement {
   }
 
   override render() {
-    console.log('this.uuid996', this.uuid);
     return html`
       <div class="swiper swiper-modal-container">
         <div class="swiper-wrapper" id="modal-slides">
