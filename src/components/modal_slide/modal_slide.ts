@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit';
-import {customElement, query, property} from 'lit/decorators.js';
+import {customElement, query, property, state} from 'lit/decorators.js';
 
 import {
   playActiveSlideVideo,
@@ -8,12 +8,13 @@ import {
 } from './modal_slide_helpers';
 import {styleSheet} from './modal_slide-style';
 import {styleSheet as swiperStyleSheet} from '../shared_styles/swiper-styles';
-import {SlideResponse} from '../../types';
+import {SlideResponse, Video} from '../../types';
 
 import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
 
 import {changeActiveReelParam} from '../../helpers/utils';
+import '../card/card';
 
 import muteIcon from '../../../assets/images/mute.svg';
 import unmuteIcon from '../../../assets/images/unmute.svg';
@@ -44,6 +45,8 @@ export class ModalSlide extends LitElement {
 
   @property({type: Boolean})
   loadFromUrl!: boolean;
+
+  @state() private uuid: string | null = null;
 
   // @state()
   swiperInitialized: boolean;
@@ -143,6 +146,7 @@ export class ModalSlide extends LitElement {
           console.log('Swiper Updated');
         },
         activeIndexChange: (swiper) => {
+          this.uuid = this.data.videos[swiper.activeIndex].uuid;
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
             playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
@@ -260,7 +264,10 @@ export class ModalSlide extends LitElement {
     muteButton.src = this.mute ? muteIcon : unmuteIcon;
   }
 
-  render_slide() {
+  render_slide(videoItem: Video) {
+    const filteredItem = this.data.videos.filter(
+      (item) => item.uuid === videoItem.uuid
+    )[0];
     return html`
       <div class="swiper-slide modal-swiper-slide">
         <div class="video-player-wrapper">
@@ -292,6 +299,17 @@ export class ModalSlide extends LitElement {
             allowfullscreen
             data-play="false"
           ></iframe>
+          <div class="card-container">
+            ${filteredItem?.products.map(
+              (item, index, array) => html`
+                <card-slide
+                  .product="${item}"
+                  .isSingleProduct="${array.length === 1}"
+                  >></card-slide
+                >
+              `
+            )}
+          </div>
         </div>
       </div>
     `;
@@ -302,10 +320,7 @@ export class ModalSlide extends LitElement {
       <div class="swiper swiper-modal-container">
         <div class="swiper-wrapper" id="modal-slides">
           <!-- Slides will be added dynamically -->
-          ${this.data.videos.map(
-            (_item, _idx) => this.render_slide()
-            // html` <carousel-slide .item=${item} .idx=${_idx} class="swiper-slide main-swiper-slide"></carousel-slide> `
-          )}
+          ${this.data.videos.map((_item, _idx) => this.render_slide(_item))}
         </div>
       </div>
 
