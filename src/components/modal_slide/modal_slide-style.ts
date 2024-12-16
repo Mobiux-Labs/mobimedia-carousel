@@ -105,12 +105,22 @@ export const styleSheet = css`
     margin-left: 4px;
     display: flex;
     overflow-x: scroll;
-    margin-top: -140px;
+    margin-top: -160px;
     max-width: 304px;
+    position: relative;
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none;
-    scrollbar-width: none;
     gap: 12px;
+    padding-bottom: 14px;
+  }
+
+  .card-container::-webkit-scrollbar {
+    height: 6px;
+    background-color: #f5f5f5;
+  }
+
+  .card-container::-webkit-scrollbar-thumb {
+    background-color: #aaaaaa;
   }
 
   @media screen and (max-width: 640px) {
@@ -119,6 +129,10 @@ export const styleSheet = css`
       margin-right: 1%;
       margin-top: -260px;
       max-width: 360px;
+    }
+
+    .card-container::-webkit-scrollbar {
+      display: none;
     }
   }
 `;

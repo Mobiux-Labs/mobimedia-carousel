@@ -299,17 +299,19 @@ export class ModalSlide extends LitElement {
             allowfullscreen
             data-play="false"
           ></iframe>
-          <div class="card-container">
-            ${filteredItem?.products.map(
-              (item, index, array) => html`
-                <card-slide
-                  .product="${item}"
-                  .isSingleProduct="${array.length === 1}"
-                  >></card-slide
-                >
+          ${filteredItem?.products.length > 0
+            ? html`
+                <div class="card-container">
+                  ${filteredItem.products.map(
+                    (item, _, array) => html` <card-slide
+                      .product="${item}"
+                      .isSingleProduct="${array.length === 1}"
+                    >
+                    </card-slide>`
+                  )}
+                </div>
               `
-            )}
-          </div>
+            : ''}
         </div>
       </div>
     `;

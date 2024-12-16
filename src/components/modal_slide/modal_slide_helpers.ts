@@ -82,27 +82,27 @@ export function playActiveSlideVideo(
   }
 
   // If prev video iframe is not loaded then pause after load
-  prevVideo.addEventListener('load', () => {
-    setTimeout(() => {
-      playPauseToggle(prevVideo, true, true);
-    }, 100);
-  });
+  // prevVideo.addEventListener('load', () => {
+  //   setTimeout(() => {
+  //     playPauseToggle(prevVideo, true, true);
+  //   }, 100);
+  // });
 
-  // If next video iframe is not loaded then pause after load
-  nextVideo.addEventListener('load', () => {
-    setTimeout(() => {
-      playPauseToggle(nextVideo, true, mute);
-    }, 100);
-  });
+  // // If next video iframe is not loaded then pause after load
+  // nextVideo.addEventListener('load', () => {
+  //   setTimeout(() => {
+  //     playPauseToggle(nextVideo, true, mute);
+  //   }, 100);
+  // });
 
   // If the iframes are loaded this will work to pause the next and prev videos
   // and play the current active video
   // TODO: need to fix this with some event to check when the iframe is loaded instead of timeout
   if (prevVideo) {
-    playPauseToggle(prevVideo, true, mute);
+    playPauseToggle(prevVideo, true, true);
   }
   if (nextVideo) {
-    playPauseToggle(nextVideo, true, mute);
+    playPauseToggle(nextVideo, true, true);
   }
   if (video) {
     setTimeout(() => {
