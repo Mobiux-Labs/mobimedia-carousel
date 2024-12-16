@@ -1,9 +1,5 @@
 import {css} from 'lit';
 
-//  .card-container::-webkit-scrollbar {
-//     display: none;
-//   }
-
 export const cardStyles = css`
   #product-card {
     display: flex;

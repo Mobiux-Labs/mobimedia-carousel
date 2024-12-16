@@ -29,7 +29,7 @@ export function playActiveSlideVideo(
   // Setting global active reel slide reference
   window.activeReelSlide = reelSlide;
 
-  const prevVideo = prevReelSlide.querySelector(
+  const prevVideo: HTMLIFrameElement = prevReelSlide.querySelector(
     '.video-player'
   ) as HTMLIFrameElement;
   const nextVideo = nextReelSlide.querySelector(
@@ -47,11 +47,24 @@ export function playActiveSlideVideo(
     aspectRatio: '9:16',
   });
 
+  const shared = new URLSearchParams(window.location.search).get('shared');
+  const currentVideoId = slides.videos[swiper.activeIndex].uuid;
+  const nextVideoId = slides.videos[swiper.activeIndex + 1]?.uuid;
+  const prevVideoId = slides.videos[swiper.activeIndex - 1]?.uuid;
+
   // Providing src to the video
   if (!video.src) {
     const videoUrl =
       slides.videos[swiper.activeIndex].url + '?' + params.toString();
     video.src = videoUrl;
+
+    if (!shared) {
+      setTimeout(() => {
+        if (isCurrentVideoPlaying(currentVideoId)) {
+          playPauseToggle(video, false, mute);
+        }
+      }, 1500);
+    }
   }
 
   // Providing src to the next video
@@ -64,6 +77,14 @@ export function playActiveSlideVideo(
       '?' +
       params.toString();
     nextVideo.src = nextVideoUrl;
+
+    nextVideo.addEventListener('load', () => {
+      setTimeout(() => {
+        if (!isCurrentVideoPlaying(nextVideoId)) {
+          playPauseToggle(nextVideo, true, mute);
+        }
+      }, 1500);
+    });
   }
   // Providing src to the prev video
   if (
@@ -79,43 +100,42 @@ export function playActiveSlideVideo(
       '?' +
       params.toString();
     prevVideo.src = prevVideoUrl;
+
+    prevVideo.addEventListener('load', () => {
+      setTimeout(() => {
+        if (!isCurrentVideoPlaying(prevVideoId)) {
+          playPauseToggle(prevVideo, true, true);
+        }
+      }, 1500);
+    });
   }
-
-  // If prev video iframe is not loaded then pause after load
-  // prevVideo.addEventListener('load', () => {
-  //   setTimeout(() => {
-  //     playPauseToggle(prevVideo, true, true);
-  //   }, 100);
-  // });
-
-  // // If next video iframe is not loaded then pause after load
-  // nextVideo.addEventListener('load', () => {
-  //   setTimeout(() => {
-  //     playPauseToggle(nextVideo, true, mute);
-  //   }, 100);
-  // });
 
   // If the iframes are loaded this will work to pause the next and prev videos
   // and play the current active video
   // TODO: need to fix this with some event to check when the iframe is loaded instead of timeout
-  if (prevVideo) {
+  if (prevVideo.src) {
     playPauseToggle(prevVideo, true, true);
   }
-  if (nextVideo) {
+
+  if (nextVideo.src) {
     playPauseToggle(nextVideo, true, true);
   }
-  if (video) {
-    setTimeout(() => {
-      playPauseToggle(video, false, mute);
-    }, 100);
+
+  if (video.src && !shared) {
+    playPauseToggle(video, false, mute);
   }
 }
+
+const isCurrentVideoPlaying = (videoId: string) => {
+  return videoId == new URLSearchParams(window.location.search).get('video_id');
+};
 
 export const playPauseToggle = (
   ModalSlideItemVidEl: HTMLIFrameElement,
   pause = false,
   mute = false
 ) => {
+  console.log('videoID_ModalSlideItemVidEl', ModalSlideItemVidEl);
   // Toggle play state . TODO should relay on data-[state] - DONE
   // Storing the play/pause state in the data attribute of the DOM element
   if (pause === true) {

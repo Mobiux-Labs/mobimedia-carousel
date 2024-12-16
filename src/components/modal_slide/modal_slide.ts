@@ -46,8 +46,6 @@ export class ModalSlide extends LitElement {
   @property({type: Boolean})
   loadFromUrl!: boolean;
 
-  @state() private uuid: string | null = null;
-
   // @state()
   swiperInitialized: boolean;
   currentProgress: number;
@@ -146,17 +144,25 @@ export class ModalSlide extends LitElement {
           console.log('Swiper Updated');
         },
         activeIndexChange: (swiper) => {
-          this.uuid = this.data.videos[swiper.activeIndex].uuid;
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
             playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
           }
+          if (swiper.originalParams.initialSlide !== swiper.activeIndex) {
+            changeActiveReelParam(
+              'video_id',
+              this.data.videos[swiper.activeIndex].uuid,
+              true
+            );
+          } else {
+            changeActiveReelParam(
+              'video_id',
+              this.data.videos[swiper.activeIndex].uuid,
+              false
+            );
+          }
           // Changes the query param in the URL to make it sharable
           // TODO: move the carouselVid param name to constants
-          changeActiveReelParam(
-            'video_id',
-            this.data.videos[swiper.activeIndex].uuid
-          );
         },
       },
     });
@@ -215,7 +221,8 @@ export class ModalSlide extends LitElement {
   }
   _handleVideoShare(e: Event) {
     e.stopPropagation();
-
+    const params = new URLSearchParams(window.location.search);
+    params.append('shared', 'true');
     // TODO: Need to detect the device instead of relying on the screen width
     // Open the native share popup in android/ios devices
     if (window.innerWidth < 1200)
@@ -229,7 +236,10 @@ export class ModalSlide extends LitElement {
         .catch((err) => console.log('Error while sharing', err));
     // Or copy the link to the clipboard in computers
     else {
-      navigator.clipboard.writeText(window.location.href);
+      const origin = window.location.origin;
+      const pathname = window.location.pathname;
+      const newUrl = `${origin}${pathname}?${params}`;
+      navigator.clipboard.writeText(newUrl);
       this._showNotification('Link copied to clipboard!');
     }
   }
