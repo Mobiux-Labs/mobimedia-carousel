@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.0...v0.1.1) (2024-12-17)
+
+
+### Features
+
+* **card:** added product cards ([ba3c0a6](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/ba3c0a68c59f2d84da26a01a0c21b40e754cbc00))
+* **card:** added product cards with styles ([88aed8c](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/88aed8c0d7b9c98e3e182306f8cced80f1e04a54))
+* **card:** added product cards with styles ([a3e0ae8](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a3e0ae89a29cc9775cb59241cae2fcd6f47a8c1f))
+* **card:** added product cards with styles ([197ae35](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/197ae353a2f6e9fdef5ed45cfa8e2eb47770977e))
+* **card:** added product cards with updated style fixes ([5e9a8a5](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/5e9a8a5aaab4a3693829875036960437622318e8))
+* **card:** added product cards with updated style fixes ([d80bc12](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/d80bc12b1585c7e6f3c03aeb73495c2e4f73df57))
+
+
+### Bug Fixes
+
+* **card:** removed unused state ([f651bda](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f651bda2087e1459ad3b197ccff047c4d65bf7c7))
+* **mute:** fixed multiple mute issue ([8dd50f7](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/8dd50f79536134aabb5caa839564fe13818f4aaf))
+
 ## [0.1.0](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.10...v0.1.0) (2024-12-03)
 
 
