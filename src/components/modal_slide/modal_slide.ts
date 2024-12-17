@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
+import {customElement, query, property} from 'lit/decorators.js';
 
 import {
   playActiveSlideVideo,
