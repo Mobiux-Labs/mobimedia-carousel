@@ -1,6 +1,7 @@
 import {LitElement} from 'lit';
 
 export interface Video {
+  products: ProductData[];
   uuid: string;
   url: string;
   thumbnail: string;
@@ -27,6 +28,18 @@ export interface SwiperInstance {
   activeIndex: number;
   previousIndex: number;
   destroy: (deleteInstance?: boolean, cleanStyles?: boolean) => void;
+}
+
+export interface ProductData {
+  uuid: string;
+  link: URL;
+  display_title: string;
+  description: string;
+  duration: string;
+  thumbnail: string;
+  display_price: number;
+  compare_price: number;
+  is_out_of_stock: boolean;
 }
 
 declare global {

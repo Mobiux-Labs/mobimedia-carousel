@@ -20,9 +20,24 @@ export function removedURLParameter(url: string, parameter: string) {
 }
 
 // Changes the query param with the new uuid of the new active reel
-export function changeActiveReelParam(param: string, value: string) {
+export function changeActiveReelParam(
+  param: string,
+  value: string,
+  removeShared = false
+) {
   const url = removedURLParameter(window.location.href, param);
   const newUrl = new URL(url);
   newUrl.searchParams.append(param, value);
+  if (removeShared) {
+    newUrl.searchParams.delete('shared');
+  }
   history.replaceState(null, '', newUrl);
+}
+
+export function formatPrice(price: number) {
+  const formatter = new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formatter.format(price);
 }
