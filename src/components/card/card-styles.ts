@@ -45,9 +45,11 @@ export const cardStyles = css`
     color: black;
     margin-top: 6px;
     float: right;
+    width: 199px;
   }
 
   .product-title {
+    height: 32px;
     font-size: 14px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
