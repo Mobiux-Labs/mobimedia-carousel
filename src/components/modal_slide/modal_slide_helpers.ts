@@ -135,7 +135,6 @@ export const playPauseToggle = (
   pause = false,
   mute = false
 ) => {
-  console.log('videoID_ModalSlideItemVidEl', ModalSlideItemVidEl);
   // Toggle play state . TODO should relay on data-[state] - DONE
   // Storing the play/pause state in the data attribute of the DOM element
   if (pause === true) {
@@ -175,6 +174,13 @@ export const playPauseToggle = (
   }
 
   if (isFirstRun) {
+    setInterval(() => {
+      ModalSlideItemVidEl.contentWindow?.postMessage(
+        'userSession',
+        'https://video.dietpixels.net'
+      );
+    }, 1000);
+
     setTimeout(() => {
       muteVideo(ModalSlideItemVidEl, mute); // Execute logic with delay
       isFirstRun = false; // Mark first run as completed
