@@ -129,7 +129,15 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          playActiveSlideVideo(swiper, this.data, this.mute);
+          console.log('sessionId init', this.sessionId);
+          playActiveSlideVideo(
+            swiper,
+            this.data,
+            this.mute,
+            this.playlistId,
+            this.sessionId,
+            this.userId
+          );
           changeActiveReelParam(
             'video_id',
             this.data.videos[swiper.activeIndex].uuid
@@ -152,7 +160,14 @@ export class ModalSlide extends LitElement {
         activeIndexChange: (swiper) => {
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
-            playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
+            playActiveSlideVideo(
+              swiper,
+              this.data,
+              this._mute,
+              this.playlistId,
+              this.sessionId,
+              this.userId
+            );
           }
           if (swiper.originalParams.initialSlide !== swiper.activeIndex) {
             changeActiveReelParam(
@@ -175,6 +190,7 @@ export class ModalSlide extends LitElement {
   }
 
   _handleMessageFromPlayer(e: MessageEvent) {
+    console.log('sessionId in message', this.sessionId);
     if (
       typeof e.data.userId != 'undefined' &&
       e.data.sessionId != 'undefined'

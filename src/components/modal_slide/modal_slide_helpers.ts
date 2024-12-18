@@ -2,15 +2,20 @@ import Swiper from 'swiper';
 import {SlideResponse} from '../../types';
 import muteIcon from '../../../assets/images/mute.svg';
 import unmuteIcon from '../../../assets/images/unmute.svg';
+import {IngestCall} from '../../helpers/utils';
 
 let isFirstRun = true;
 
 export function playActiveSlideVideo(
   swiper: Swiper,
   slides: SlideResponse,
-  mute = false
+  mute = false,
+  playlistId: string,
+  sessionId: string,
+  userId: string
 ) {
   // This function plays the active video and pauses the next and prev videos
+  console.log('sessionId in fun', sessionId);
 
   const prevReelSlide =
     swiper.slides[
@@ -122,6 +127,13 @@ export function playActiveSlideVideo(
   }
 
   if (video.src && !shared) {
+    const parts = video.src.split('/media/');
+    const videoId = parts[1]?.split('/')[0] || null;
+    if (videoId) {
+      setTimeout(() => {
+        IngestCall('video_clicked', videoId, playlistId, sessionId, userId);
+      }, 1500);
+    }
     playPauseToggle(video, false, mute);
   }
 }
