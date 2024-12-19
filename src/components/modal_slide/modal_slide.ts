@@ -12,7 +12,7 @@ import {SlideResponse, Video} from '../../types';
 
 import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
-import {IngestCall} from '../../helpers/utils';
+import {ingestCall} from '../../helpers/utils';
 
 import {changeActiveReelParam} from '../../helpers/utils';
 import '../card/card';
@@ -48,10 +48,12 @@ export class ModalSlide extends LitElement {
   @property({type: Boolean})
   loadFromUrl!: boolean;
 
+  @property({type: String}) sessionId = '';
+
   // @state()
   swiperInitialized: boolean;
   currentProgress: number;
-  sessionId: string;
+
   userId: string;
 
   private _mute: boolean;
@@ -129,7 +131,6 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          console.log('sessionId init', this.sessionId);
           playActiveSlideVideo(
             swiper,
             this.data,
@@ -190,7 +191,6 @@ export class ModalSlide extends LitElement {
   }
 
   _handleMessageFromPlayer(e: MessageEvent) {
-    console.log('sessionId in message', this.sessionId);
     if (
       typeof e.data.userId != 'undefined' &&
       e.data.sessionId != 'undefined'
@@ -233,13 +233,7 @@ export class ModalSlide extends LitElement {
       activeIndex !== undefined ? this.data.videos[activeIndex] : null;
     // If not liked, they are stored in the liked array in the localstorage
     if (vidObj && !likedList.includes(vidObj.uuid)) {
-      IngestCall(
-        'video_liked',
-        vidObj.uuid,
-        this.playlistId,
-        this.sessionId,
-        this.userId
-      );
+      ingestCall('video_liked', this.playlistId, this.sessionId, this.userId);
       localStorage.setItem(
         'likedVideos',
         JSON.stringify([...likedList, vidObj.uuid])
@@ -265,13 +259,7 @@ export class ModalSlide extends LitElement {
     const vidObj =
       activeIndex !== undefined ? this.data.videos[activeIndex] : null;
     if (vidObj) {
-      IngestCall(
-        'video_shared',
-        vidObj.uuid,
-        this.playlistId,
-        this.sessionId,
-        this.userId
-      );
+      ingestCall('video_shared', this.playlistId, this.sessionId, this.userId);
     }
     // TODO: Need to detect the device instead of relying on the screen width
     // Open the native share popup in android/ios devices
@@ -366,6 +354,9 @@ export class ModalSlide extends LitElement {
                     (item, _, array) => html` <card-slide
                       .product="${item}"
                       .isSingleProduct="${array.length === 1}"
+                      .userId="${this.userId}"
+                      .playlistId="${this.playlistId}"
+                      .sessionId="${this.sessionId}"
                     >
                     </card-slide>`
                   )}

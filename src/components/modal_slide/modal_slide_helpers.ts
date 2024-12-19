@@ -2,7 +2,7 @@ import Swiper from 'swiper';
 import {SlideResponse} from '../../types';
 import muteIcon from '../../../assets/images/mute.svg';
 import unmuteIcon from '../../../assets/images/unmute.svg';
-import {IngestCall} from '../../helpers/utils';
+import {ingestCall} from '../../helpers/utils';
 
 let isFirstRun = true;
 
@@ -67,6 +67,11 @@ export function playActiveSlideVideo(
       setTimeout(() => {
         if (isCurrentVideoPlaying(currentVideoId)) {
           playPauseToggle(video, false, mute);
+
+          video.contentWindow?.postMessage(
+            'userSession',
+            'https://video.dietpixels.net'
+          );
         }
       }, 1500);
     }
@@ -131,8 +136,10 @@ export function playActiveSlideVideo(
     const videoId = parts[1]?.split('/')[0] || null;
     if (videoId) {
       setTimeout(() => {
-        IngestCall('video_clicked', videoId, playlistId, sessionId, userId);
-      }, 1500);
+        if (isCurrentVideoPlaying(currentVideoId)) {
+          ingestCall('video_clicked', playlistId, sessionId, userId);
+        }
+      }, 5000);
     }
     playPauseToggle(video, false, mute);
   }
@@ -186,13 +193,6 @@ export const playPauseToggle = (
   }
 
   if (isFirstRun) {
-    setInterval(() => {
-      ModalSlideItemVidEl.contentWindow?.postMessage(
-        'userSession',
-        'https://video.dietpixels.net'
-      );
-    }, 1000);
-
     setTimeout(() => {
       muteVideo(ModalSlideItemVidEl, mute); // Execute logic with delay
       isFirstRun = false; // Mark first run as completed

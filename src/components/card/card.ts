@@ -1,14 +1,18 @@
 import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {cardStyles} from './card-styles';
 import {ProductData} from '../../types';
 import {formatPrice} from '../../helpers/utils';
 import redirectIcon from '../../../assets/images/redirect.svg';
+import {ingestCallBuyNow} from '../../helpers/utils';
 
 @customElement('card-slide')
 export class Card extends LitElement {
   @property({type: Object}) product: ProductData | undefined;
   @property({type: Boolean}) isSingleProduct = false;
+  @property({type: String}) playlistId = '';
+  @property({type: String}) userId = '';
+  @state() sessionId = '';
 
   static override styles = [
     css`
@@ -18,8 +22,23 @@ export class Card extends LitElement {
     cardStyles,
   ];
 
-  handleShopNowClick(link: URL) {
+  handleShopNowClick(
+    sessionId: string,
+    productVid: string,
+    comparePrice: number,
+    displayPrice: number,
+    link: URL
+  ) {
     window.open(link, '_blank');
+    ingestCallBuyNow(
+      'buy_now',
+      this.playlistId,
+      productVid,
+      Math.floor(displayPrice),
+      Math.floor(comparePrice),
+      sessionId,
+      this.userId
+    );
   }
 
   override render() {
@@ -56,8 +75,16 @@ export class Card extends LitElement {
           <div>
             <button
               class="product-shop-now"
-              @click=${() =>
-                this.handleShopNowClick(new URL(this.product?.link ?? ''))}
+              @click=${() => {
+                console.log('Button clicked');
+                this.handleShopNowClick(
+                  this.sessionId,
+                  this.product?.uuid ?? '',
+                  this.product?.compare_price ?? 0,
+                  this.product?.display_price ?? 0,
+                  new URL(this.product?.link ?? '')
+                );
+              }}
             >
               Shop Now
             </button>
