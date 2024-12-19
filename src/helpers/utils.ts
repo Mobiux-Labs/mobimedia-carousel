@@ -66,7 +66,6 @@ export function ingestCall(
 }
 
 export function ingestCallBuyNow(
-  eventType: string,
   playlistId: string,
   productId: string,
   displayPrice: number,
@@ -82,7 +81,7 @@ export function ingestCallBuyNow(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      event_type: eventType,
+      event_type: 'buy_now',
       video_id: videoId,
       playlist_id: playlistId,
       product_id: productId,

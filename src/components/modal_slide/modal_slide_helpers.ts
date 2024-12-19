@@ -15,8 +15,6 @@ export function playActiveSlideVideo(
   userId: string
 ) {
   // This function plays the active video and pauses the next and prev videos
-  console.log('sessionId in fun', sessionId);
-
   const prevReelSlide =
     swiper.slides[
       swiper.activeIndex <= 0

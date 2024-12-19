@@ -31,7 +31,6 @@ export class Card extends LitElement {
   ) {
     window.open(link, '_blank');
     ingestCallBuyNow(
-      'buy_now',
       this.playlistId,
       productVid,
       Math.floor(displayPrice),
@@ -76,7 +75,6 @@ export class Card extends LitElement {
             <button
               class="product-shop-now"
               @click=${() => {
-                console.log('Button clicked');
                 this.handleShopNowClick(
                   this.sessionId,
                   this.product?.uuid ?? '',
