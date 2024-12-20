@@ -1,6 +1,6 @@
 {
   "name": "@mobimedia/carousel",
-  "version": "0.0.8",
+  "version": "0.1.1",
   "description": "A carousel component for displaying Dietpixels playlist in reels view.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -44,8 +44,8 @@
     "prepare": "husky",
     "prepare-release": "run-s reset-hard test doc:html doc:publish",
     "prepare-release:patch": "run-s prepare-release version",
-    "prepare-release:minor": "run-s \"version --dry-run --release-as minor\"",
-    "prepare-release:major": "run-s prepare-release version -- --dry-run --release-as major",
+    "prepare-release:minor": "run-s prepare-release \"version -- --release-as minor\"",
+    "prepare-release:major": "run-s prepare-release \"version -- --release-as major\"",
     "commit": "commit"
   },
   "keywords": [

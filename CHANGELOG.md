@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.0...v0.1.1) (2024-12-17)
+
+
+### Features
+
+* **card:** added product cards ([ba3c0a6](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/ba3c0a68c59f2d84da26a01a0c21b40e754cbc00))
+* **card:** added product cards with styles ([88aed8c](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/88aed8c0d7b9c98e3e182306f8cced80f1e04a54))
+* **card:** added product cards with styles ([a3e0ae8](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a3e0ae89a29cc9775cb59241cae2fcd6f47a8c1f))
+* **card:** added product cards with styles ([197ae35](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/197ae353a2f6e9fdef5ed45cfa8e2eb47770977e))
+* **card:** added product cards with updated style fixes ([5e9a8a5](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/5e9a8a5aaab4a3693829875036960437622318e8))
+* **card:** added product cards with updated style fixes ([d80bc12](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/d80bc12b1585c7e6f3c03aeb73495c2e4f73df57))
+
+
+### Bug Fixes
+
+* **card:** removed unused state ([f651bda](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f651bda2087e1459ad3b197ccff047c4d65bf7c7))
+* **mute:** fixed multiple mute issue ([8dd50f7](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/8dd50f79536134aabb5caa839564fe13818f4aaf))
+
+## [0.1.0](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.10...v0.1.0) (2024-12-03)
+
+
+### Bug Fixes
+
+* **release:** updated version commands ([16f8ac1](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/16f8ac137c8e51d6815ad9589051bb7894f04856))
+
+### [0.0.10](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.9...v0.0.10) (2024-12-03)
+
+### [0.0.9](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.8...v0.0.9) (2024-12-03)
+
+
+### Bug Fixes
+
+* **audio:** fixed audio issue on mobile ([7c0d51a](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/7c0d51a692e9c74987e446b1c1b6220551843cb0))
+* **icon:** update icon style ([a84ce6b](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a84ce6be6ac99aad49aad813628936cf400bec0d))
+* **readme:** icon style and added readme ([18203fe](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/18203febd642f7b41caaa717eca1f39a2b2fab5a))
+* **style:** fixed style and icon changes ([06ffcc0](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/06ffcc052759cb68078fe35071f845d8cfc69d9a))
+* **svg:** added svg and fixed icon style ([d62fa6a](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/d62fa6a72069db30c48ce0704df0ef1aa80ccb79))
+
 ### [0.0.8](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.0.7...v0.0.8) (2024-11-27)
 
 
