@@ -104,7 +104,7 @@ export const styleSheet = css`
     margin-right: 4px;
     margin-left: 4px;
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
     margin-top: -160px;
     max-width: 304px;
     position: relative;

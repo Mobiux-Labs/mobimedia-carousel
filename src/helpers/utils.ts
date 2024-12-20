@@ -41,3 +41,23 @@ export function formatPrice(price: number) {
   });
   return formatter.format(price);
 }
+
+export function ingestCall(
+  eventType: string,
+  data: Record<string, string | number>
+) {
+  const videoId = new URLSearchParams(window.location.search).get('video_id');
+  const body = {
+    event_type: eventType,
+    video_id: videoId,
+    ...data,
+  };
+
+  fetch('https://ingest.dietpixels.com', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}

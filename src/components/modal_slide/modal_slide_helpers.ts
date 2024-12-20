@@ -2,16 +2,19 @@ import Swiper from 'swiper';
 import {SlideResponse} from '../../types';
 import muteIcon from '../../../assets/images/mute.svg';
 import unmuteIcon from '../../../assets/images/unmute.svg';
+import {ingestCall} from '../../helpers/utils';
 
 let isFirstRun = true;
 
 export function playActiveSlideVideo(
   swiper: Swiper,
   slides: SlideResponse,
-  mute = false
+  mute = false,
+  playlistId: string,
+  sessionId: string,
+  userId: string
 ) {
   // This function plays the active video and pauses the next and prev videos
-
   const prevReelSlide =
     swiper.slides[
       swiper.activeIndex <= 0
@@ -62,6 +65,11 @@ export function playActiveSlideVideo(
       setTimeout(() => {
         if (isCurrentVideoPlaying(currentVideoId)) {
           playPauseToggle(video, false, mute);
+
+          video.contentWindow?.postMessage(
+            'userSession',
+            'https://video.dietpixels.net'
+          );
         }
       }, 1500);
     }
@@ -122,6 +130,16 @@ export function playActiveSlideVideo(
   }
 
   if (video.src && !shared) {
+    setTimeout(() => {
+      if (isCurrentVideoPlaying(currentVideoId)) {
+        ingestCall('video_clicked', {
+          playlist_id: playlistId,
+          session_id: sessionId,
+          user_id: userId,
+        });
+      }
+    }, 5000);
+
     playPauseToggle(video, false, mute);
   }
 }
@@ -135,7 +153,6 @@ export const playPauseToggle = (
   pause = false,
   mute = false
 ) => {
-  console.log('videoID_ModalSlideItemVidEl', ModalSlideItemVidEl);
   // Toggle play state . TODO should relay on data-[state] - DONE
   // Storing the play/pause state in the data attribute of the DOM element
   if (pause === true) {
