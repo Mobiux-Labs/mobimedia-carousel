@@ -22,7 +22,7 @@ export const cardStyles = css`
       width: 280px;
     }
     .single-product {
-      width: 320px;
+      width: 20rem;
       margin-left: 12%;
     }
   }
@@ -47,7 +47,7 @@ export const cardStyles = css`
     color: black;
     margin-top: 6px;
     float: right;
-    width: 199px;
+    width: 12.5rem;
   }
 
   .product-title {
