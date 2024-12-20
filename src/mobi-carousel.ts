@@ -52,7 +52,7 @@ export class MobiCarousel extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('data')) {
-      const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.top?.location.search);
       const videoID = params.get('video_id');
       const slide_index_of_video = this.data.videos.findIndex(
         (video) => video.uuid === videoID
@@ -97,8 +97,11 @@ export class MobiCarousel extends LitElement {
     ) as ModalSlide;
     if (!modalSlideElement) return;
     modalSlideElement.swiper?.destroy();
-    const url = removedURLParameter(window.location.href, 'video_id');
-    history.replaceState(null, '', url);
+    const url = removedURLParameter(
+      window.top?.location.href ?? '',
+      'video_id'
+    );
+    window.top?.history.replaceState(null, '', url);
   }
 
   override render() {
