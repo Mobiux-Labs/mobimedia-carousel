@@ -25,13 +25,13 @@ export function changeActiveReelParam(
   value: string,
   removeShared = false
 ) {
-  const url = removedURLParameter(window.location.href, param);
+  const url = removedURLParameter(window.top?.location.href ?? '', param);
   const newUrl = new URL(url);
   newUrl.searchParams.append(param, value);
   if (removeShared) {
     newUrl.searchParams.delete('shared');
   }
-  history.replaceState(null, '', newUrl);
+  window.top?.history.replaceState(null, '', newUrl);
 }
 
 export function formatPrice(price: number) {
