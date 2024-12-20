@@ -4,15 +4,20 @@ import {cardStyles} from './card-styles';
 import {ProductData} from '../../types';
 import {formatPrice} from '../../helpers/utils';
 import redirectIcon from '../../../assets/images/redirect.svg';
-import {ingestCallBuyNow} from '../../helpers/utils';
+import {ingestCall} from '../../helpers/utils';
 
 @customElement('card-slide')
 export class Card extends LitElement {
-  @property({type: Object}) product: ProductData | undefined;
+  @property({type: Object}) product: ProductData;
   @property({type: Boolean}) isSingleProduct = false;
   @property({type: String}) playlistId = '';
   @property({type: String}) userId = '';
   @state() sessionId = '';
+
+  constructor(product: ProductData) {
+    super();
+    this.product = product;
+  }
 
   static override styles = [
     css`
@@ -24,20 +29,20 @@ export class Card extends LitElement {
 
   handleShopNowClick(
     sessionId: string,
-    productVid: string,
+    productId: string,
     comparePrice: number,
     displayPrice: number,
     link: URL
   ) {
     window.open(link, '_blank');
-    ingestCallBuyNow(
-      this.playlistId,
-      productVid,
-      Math.floor(displayPrice),
-      Math.floor(comparePrice),
-      sessionId,
-      this.userId
-    );
+    ingestCall('buy_now', {
+      playlist_id: this.playlistId,
+      session_id: sessionId,
+      user_id: this.userId,
+      product_id: productId,
+      display_price: displayPrice * 100,
+      compare_price: comparePrice * 100,
+    });
   }
 
   override render() {
@@ -77,10 +82,10 @@ export class Card extends LitElement {
               @click=${() => {
                 this.handleShopNowClick(
                   this.sessionId,
-                  this.product?.uuid ?? '',
-                  this.product?.compare_price ?? 0,
-                  this.product?.display_price ?? 0,
-                  new URL(this.product?.link ?? '')
+                  this.product.uuid,
+                  this.product.compare_price,
+                  this.product.display_price,
+                  new URL(this.product.link)
                 );
               }}
             >

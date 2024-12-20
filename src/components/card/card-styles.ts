@@ -13,7 +13,8 @@ export const cardStyles = css`
   }
 
   .single-product {
-    width: 100% !important;
+    width: 92% !important;
+    margin: 0 auto;
   }
 
   @media screen and (max-width: 640px) {
@@ -21,7 +22,8 @@ export const cardStyles = css`
       width: 280px;
     }
     .single-product {
-      width: 97% !important;
+      width: 320px;
+      margin-left: 12%;
     }
   }
 
@@ -45,9 +47,11 @@ export const cardStyles = css`
     color: black;
     margin-top: 6px;
     float: right;
+    width: 199px;
   }
 
   .product-title {
+    height: 32px;
     font-size: 14px;
     display: -webkit-box;
     -webkit-box-orient: vertical;

@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit';
-import {customElement, query, property} from 'lit/decorators.js';
+import {customElement, query, property, state} from 'lit/decorators.js';
 
 import {
   playActiveSlideVideo,
@@ -28,6 +28,10 @@ export class ModalSlide extends LitElement {
   static override styles = [swiperStyleSheet, styleSheet];
 
   playlistId = '';
+  sessionId = '';
+  userId = '';
+
+  @state() shouldRender = false;
   public swiper?: Swiper;
 
   @query('.swiper-modal-container')
@@ -48,13 +52,8 @@ export class ModalSlide extends LitElement {
   @property({type: Boolean})
   loadFromUrl!: boolean;
 
-  @property({type: String}) sessionId = '';
-
-  // @state()
   swiperInitialized: boolean;
   currentProgress: number;
-
-  userId: string;
 
   private _mute: boolean;
 
@@ -73,6 +72,7 @@ export class ModalSlide extends LitElement {
     this.currentProgress = 0;
     this.sessionId = '';
     this.userId = '';
+    this.shouldRender = false;
   }
 
   override firstUpdated() {
@@ -197,6 +197,7 @@ export class ModalSlide extends LitElement {
     ) {
       this.sessionId = e.data.sessionId;
       this.userId = e.data.userId;
+      this.shouldRender = !!this.sessionId;
       return;
     }
 
@@ -233,7 +234,11 @@ export class ModalSlide extends LitElement {
       activeIndex !== undefined ? this.data.videos[activeIndex] : null;
     // If not liked, they are stored in the liked array in the localstorage
     if (vidObj && !likedList.includes(vidObj.uuid)) {
-      ingestCall('video_liked', this.playlistId, this.sessionId, this.userId);
+      ingestCall('video_liked', {
+        playlist_id: this.playlistId,
+        session_id: this.sessionId,
+        user_id: this.userId,
+      });
       localStorage.setItem(
         'likedVideos',
         JSON.stringify([...likedList, vidObj.uuid])
@@ -259,7 +264,11 @@ export class ModalSlide extends LitElement {
     const vidObj =
       activeIndex !== undefined ? this.data.videos[activeIndex] : null;
     if (vidObj) {
-      ingestCall('video_shared', this.playlistId, this.sessionId, this.userId);
+      ingestCall('video_shared', {
+        playlist_id: this.playlistId,
+        session_id: this.sessionId,
+        user_id: this.userId,
+      });
     }
     // TODO: Need to detect the device instead of relying on the screen width
     // Open the native share popup in android/ios devices

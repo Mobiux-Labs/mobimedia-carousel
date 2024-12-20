@@ -130,15 +130,16 @@ export function playActiveSlideVideo(
   }
 
   if (video.src && !shared) {
-    const parts = video.src.split('/media/');
-    const videoId = parts[1]?.split('/')[0] || null;
-    if (videoId) {
-      setTimeout(() => {
-        if (isCurrentVideoPlaying(currentVideoId)) {
-          ingestCall('video_clicked', playlistId, sessionId, userId);
-        }
-      }, 5000);
-    }
+    setTimeout(() => {
+      if (isCurrentVideoPlaying(currentVideoId)) {
+        ingestCall('video_clicked', {
+          playlist_id: playlistId,
+          session_id: sessionId,
+          user_id: userId,
+        });
+      }
+    }, 5000);
+
     playPauseToggle(video, false, mute);
   }
 }

@@ -44,51 +44,20 @@ export function formatPrice(price: number) {
 
 export function ingestCall(
   eventType: string,
-  playlistId: string,
-  sessionId: string,
-  userId: string
+  data: Record<string, string | number>
 ) {
-  const params = new URLSearchParams(window.location.search);
-  const videoId = params.get('video_id');
-  fetch('https://ingest.dietpixels.com', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      event_type: eventType,
-      video_id: videoId,
-      playlist_id: playlistId,
-      session_id: sessionId,
-      user_id: userId,
-    }),
-  });
-}
+  const videoId = new URLSearchParams(window.location.search).get('video_id');
+  const body = {
+    event_type: eventType,
+    video_id: videoId,
+    ...data,
+  };
 
-export function ingestCallBuyNow(
-  playlistId: string,
-  productId: string,
-  displayPrice: number,
-  comparePrice: number,
-  sessionId: string,
-  userId: string
-) {
-  const params = new URLSearchParams(window.location.search);
-  const videoId = params.get('video_id');
   fetch('https://ingest.dietpixels.com', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      event_type: 'buy_now',
-      video_id: videoId,
-      playlist_id: playlistId,
-      product_id: productId,
-      display_price: displayPrice,
-      compare_price: comparePrice,
-      session_id: sessionId,
-      user_id: userId,
-    }),
+    body: JSON.stringify(body),
   });
 }
