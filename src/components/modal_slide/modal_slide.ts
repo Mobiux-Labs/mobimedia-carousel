@@ -72,7 +72,6 @@ export class ModalSlide extends LitElement {
     this.currentProgress = 0;
     this.sessionId = '';
     this.userId = '';
-    this.shouldRender = false;
   }
 
   override firstUpdated() {
@@ -197,7 +196,7 @@ export class ModalSlide extends LitElement {
     ) {
       this.sessionId = e.data.sessionId;
       this.userId = e.data.userId;
-      this.shouldRender = !!this.sessionId;
+      this.shouldRender = true;
       return;
     }
 
