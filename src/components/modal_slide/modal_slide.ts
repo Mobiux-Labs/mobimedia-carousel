@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit';
-import {customElement, query, property} from 'lit/decorators.js';
+import {customElement, query, property, state} from 'lit/decorators.js';
 
 import {
   playActiveSlideVideo,
@@ -12,6 +12,7 @@ import {SlideResponse, Video} from '../../types';
 
 import Swiper from 'swiper';
 import {Navigation} from 'swiper/modules';
+import {ingestCall} from '../../helpers/utils';
 
 import {changeActiveReelParam} from '../../helpers/utils';
 import '../card/card';
@@ -26,6 +27,11 @@ import heartFilledIcon from '../../../assets/images/heart-filled.svg';
 export class ModalSlide extends LitElement {
   static override styles = [swiperStyleSheet, styleSheet];
 
+  playlistId = '';
+  sessionId = '';
+  userId = '';
+
+  @state() shouldRender = false;
   public swiper?: Swiper;
 
   @query('.swiper-modal-container')
@@ -46,7 +52,6 @@ export class ModalSlide extends LitElement {
   @property({type: Boolean})
   loadFromUrl!: boolean;
 
-  // @state()
   swiperInitialized: boolean;
   currentProgress: number;
 
@@ -65,6 +70,8 @@ export class ModalSlide extends LitElement {
     this.swiperInitialized = false;
     this._mute = false;
     this.currentProgress = 0;
+    this.sessionId = '';
+    this.userId = '';
   }
 
   override firstUpdated() {
@@ -82,7 +89,7 @@ export class ModalSlide extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('message', this._handleMessageFromPlayer);
+    window.addEventListener('message', (e) => this._handleMessageFromPlayer(e));
   }
 
   override disconnectedCallback() {
@@ -123,7 +130,14 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          playActiveSlideVideo(swiper, this.data, this.mute);
+          playActiveSlideVideo(
+            swiper,
+            this.data,
+            this.mute,
+            this.playlistId,
+            this.sessionId,
+            this.userId
+          );
           changeActiveReelParam(
             'video_id',
             this.data.videos[swiper.activeIndex].uuid
@@ -146,7 +160,14 @@ export class ModalSlide extends LitElement {
         activeIndexChange: (swiper) => {
           // Pause next and prev videos and play the active one when next/prev is pressed.
           if (this.swiperInitialized) {
-            playActiveSlideVideo(swiper, this.data, this._mute); // Play video on slide change
+            playActiveSlideVideo(
+              swiper,
+              this.data,
+              this._mute,
+              this.playlistId,
+              this.sessionId,
+              this.userId
+            );
           }
           if (swiper.originalParams.initialSlide !== swiper.activeIndex) {
             changeActiveReelParam(
@@ -169,6 +190,16 @@ export class ModalSlide extends LitElement {
   }
 
   _handleMessageFromPlayer(e: MessageEvent) {
+    if (
+      typeof e.data.userId != 'undefined' &&
+      e.data.sessionId != 'undefined'
+    ) {
+      this.sessionId = e.data.sessionId;
+      this.userId = e.data.userId;
+      this.shouldRender = true;
+      return;
+    }
+
     if (
       typeof e.data.currentDurationMs != 'undefined' &&
       typeof e.data.totalDurationMs != 'undefined'
@@ -202,6 +233,11 @@ export class ModalSlide extends LitElement {
       activeIndex !== undefined ? this.data.videos[activeIndex] : null;
     // If not liked, they are stored in the liked array in the localstorage
     if (vidObj && !likedList.includes(vidObj.uuid)) {
+      ingestCall('video_liked', {
+        playlist_id: this.playlistId,
+        session_id: this.sessionId,
+        user_id: this.userId,
+      });
       localStorage.setItem(
         'likedVideos',
         JSON.stringify([...likedList, vidObj.uuid])
@@ -223,6 +259,16 @@ export class ModalSlide extends LitElement {
     e.stopPropagation();
     const params = new URLSearchParams(window.location.search);
     params.append('shared', 'true');
+    const activeIndex = this.swiper?.activeIndex;
+    const vidObj =
+      activeIndex !== undefined ? this.data.videos[activeIndex] : null;
+    if (vidObj) {
+      ingestCall('video_shared', {
+        playlist_id: this.playlistId,
+        session_id: this.sessionId,
+        user_id: this.userId,
+      });
+    }
     // TODO: Need to detect the device instead of relying on the screen width
     // Open the native share popup in android/ios devices
     if (window.innerWidth < 1200)
@@ -316,6 +362,9 @@ export class ModalSlide extends LitElement {
                     (item, _, array) => html` <card-slide
                       .product="${item}"
                       .isSingleProduct="${array.length === 1}"
+                      .userId="${this.userId}"
+                      .playlistId="${this.playlistId}"
+                      .sessionId="${this.sessionId}"
                     >
                     </card-slide>`
                   )}

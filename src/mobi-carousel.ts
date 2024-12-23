@@ -80,6 +80,7 @@ export class MobiCarousel extends LitElement {
       }
 
       slideElement.data = this.data;
+      slideElement.playlistId = this.playlistId;
       slideElement.initial_slide_index = slide_index;
       slideElement.loadFromUrl = loadFromUrl;
       slideElement.requestUpdate();
