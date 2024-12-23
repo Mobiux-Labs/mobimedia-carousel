@@ -50,7 +50,7 @@ export function playActiveSlideVideo(
     aspectRatio: '9:16',
   });
 
-  const shared = new URLSearchParams(window.location.search).get('shared');
+  const shared = new URLSearchParams(window.top?.location.search).get('shared');
   const currentVideoId = slides.videos[swiper.activeIndex].uuid;
   const nextVideoId = slides.videos[swiper.activeIndex + 1]?.uuid;
   const prevVideoId = slides.videos[swiper.activeIndex - 1]?.uuid;
@@ -145,7 +145,9 @@ export function playActiveSlideVideo(
 }
 
 const isCurrentVideoPlaying = (videoId: string) => {
-  return videoId == new URLSearchParams(window.location.search).get('video_id');
+  return (
+    videoId == new URLSearchParams(window.top?.location.search).get('video_id')
+  );
 };
 
 export const playPauseToggle = (

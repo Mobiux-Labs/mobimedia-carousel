@@ -257,7 +257,7 @@ export class ModalSlide extends LitElement {
   }
   _handleVideoShare(e: Event) {
     e.stopPropagation();
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.top?.location.search);
     params.append('shared', 'true');
     const activeIndex = this.swiper?.activeIndex;
     const vidObj =
@@ -276,14 +276,14 @@ export class ModalSlide extends LitElement {
         .share({
           title: document.title,
           text: 'Have a look at this product!',
-          url: window.location.href,
+          url: window.top?.location.href,
         })
         .then(() => {})
         .catch((err) => console.log('Error while sharing', err));
     // Or copy the link to the clipboard in computers
     else {
-      const origin = window.location.origin;
-      const pathname = window.location.pathname;
+      const origin = window.top?.location.origin;
+      const pathname = window.top?.location.pathname;
       const newUrl = `${origin}${pathname}?${params}`;
       navigator.clipboard.writeText(newUrl);
       this._showNotification('Link copied to clipboard!');
