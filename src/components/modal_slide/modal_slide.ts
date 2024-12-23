@@ -130,14 +130,7 @@ export class ModalSlide extends LitElement {
           // Playing the clicked video on initialization
           // Play video on initial active slide
           this.swiperInitialized = true;
-          playActiveSlideVideo(
-            swiper,
-            this.data,
-            this.mute,
-            this.playlistId,
-            this.sessionId,
-            this.userId
-          );
+          playActiveSlideVideo(swiper, this.data, this.mute, this.playlistId);
           changeActiveReelParam(
             'video_id',
             this.data.videos[swiper.activeIndex].uuid
@@ -164,9 +157,7 @@ export class ModalSlide extends LitElement {
               swiper,
               this.data,
               this._mute,
-              this.playlistId,
-              this.sessionId,
-              this.userId
+              this.playlistId
             );
           }
           if (swiper.originalParams.initialSlide !== swiper.activeIndex) {
@@ -196,6 +187,8 @@ export class ModalSlide extends LitElement {
     ) {
       this.sessionId = e.data.sessionId;
       this.userId = e.data.userId;
+      localStorage.setItem('userId', this.userId);
+      localStorage.setItem('sessionId', this.sessionId);
       this.shouldRender = true;
       return;
     }
@@ -235,8 +228,6 @@ export class ModalSlide extends LitElement {
     if (vidObj && !likedList.includes(vidObj.uuid)) {
       ingestCall('video_liked', {
         playlist_id: this.playlistId,
-        session_id: this.sessionId,
-        user_id: this.userId,
       });
       localStorage.setItem(
         'likedVideos',
@@ -265,8 +256,6 @@ export class ModalSlide extends LitElement {
     if (vidObj) {
       ingestCall('video_shared', {
         playlist_id: this.playlistId,
-        session_id: this.sessionId,
-        user_id: this.userId,
       });
     }
     // TODO: Need to detect the device instead of relying on the screen width

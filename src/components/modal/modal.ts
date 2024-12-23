@@ -32,6 +32,8 @@ export class Modal extends LitElement {
 
   _closeModal() {
     this.visible = false;
+    localStorage.removeItem('sessionId');
+    localStorage.removeItem('userId');
     this.dispatchEvent(
       new Event('modal-closed', {bubbles: true, composed: true})
     );
