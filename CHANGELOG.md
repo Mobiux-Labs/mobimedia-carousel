@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.1...v0.1.2) (2024-12-23)
+
+
+### Features
+
+* **analtics:** added like and share ingestcall ([f929e62](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f929e6260153cca24db745cd94bdb671e6ee884e))
+* **analtics:** added video clicked event ([f8075e3](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/f8075e338b2889386a6af2bf371061d2f76d4a41))
+* **buynow:** added buynow analytics ([7da28ac](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/7da28accfa991cb2ee2a4ad1548ba1ef00fa05e8))
+* **buynow:** added buynow analytics ([a6c979c](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a6c979cd438e9366bc7d553d4ec89b3349f42739))
+
+
+### Bug Fixes
+
+* **card-styles:** fixed single card style ([aaa798a](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/aaa798a372acb0f40fe7735d4a85a16e052799d1))
+* **card-styles:** replaced px with rem ([95a8979](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/95a8979a7969c33e07787b6d0af75716332eb56c))
+* **commit:** fixed the repeated code ([ad9689c](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/ad9689c4b7e7d631c9b2894c2465612c1df18e94))
+* **framer-url:** fixed framer window.location issue ([6ac1e40](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/6ac1e403fcc340deb047cbe6d728e458d5607668))
+
 ### [0.1.1](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.0...v0.1.1) (2024-12-17)
 
 
