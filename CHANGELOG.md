@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.2...v0.1.3) (2024-12-24)
+
+
+### Bug Fixes
+
+* **destroy_issue:** added destroy event ([566a353](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/566a353f43ea59142461b5b6a6dff3d626cbcabb))
+* **localstorage:** removed clear localstorage after close ([c90b174](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/c90b174c167b06c3c31595615105c3a0d54ceaf4))
+* **style:** removed unwanted lines ([9c0d5a8](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/9c0d5a8c06e9f8ceefca37d0d8a5f328338d423c))
+
 ### [0.1.2](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.1...v0.1.2) (2024-12-23)
 
 
