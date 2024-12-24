@@ -49,8 +49,8 @@ export function ingestCall(
   const videoId = new URLSearchParams(window.top?.location.search).get(
     'video_id'
   );
-  const sessionId = localStorage.getItem('sessionId');
-  const userId = localStorage.getItem('userId');
+  const sessionId = localStorage.getItem('dietpixels_session_id');
+  const userId = localStorage.getItem('dietpixels_user_id');
   const body = {
     event_type: eventType,
     video_id: videoId,

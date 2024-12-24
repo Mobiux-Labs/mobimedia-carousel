@@ -187,8 +187,8 @@ export class ModalSlide extends LitElement {
     ) {
       this.sessionId = e.data.sessionId;
       this.userId = e.data.userId;
-      localStorage.setItem('userId', this.userId);
-      localStorage.setItem('sessionId', this.sessionId);
+      localStorage.setItem('dietpixels_user_id', this.userId);
+      localStorage.setItem('dietpixels_session_id', this.sessionId);
       this.shouldRender = true;
       return;
     }
