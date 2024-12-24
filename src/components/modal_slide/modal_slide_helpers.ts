@@ -10,9 +10,7 @@ export function playActiveSlideVideo(
   swiper: Swiper,
   slides: SlideResponse,
   mute = false,
-  playlistId: string,
-  sessionId: string,
-  userId: string
+  playlistId: string
 ) {
   // This function plays the active video and pauses the next and prev videos
   const prevReelSlide =
@@ -134,8 +132,6 @@ export function playActiveSlideVideo(
       if (isCurrentVideoPlaying(currentVideoId)) {
         ingestCall('video_clicked', {
           playlist_id: playlistId,
-          session_id: sessionId,
-          user_id: userId,
         });
       }
     }, 5000);

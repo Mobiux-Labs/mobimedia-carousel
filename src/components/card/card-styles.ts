@@ -74,6 +74,7 @@ export const cardStyles = css`
   }
 
   .product-pricing {
+    height: 1.5rem;
     margin-top: 6px;
     color: black;
     font-weight: 600;

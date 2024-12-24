@@ -46,10 +46,16 @@ export function ingestCall(
   eventType: string,
   data: Record<string, string | number>
 ) {
-  const videoId = new URLSearchParams(window.location.search).get('video_id');
+  const videoId = new URLSearchParams(window.top?.location.search).get(
+    'video_id'
+  );
+  const sessionId = localStorage.getItem('dietpixels_session_id');
+  const userId = localStorage.getItem('dietpixels_user_id');
   const body = {
     event_type: eventType,
     video_id: videoId,
+    session_id: sessionId,
+    user_id: userId,
     ...data,
   };
 

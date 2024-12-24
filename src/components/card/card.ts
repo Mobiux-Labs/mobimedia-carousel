@@ -28,7 +28,6 @@ export class Card extends LitElement {
   ];
 
   handleShopNowClick(
-    sessionId: string,
     productId: string,
     comparePrice: number,
     displayPrice: number,
@@ -37,8 +36,6 @@ export class Card extends LitElement {
     window.open(link, '_blank');
     ingestCall('buy_now', {
       playlist_id: this.playlistId,
-      session_id: sessionId,
-      user_id: this.userId,
       product_id: productId,
       display_price: displayPrice * 100,
       compare_price: comparePrice * 100,
@@ -81,7 +78,6 @@ export class Card extends LitElement {
               class="product-shop-now"
               @click=${() => {
                 this.handleShopNowClick(
-                  this.sessionId,
                   this.product.uuid,
                   this.product.compare_price,
                   this.product.display_price,
