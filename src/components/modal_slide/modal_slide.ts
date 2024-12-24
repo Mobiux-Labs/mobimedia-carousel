@@ -146,6 +146,7 @@ export class ModalSlide extends LitElement {
             playPauseToggle(currentVideo, true);
             // currentVideo.pause(); // Pause the video on the current slide
           }
+          this.remove();
         },
         update: () => {
           console.log('Swiper Updated');
