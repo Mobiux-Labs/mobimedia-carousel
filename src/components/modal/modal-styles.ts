@@ -5,7 +5,7 @@ export const styleSheet = css`
     /* Hidden by default */
     display: none;
     position: fixed;
-    z-index: 1000; /* Ensure it appears above other elements */
+    z-index: 2147483647 !important; /* Ensure it appears above other elements */
     left: 0;
     top: 0;
     width: 100%;
@@ -34,7 +34,7 @@ export const styleSheet = css`
     left: 0;
     right: 0;
     margin: auto;
-    z-index: 1000;
+    z-index: 2147483647 !important;
   }
 
   .close {
@@ -45,7 +45,7 @@ export const styleSheet = css`
     font-size: 60px;
     font-weight: lighter;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 2147483647 !important;
     width: 50px;
     height: 50px;
   }
