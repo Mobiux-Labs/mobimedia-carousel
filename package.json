@@ -1,6 +1,6 @@
 {
   "name": "@mobimedia/carousel",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A carousel component for displaying Dietpixels playlist in reels view.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
