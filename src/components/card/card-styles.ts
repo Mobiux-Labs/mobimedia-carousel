@@ -48,6 +48,7 @@ export const cardStyles = css`
     margin-top: 6px;
     float: right;
     width: 12.5rem;
+    width: 100%;
   }
 
   .product-title {

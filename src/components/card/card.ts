@@ -22,6 +22,7 @@ export class Card extends LitElement {
   static override styles = [
     css`
       :host {
+        width: 100%;
       }
     `,
     cardStyles,
