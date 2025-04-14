@@ -47,7 +47,7 @@ export const cardStyles = css`
     color: black;
     margin-top: 6px;
     float: right;
-    width: 12.5rem;
+    width: 100%;
   }
 
   .product-title {
@@ -76,8 +76,6 @@ export const cardStyles = css`
   .product-pricing {
     height: 1.5rem;
     margin-top: 6px;
-    color: black;
-    font-weight: 600;
     font-size: 14px;
   }
 
