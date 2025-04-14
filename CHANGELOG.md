@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.4...v0.1.5) (2025-04-14)
+
+
+### Bug Fixes
+
+* **product-card:** fixed width in product card ([a9196f7](https://github.com/Mobiux-Labs/mobimedia-carousel/commit/a9196f73bcfed76d8c969a55edf33e69d0278b2b))
+
 ### [0.1.4](https://github.com/Mobiux-Labs/mobimedia-carousel/compare/v0.1.3...v0.1.4) (2025-01-09)
 
 
