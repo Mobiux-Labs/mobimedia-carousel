@@ -82,7 +82,6 @@ export const styleSheet = css`
     height: 25px;
     width: auto;
     right: 19px;
-    bottom: 390px;
     cursor: pointer;
   }
   .share {

@@ -18,15 +18,10 @@ export const styleSheet = css`
     z-index: 1;
   }
   .swiper {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
     overflow: hidden;
     list-style: none;
     padding: 0;
-    /* Fix of Webkit flickering */
     z-index: 1;
-    display: block;
   }
   .swiper-vertical > .swiper-wrapper {
     flex-direction: column;
@@ -57,11 +52,6 @@ export const styleSheet = css`
   }
   .swiper-slide {
     flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transition-property: transform;
-    display: block;
     cursor: pointer;
   }
   .swiper-slide-invisible-blank {
